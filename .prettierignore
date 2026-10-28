@@ -1,0 +1,8 @@
+node_modules
+.npm-cache
+.expo
+.expo-user
+dist
+web-build
+package-lock.json
+assets

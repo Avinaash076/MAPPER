@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "Northern Trails",
+    "slug": "northern-trails",
+    "version": "1.0.0",
+    "orientation": "default",
+    "scheme": "northerntrails",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#F8F6F0",
+    "ios": { "supportsTablet": true, "bundleIdentifier": "com.northerntrails.app" },
+    "android": { "package": "com.northerntrails.app" },
+    "web": { "bundler": "metro", "output": "static" },
+    "plugins": ["expo-router", "expo-font"],
+    "experiments": { "typedRoutes": true }
+  }
+}
