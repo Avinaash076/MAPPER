@@ -23,7 +23,7 @@ export interface DiscoveryFilters {
   area: AreaId;
   query: string;
   categories: Category[];
-  transport: Transport;
+  transport: Transport | null;
   radiusKm: number;
   budgetMinutes: number;
 }
@@ -49,7 +49,7 @@ export const defaultFilters: DiscoveryFilters = {
   area: 'hubballi',
   query: '',
   categories: [],
-  transport: 'car',
+  transport: null,
   radiusKm: 100,
   budgetMinutes: 480,
 };

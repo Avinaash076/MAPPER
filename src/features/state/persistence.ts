@@ -10,6 +10,7 @@ import {
   type Transport,
 } from '../places/types';
 export const STORAGE_KEY = 'northern-trails:v1';
+export const STORAGE_VERSION = 2;
 export interface StoragePort {
   getItem(key: string): Promise<string | null>;
   setItem(key: string, value: string): Promise<void>;
@@ -22,7 +23,8 @@ function readFilters(value: unknown): DiscoveryFilters {
   if (!isRecord(value)) throw new Error('Invalid saved preferences');
   const area = areas.find((item) => item.id === value.area);
   const validTransport =
-    typeof value.transport === 'string' && Object.hasOwn(transportLabels, value.transport);
+    value.transport === null ||
+    (typeof value.transport === 'string' && Object.hasOwn(transportLabels, value.transport));
   const validCategories =
     Array.isArray(value.categories) &&
     value.categories.every((item) => categories.some((category) => category.id === item));
@@ -42,7 +44,7 @@ function readFilters(value: unknown): DiscoveryFilters {
     area: area.id,
     query: value.query,
     categories: [...new Set(value.categories as Category[])],
-    transport: value.transport as Transport,
+    transport: value.transport as Transport | null,
     radiusKm: value.radiusKm,
     budgetMinutes: value.budgetMinutes,
   };
@@ -50,7 +52,8 @@ function readFilters(value: unknown): DiscoveryFilters {
 
 function knownUniqueIds(values: unknown[], knownIds: string[]): string[] {
   const validIds = values.filter(
-    (id): id is string => typeof id === 'string' && knownIds.includes(id),
+    (id): id is string =>
+      typeof id === 'string' && (knownIds.includes(id) || /^community:[0-9a-f-]{36}$/i.test(id)),
   );
   return [...new Set(validIds)];
 }
@@ -58,7 +61,11 @@ function knownUniqueIds(values: unknown[], knownIds: string[]): string[] {
 export function decodeState(raw: string | null, knownIds: string[]): AppState {
   if (raw === null) return initialState;
   const data: unknown = JSON.parse(raw);
-  if (!isRecord(data) || data.version !== 1 || !isRecord(data.state))
+  if (
+    !isRecord(data) ||
+    (data.version !== 1 && data.version !== STORAGE_VERSION) ||
+    !isRecord(data.state)
+  )
     throw new Error('Unsupported saved data');
   const state = data.state;
   if (!Array.isArray(state.savedIds) || !Array.isArray(state.planIds))
@@ -76,7 +83,7 @@ export async function loadState(storage: StoragePort, ids: string[]) {
 export function createStateWriter(storage: StoragePort) {
   let pending = Promise.resolve();
   return (state: AppState): Promise<void> => {
-    const serialized = JSON.stringify({ version: 1, state });
+    const serialized = JSON.stringify({ version: STORAGE_VERSION, state });
     pending = pending.catch(() => {}).then(() => storage.setItem(STORAGE_KEY, serialized));
     return pending;
   };

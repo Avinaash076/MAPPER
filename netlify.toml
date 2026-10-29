@@ -4,3 +4,10 @@
 
 [build.environment]
   NODE_VERSION = "22"
+
+# Seed detail pages are served directly. Newly reviewed community IDs are client routes.
+[[redirects]]
+  from = "/place/*"
+  to = "/index.html"
+  status = 200
+  force = false

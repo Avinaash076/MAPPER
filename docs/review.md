@@ -1,61 +1,59 @@
-# Milestone implementation review
+# Woven design and hidden-place contribution review
 
-Review date: 28 October 2026. This document records what exists, the reasoning behind it, and the evidence still needed before release. It is maintained with the code.
+Review date: 29 October 2026. Branch: `feature/woven-theme`.
 
-## Implemented behavior
+## Implemented
 
-The app has Discover, My plan and Saved tabs with a separate place-detail screen. Discovery combines town selection, text search, interests, distance, transport and available time. Places are nearest first and must fit an estimated return outing. The filter sheet keeps a draft until applied.
+- Woven welcome and setup, city selection, optional interests/transport and direct map entry.
+- System/light/dark themes across navigation, text, controls, sheets and map styling.
+- MapLibre Native and web adapters, local web worker, GeoJSON markers and list fallback.
+- Existing detail, bookmark and ordered-plan behavior, with v1 → v2 migration and no assumed transport.
+- Private hidden-place drafts: on-demand location capture, accuracy/timestamp, manual coordinates, photo picking/camera, copied or IndexedDB-backed images, captions, descriptions and access notes.
+- Immediate ordered draft writes, save feedback, duplicate proximity suggestions and explicit submission consent.
+- Optional Supabase email-code sign-in, private photo uploads, retries and pending/approved/rejected review status.
+- Separate public reviewed catalog. Administrators explicitly choose public coordinates; contributors cannot self-approve.
+- Clearly labelled sample AI answers. No real AI service or AI key is configured.
 
-The catalog contains fifteen curated sample records across the Hubballi–Dharwad–Belagavi pilot region. Ten destination photos are bundled with credits. Details show access/seasonal notes, approximate visit duration, source links, bookmarks and Add to plan. Unverified hours and fees are visibly unknown. Missing places and photos have explicit fallback states.
+## Code structure
 
-The day planner supports ordered stops, upward/downward movement, removal, duplicate prevention, travel/visit totals, the return to town and over-budget feedback. Saved places and plan IDs survive ordinary app restarts through local storage. There is no account sync.
+Shared primitives and theme tokens control appearance. Screens compose small feature components. Pure filtering, travel, theme resolution, draft validation and payload construction stay independent of I/O. Storage, photo operations and backend submission have separate modules. Native and web photo/map adapters share typed interfaces.
 
-## Maintainability decisions
+Plan preferences, appearance, private draft metadata, image files/blobs and reviewed catalog cache use separate storage locations. Large photos are not embedded into the plan snapshot. Failed reads do not silently replace damaged drafts with defaults.
 
-- Small shared UI modules prevent button/text styling from drifting between screens.
-- Theme values have one home. Allowed distance/time choices are shared by filter UI and storage validation.
-- Place content uses named fields instead of positional tuples, so editing a duration cannot accidentally replace a coordinate.
-- Repository access, filtering, travel math, reducer transitions and storage are separate from presentation.
-- Plan summary and stop rendering are independent components rather than a single large screen implementation.
-- Pure functions are tested without rendering a native app. Storage is tested through a small injected interface.
-- Parsed storage is treated as unknown input. Schema and filters are checked, stale IDs are pruned, and automatic writes wait for successful loading.
-- Writes are queued in order. A failed write does not permanently break the queue. Failed initial reads do not silently overwrite previous data.
-- A formatter, lockfile and GitHub workflow make the same checks repeatable for future changes.
+The local PostgreSQL policy test caught and corrected an SQL name-resolution issue in the photo-folder policy. Client metadata updates also exclude immutable ownership fields, matching column-level grants.
 
-Two narrowly documented React lint exceptions cover synchronization with external storage in AppProvider. They are not blanket rule exclusions. The async write completion updates are guarded so an older effect cannot report a newer snapshot as saved.
+The first hosted check exposed a fresh-checkout type dependency: local Expo startup had generated CSS declarations that CI did not have. The tracked TypeScript configuration now includes Expo's types directly, so map CSS imports do not depend on a prior development-server run.
 
-## Validation record
+## Verification
 
-The focused suite covers combined filters, interest matching, distance ordering, transport differences, return travel, exact time budgets, empty plans, duplicate prevention, reorder boundaries, bookmark toggling, reset behavior, storage round trips, corrupt data, read/write errors, write ordering and seed-record integrity.
+The final verification record is updated after all checks complete. Successful JavaScript exports are not signed APKs or device tests.
 
-The final local automated checks passed after the maintainability refactor. Android export means a bundled JavaScript artifact, not a signed APK or a device test.
+| Check                                                           | Result                                                                |
+| --------------------------------------------------------------- | --------------------------------------------------------------------- |
+| TypeScript, ESLint, formatting                                  | Passed locally                                                        |
+| Logic, storage, theme and map tests                             | Passed: 32 tests, 0 failures                                          |
+| Actual PostgreSQL migration/policy execution                    | Passed local owner-isolation, publication and photo-privacy scenarios |
+| Expo dependency compatibility                                   | Passed locally                                                        |
+| Android JavaScript export                                       | Passed locally                                                        |
+| Static web export                                               | Passed locally                                                        |
+| Live hosted Supabase Auth/Storage                               | Not performed; owner project configuration required                   |
+| Native Android/iPhone permissions, keyboard, Back and rendering | Not performed on a verified device                                    |
+| Frame-rate measurement                                          | Not performed                                                         |
+| Chrome app screenshots                                          | Not captured                                                          |
+| Store or website deployment                                     | Not performed                                                         |
 
-| Check                                       | Result                                                                                                     |
-| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| TypeScript                                  | Passed                                                                                                     |
-| ESLint                                      | Passed                                                                                                     |
-| Focused tests                               | Passed: 10 tests, 0 failures after the final refactor                                                      |
-| Formatting                                  | Passed                                                                                                     |
-| Expo dependency compatibility               | Passed after the final refactor                                                                            |
-| Android JavaScript export                   | Passed after the final refactor                                                                            |
-| Static web export and direct place pages    | Passed                                                                                                     |
-| Native Android interaction and restart test | Not performed; no connected device verified                                                                |
-| iPhone layout and interaction test          | Not performed                                                                                              |
-| Chrome app screenshots                      | Not captured; browser automation could not verify the current URL; no other browser actions are authorized |
-| Play Store or website deployment            | Not performed                                                                                              |
+## Practical limits
 
-## Current limits and follow-up priorities
+The map is online; map downloads, route downloads and offline rerouting are not implemented. Bundled content and private native drafts remain usable without a backend. Website offline reloads are not guaranteed. Cached community photo URLs expire.
 
-Sample travel math does not know roads, trails, traffic, restrictions, opening hours or final walking distance. Coordinates, access notes and visit durations need a real content-verification pass. Motorbike and car currently share an assumed speed; this is intentional sample behavior, not route equivalence.
+Travel estimates still use straight-line distance, a detour factor and sample speeds. Community visit durations currently use a clearly suggested 60-minute default. Coordinates, hours, access and content still require human checks.
 
-The catalog is small enough for a ScrollView and in-memory filtering. Move discovery to a virtualized list when the catalog grows; avoid adding that complexity before it is needed. A remote catalog will need freshness, loading, caching and error behavior beyond this bundled repository.
+Hosted community sharing needs the supplied migration, a private bucket, email authentication and the public project settings from `.env.example`. No hosted project, credentials, administrator UI or moderation staffing is provisioned. The local PostgreSQL tests model Supabase interfaces; hosted file delivery and email behavior need an integration pass.
 
-AsyncStorage stores a small local snapshot, is not encrypted storage and is not a backup. Future downloaded assets belong in file storage with a separate index, not this snapshot. Introduce migrations rather than discarding state when released schema versions change.
+Before public release, verify actual photo transcoding and metadata handling, permissions, content accuracy, physical-device UI, moderation/withdrawal operations and the release materials described in `deployment.md`.
 
-Before public launch, complete physical Android and iPhone QA, validate keyboard and larger-text behavior, verify catalog content, add final branding and screenshots, and prepare the privacy policy/store listing. The app currently supplies no embedded map, live location, live routes, public transport, bookings, AI questions or downloaded routes.
+## Next work
 
-Next implementation milestone: real location/manual origin and a routing/provider trial. After that, add route downloads following `offline-routing.md`. Keep real-routing work separate from AI question answering so factual journey calculations remain testable.
+Configure and test the owner’s Supabase project; perform Android and iPhone QA; then trial real routing and planned offline packages. Keep AI question answering separate from routing and moderation.
 
-## Build observations
-
-The final Android JavaScript artifact is approximately 9.2 MB and the web JavaScript artifact approximately 7.1 MB before host transfer compression. These are development-milestone outputs, not measured startup performance or installed app size. Profile on a modest phone before release; reduce unused icon/font/module imports if measurements show a bottleneck. Static export generated 24 route entries, including all 15 known place-detail paths.
+Map resource smoke checks: both OpenFreeMap style endpoints returned HTTP 200 with style version 8; the local worker returned JavaScript successfully. These checks do not replace interactive map or frame-rate testing.

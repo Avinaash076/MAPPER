@@ -1,20 +1,22 @@
+import { useTheme } from '../../theme/ThemeProvider';
 import { Tabs } from 'expo-router';
 import { BookmarkSimpleIcon, CompassIcon, PathIcon } from 'phosphor-react-native';
-import { colors, fonts } from '../../theme/tokens';
+import { fonts } from '../../theme/tokens';
 export default function TabLayout() {
+  const { colors } = useTheme();
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: colors.green,
-        tabBarInactiveTintColor: colors.muted,
-        tabBarStyle: { backgroundColor: colors.background, borderTopColor: colors.line },
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textMuted,
+        tabBarStyle: { backgroundColor: colors.background, borderTopColor: colors.border },
         tabBarLabelStyle: { fontFamily: fonts.semibold, fontSize: 12 },
         tabBarItemStyle: { paddingVertical: 4 },
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="discover"
         options={{
           title: 'Discover',
           tabBarIcon: ({ color, focused }) => (

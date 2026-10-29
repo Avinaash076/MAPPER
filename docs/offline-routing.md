@@ -4,9 +4,9 @@
 
 An installed native build includes the fifteen place records, ten licensed destination photos and Manrope fonts. Discovery filters, sample time estimates, bookmarks and the day planner use local data. The other five places show a labelled photo placeholder. External source links require a connection.
 
-During development, Expo Go may still need access to the development server to load the application code. Use the preview APK to test an independently installed app. The website is not guaranteed to open or reload offline because no service worker or offline web app shell is implemented.
+The native app now requires a custom build because it includes MapLibre. A development build still needs the development server for its JavaScript; a standalone preview APK does not. Use the preview APK to test an independently installed app. The website is not guaranteed to open or reload offline because no service worker or offline web app shell is implemented.
 
-There are no downloaded routes, GPS positioning, maps or turn instructions in this milestone.
+The app now has online maps and on-demand GPS capture for private contribution drafts. It still has no downloaded maps/routes or turn instructions. Draft metadata and copied photos can be completed offline; sending for review needs a connection.
 
 ## Three different offline capabilities
 
@@ -40,7 +40,7 @@ The first downloaded-route release should promise viewing the planned route offl
 
 MapLibre React Native is a candidate to prototype because its documented OfflineManager manages regional resource packs and progress/error events. That is a candidate, not an installed dependency or final provider decision. Offline resource support does not decide the tile data source, its download rights, or routing capabilities. [MapLibre OfflineManager](https://maplibre.org/maplibre-react-native/docs/modules/offline-manager/).
 
-A custom native map module means moving from Expo Go to an Expo development build and testing both platforms. Keep native and web map adapters separate; a mobile pack manager is not automatically a browser download implementation.
+The app already uses a custom native MapLibre build. Adding offline packs still requires testing storage and map behavior separately on both platforms. Keep native and web map adapters separate; a mobile pack manager is not automatically a browser download implementation.
 
 Use a tile source that explicitly permits offline distribution or operate a licensed data pipeline. OpenStreetMap's public standard tile server prohibits bulk download and prefetch features; it is not the source for this product's offline region downloads. [OSM tile policy](https://operations.osmfoundation.org/policies/tiles/).
 

@@ -1,14 +1,17 @@
+import { useTheme } from '../../theme/ThemeProvider';
 import { useState } from 'react';
 import { TextInput, type TextInputProps } from 'react-native';
-import { colors } from '../../theme/tokens';
-import { styles } from './styles';
+
+import { useUIStyles } from './styles';
 
 export function Field(props: TextInputProps) {
+  const { colors } = useTheme();
+  const styles = useUIStyles();
   const [focused, setFocused] = useState(false);
   return (
     <TextInput
       {...props}
-      placeholderTextColor={colors.muted}
+      placeholderTextColor={colors.textMuted}
       onFocus={(event) => {
         setFocused(true);
         props.onFocus?.(event);
@@ -17,7 +20,7 @@ export function Field(props: TextInputProps) {
         setFocused(false);
         props.onBlur?.(event);
       }}
-      style={[styles.field, focused && { borderColor: colors.green }, props.style]}
+      style={[styles.field, focused && { borderColor: colors.primary }, props.style]}
     />
   );
 }

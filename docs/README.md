@@ -14,3 +14,5 @@ Read these in order when joining the project.
 The app is called **Northern Trails** in its UI. **MAPPER** is the repository name. A final public brand and store identifiers should be chosen before the first store release.
 
 These documents belong with the source code in GitHub. Update the relevant document in the same change as the behavior it describes. GitHub maintenance happens during project work and through the configured checks; no unattended maintenance agent is configured.
+
+Current milestone: [Woven design and themes](woven-theme.md) and [hidden-place contributions](hidden-places.md). Read these before configuring community uploads.

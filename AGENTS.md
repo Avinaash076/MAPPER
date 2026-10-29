@@ -26,4 +26,8 @@ The source repository is https://github.com/Avinaash076/MAPPER. Inspect the curr
 
 ## Offline roadmap
 
-The current app supports bundled place data and local plans. It does not download maps or routes. Follow `docs/offline-routing.md` when adding that capability; map tiles and a routing graph are different resources.
+The current app supports bundled place data and local plans. It has online maps and private contribution drafts, but does not download maps or routes. Follow `docs/offline-routing.md` when adding that capability; map tiles and a routing graph are different resources.
+
+## Community contributions
+
+Keep drafts/submissions private until administrator review. Never bundle a service-role or AI key. Keep captured coordinates separate from reviewer-chosen public coordinates. Run the PostgreSQL policy tests when changing submission, photo or publication rules.

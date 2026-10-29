@@ -12,9 +12,10 @@ export function filterPlaces(places: Place[], filters: DiscoveryFilters): Place[
         (!filters.categories.length ||
           filters.categories.some((c) => place.categories.includes(c))) &&
         distanceKm(origin, place.coordinates) <= filters.radiusKm &&
-        estimateTravelMinutes(origin, place.coordinates, filters.transport) * 2 +
-          place.visitMinutes <=
-          filters.budgetMinutes
+        (filters.transport === null ||
+          estimateTravelMinutes(origin, place.coordinates, filters.transport) * 2 +
+            place.visitMinutes <=
+            filters.budgetMinutes)
       );
     })
     .sort((a, b) => distanceKm(origin, a.coordinates) - distanceKm(origin, b.coordinates));
