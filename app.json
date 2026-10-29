@@ -5,12 +5,49 @@
     "version": "1.0.0",
     "orientation": "default",
     "scheme": "northerntrails",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "backgroundColor": "#F8F6F0",
-    "ios": { "supportsTablet": true, "bundleIdentifier": "com.northerntrails.app" },
-    "android": { "package": "com.northerntrails.app" },
-    "web": { "bundler": "metro", "output": "static" },
-    "plugins": ["expo-router", "expo-font"],
-    "experiments": { "typedRoutes": true }
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.northerntrails.app"
+    },
+    "android": {
+      "package": "com.northerntrails.app"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "@maplibre/maplibre-react-native",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Save the location of a hidden place you choose to share."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Attach your chosen photos to a place draft.",
+          "cameraPermission": "Take a photo for a place draft.",
+          "microphonePermission": false
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#F8F6F0",
+          "dark": {
+            "backgroundColor": "#181818"
+          }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
   }
 }

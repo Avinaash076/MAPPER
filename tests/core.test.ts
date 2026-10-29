@@ -58,7 +58,11 @@ test('results are nearest first and time includes return travel', () => {
   );
   const oneWay = estimateTravelMinutes(origin, far.coordinates, 'car');
   assert.equal(
-    filterPlaces([far], { ...defaultFilters, budgetMinutes: far.visitMinutes + oneWay }).length,
+    filterPlaces([far], {
+      ...defaultFilters,
+      transport: 'car',
+      budgetMinutes: far.visitMinutes + oneWay,
+    }).length,
     0,
   );
 });
@@ -140,7 +144,7 @@ test('corrupt, unknown-version and invalid preferences fail without writing', as
     '{bad',
     'null',
     '{}',
-    JSON.stringify({ version: 2, state: initialState }),
+    JSON.stringify({ version: 999, state: initialState }),
     JSON.stringify({
       version: 1,
       state: { ...initialState, filters: { ...defaultFilters, transport: 'train' } },

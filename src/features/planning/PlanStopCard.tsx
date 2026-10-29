@@ -1,8 +1,9 @@
+import { useTheme } from '../../theme/ThemeProvider';
 import { View } from 'react-native';
 import { router } from 'expo-router';
 import { ArrowDownIcon, ArrowUpIcon, TrashIcon } from 'phosphor-react-native';
 import { Button, IconButton, Label, layout, Panel } from '../../components/ui';
-import { colors, space } from '../../theme/tokens';
+import { space } from '../../theme/tokens';
 import { useApp } from '../state/AppProvider';
 import type { Place } from '../places/types';
 import { formatMinutes } from './travel';
@@ -11,7 +12,7 @@ interface PlanStopCardProps {
   place: Place;
   index: number;
   stopCount: number;
-  travelMinutes: number;
+  travelMinutes: number | null;
   townName: string;
 }
 
@@ -22,19 +23,22 @@ export function PlanStopCard({
   travelMinutes,
   townName,
 }: PlanStopCardProps) {
+  const { colors } = useTheme();
   const { dispatch } = useApp();
   return (
     <View style={layout.section}>
-      <Label size="small" tone="muted">
-        ↓ ~{formatMinutes(travelMinutes)} travel{' '}
-        {index === 0 ? `from ${townName}` : 'from previous stop'}
-      </Label>
+      {travelMinutes !== null && (
+        <Label size="small" tone="textMuted">
+          ↓ ~{formatMinutes(travelMinutes)} travel{' '}
+          {index === 0 ? `from ${townName}` : 'from previous stop'}
+        </Label>
+      )}
       <Panel style={{ gap: space.md }}>
-        <Label size="eyebrow" tone="ochre">
+        <Label size="eyebrow" tone="accent">
           STOP {index + 1}
         </Label>
         <Label size="heading">{place.name}</Label>
-        <Label size="small" tone="muted">
+        <Label size="small" tone="textMuted">
           {place.locality} · {formatMinutes(place.visitMinutes)} visit
         </Label>
         <Button
@@ -50,14 +54,14 @@ export function PlanStopCard({
               disabled={index === 0}
               onPress={() => dispatch({ type: 'moveStop', id: place.id, direction: -1 })}
             >
-              <ArrowUpIcon size={22} color={colors.green} />
+              <ArrowUpIcon size={22} color={colors.primary} />
             </IconButton>
             <IconButton
               label={`Move ${place.name} down`}
               disabled={index === stopCount - 1}
               onPress={() => dispatch({ type: 'moveStop', id: place.id, direction: 1 })}
             >
-              <ArrowDownIcon size={22} color={colors.green} />
+              <ArrowDownIcon size={22} color={colors.primary} />
             </IconButton>
             <IconButton
               label={`Remove ${place.name} from plan`}

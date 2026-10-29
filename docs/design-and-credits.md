@@ -27,3 +27,7 @@ For public launch, verify every location's coordinates, access, categories and c
 The optional `scripts/fetch-photos.mjs` script obtains reuse metadata and image files from Wikimedia. Existing photos are retained; an unavailable or unlicensed response is skipped. Do not run this script as part of normal app startup or CI. Review newly fetched images visually and validate their credits before adding them to the catalog.
 
 There are ten bundled photos in this milestone. The remaining places show a clearly labelled placeholder. To add another photo, provide a licensed file, register it in `photoAssets.ts`, add its metadata in `photos.json`, and verify it shows the correct destination. Preserve the original creator attribution and applicable license terms when distributing the app or website.
+
+## Selected woven milestone
+
+The app now uses design B and System/Light/Dark appearance. See woven-theme.md for the generated decorative asset, exact prompt, palette organization and performance choices. Destination photography retains its original credits.

@@ -14,7 +14,7 @@ No Expo project, paid account, signing credential, store listing, hosting accoun
 
 ## Test an installable Android app first
 
-Expo Go is useful for learning. To test the app as its own installable application, use EAS Build. Run these from the repository after reviewing the app identity:
+This version includes MapLibre and does not run inside Expo Go. Use EAS Build to test it as an installable application. Run these from the repository after reviewing the app identity:
 
 ```powershell
 npx.cmd eas-cli@latest login
@@ -32,7 +32,7 @@ Official reference: [EAS production builds and Android build types](https://docs
 
 1. Choose the final public brand and a unique permanent Android application ID. `com.northerntrails.app` is the current development identifier; verify it is appropriate before the first upload. Changing an application ID after publishing creates a different app identity.
 2. Create or use the owner's Google Play Console developer account and complete its verification requirements. Check current account fees in Play Console.
-3. Prepare a real app icon, store screenshots, descriptions, support contact and a public privacy-policy page. Review data-safety declarations, content rating, target audience and any permissions against what the actual release collects or shares. The current prototype uses local storage and no GPS permission; adding services later changes that review.
+3. Prepare a real app icon, store screenshots, descriptions, support contact and a public privacy-policy page. Review data-safety declarations, content rating, target audience and any permissions against what the actual release collects or shares. This version uses local drafts and on-demand location/camera/photo access. Enabling community sharing adds email authentication, uploaded photos and location/content submissions; review declarations against the actual configured release.
 4. Run all checks and physical-device tests. Confirm current target Android API and store policy requirements against the actual EAS build before uploading.
 5. Build the signed production bundle:
 
@@ -67,7 +67,7 @@ The website output is `dist/web`. Host that folder, not the repository source or
 
 Connect the MAPPER GitHub repository in your Netlify account, choose the production branch and review the settings from `netlify.toml`: build command `npm run build:web`, output `dist/web`, Node 22. The connected host can build a preview for future changes. Configure a custom domain and HTTPS through the hosting provider when ready.
 
-Validate the home page, `/plan`, `/saved` and a direct link such as `/place/unkal-lake` after deployment. Refresh the direct link as well as clicking it inside the app. Netlify serves the exported `.html` pages through extensionless URLs. Do not add a blanket SPA rewrite unless you intentionally change Expo's output mode.
+Validate the home page, `/plan`, `/saved` and a direct link such as `/place/unkal-lake` after deployment. Refresh the direct link as well as clicking it inside the app. Netlify serves the exported `.html` pages through extensionless URLs. The supplied Netlify configuration includes a scoped `/place/*` fallback to the application shell for newly reviewed community IDs that cannot be known at export time. Existing exported place pages take precedence. On another static host, configure the equivalent client-route fallback or choose an explicitly supported SPA/server deployment.
 
 ### Expo hosting alternative
 
@@ -89,3 +89,7 @@ The source supports iOS. Before claiming an iPhone release is ready, test on an 
 ## Release limits to keep visible
 
 This milestone has sample travel estimates and approximate coordinates, five photo placeholders, and unverified hours/fees. It is suitable for product learning and testing. Complete content verification, native-device QA, branding and store materials before a public release. The website is not yet a PWA with guaranteed offline reloads. See `offline-routing.md` for the download roadmap.
+
+## Community configuration on hosting
+
+Set only the public Supabase URL and publishable key in the web build environment and rebuild. Keep the bucket private and apply the supplied migration before enabling submission. No service-role or AI key belongs in a browser/mobile build. See hidden-places.md.

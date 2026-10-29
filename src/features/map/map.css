@@ -1,0 +1,17 @@
+.maplibregl-map {
+  font-family: Manrope_400Regular, sans-serif;
+}
+.maplibregl-ctrl-group button {
+  width: 48px;
+  height: 48px;
+}
+.maplibregl-canvas:focus-visible {
+  outline: 3px solid #946132;
+  outline-offset: -3px;
+}
+html[data-theme='dark'] .maplibregl-ctrl-group {
+  background: #232723;
+}
+html[data-theme='dark'] .maplibregl-ctrl-icon {
+  filter: invert(1);
+}

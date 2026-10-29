@@ -1,15 +1,19 @@
 import { Text, type TextProps } from 'react-native';
-import { colors } from '../../theme/tokens';
-import { styles } from './styles';
+import { useTheme } from '../../theme/ThemeProvider';
+import type { ThemeColors } from '../../theme/palettes';
+
+import { useUIStyles } from './styles';
 
 export function Label({
   style,
-  tone = 'ink',
+  tone = 'text',
   size = 'body',
   ...props
 }: TextProps & {
-  tone?: keyof typeof colors;
+  tone?: keyof ThemeColors;
   size?: 'body' | 'small' | 'title' | 'heading' | 'eyebrow';
 }) {
+  const { colors } = useTheme();
+  const styles = useUIStyles();
   return <Text {...props} style={[styles.text, styles[size], { color: colors[tone] }, style]} />;
 }

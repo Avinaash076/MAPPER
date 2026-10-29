@@ -1,3 +1,4 @@
+import { useTheme } from '../../theme/ThemeProvider';
 import React from 'react';
 import { useLocalSearchParams, router } from 'expo-router';
 import { Linking, View } from 'react-native';
@@ -5,18 +6,21 @@ import { BookmarkSimpleIcon, CheckIcon, PlusIcon } from 'phosphor-react-native';
 import { PlacePhoto } from '../../components/PlaceCard';
 import { Button, EmptyState, Label, layout, Notice, Panel, Screen } from '../../components/ui';
 import { placeRepository } from '../../features/places/repository';
+import { usePlaceCatalog } from '../../features/places/PlaceCatalogProvider';
 import { categories } from '../../features/places/types';
 import { useApp } from '../../features/state/AppProvider';
 import { formatMinutes } from '../../features/planning/travel';
-import { colors, space } from '../../theme/tokens';
+import { space } from '../../theme/tokens';
 export function generateStaticParams() {
   return placeRepository.list().map((place) => ({ id: place.id }));
 }
 export default function PlaceScreen() {
+  const catalog = usePlaceCatalog();
+  const { colors } = useTheme();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { state, dispatch } = useApp();
   const [linkError, setLinkError] = React.useState(false);
-  const place = placeRepository.get(id);
+  const place = catalog.places.find((item) => item.id === id);
   const openSource = async (url: string) => {
     try {
       setLinkError(false);
@@ -25,6 +29,12 @@ export default function PlaceScreen() {
       setLinkError(true);
     }
   };
+  if (!place && catalog.loading)
+    return (
+      <Screen>
+        <Label>Loading place information…</Label>
+      </Screen>
+    );
   if (!place)
     return (
       <Screen>
@@ -32,7 +42,7 @@ export default function PlaceScreen() {
           title="Place not found"
           message="This place is not in the current sample collection. Discover somewhere else nearby."
           action="Back to Discover"
-          onAction={() => router.replace('/')}
+          onAction={() => router.replace('/discover')}
         />
       </Screen>
     );
@@ -40,7 +50,7 @@ export default function PlaceScreen() {
   const added = state.planIds.includes(id);
   return (
     <Screen>
-      <Label size="eyebrow" tone="ochre">
+      <Label size="eyebrow" tone="accent">
         {place.locality.toUpperCase()}
       </Label>
       <Label size="title" accessibilityRole="header">
@@ -50,13 +60,13 @@ export default function PlaceScreen() {
         <PlacePhoto place={place} large />
       </View>
       {place.photo && (
-        <Label size="small" tone="muted">
+        <Label size="small" tone="textMuted">
           Photo: {place.photo.author} · {place.photo.license}
         </Label>
       )}
       <View style={layout.wrap}>
         {place.categories.map((c) => (
-          <Label key={c} size="small" tone="green">
+          <Label key={c} size="small" tone="primary">
             {categories.find((category) => category.id === c)?.label}
           </Label>
         ))}
@@ -68,9 +78,9 @@ export default function PlaceScreen() {
         onPress={() => dispatch({ type: 'addStop', id })}
         icon={
           added ? (
-            <CheckIcon color={colors.surface} size={20} />
+            <CheckIcon color={colors.onPrimary} size={20} />
           ) : (
-            <PlusIcon color={colors.surface} size={20} />
+            <PlusIcon color={colors.onPrimary} size={20} />
           )
         }
       />
@@ -82,27 +92,31 @@ export default function PlaceScreen() {
         secondary
         onPress={() => dispatch({ type: 'toggleSaved', id })}
         icon={
-          <BookmarkSimpleIcon color={colors.green} size={20} weight={saved ? 'fill' : 'regular'} />
+          <BookmarkSimpleIcon
+            color={colors.primary}
+            size={20}
+            weight={saved ? 'fill' : 'regular'}
+          />
         }
       />
       <Panel style={{ gap: space.md }}>
         <Label size="heading">Make room for it</Label>
         <Label>Suggested visit: {formatMinutes(place.visitMinutes)}</Label>
-        <Label size="small" tone="muted">
+        <Label size="small" tone="textMuted">
           Visit durations and coordinates are approximate sample values.
         </Label>
         <Label>Opening hours: {place.openingHours || 'Not verified'}</Label>
-        <Label size="small" tone="muted">
+        <Label size="small" tone="textMuted">
           Entry fees are not verified. Check with the venue before visiting.
         </Label>
       </Panel>
       <View style={layout.section}>
         <Label size="heading">Getting there and getting around</Label>
-        <Label tone="muted">{place.access}</Label>
+        <Label tone="textMuted">{place.access}</Label>
       </View>
       <View style={layout.section}>
         <Label size="heading">A note on the season</Label>
-        <Label tone="muted">{place.seasonalNotes}</Label>
+        <Label tone="textMuted">{place.seasonalNotes}</Label>
       </View>
       <Notice>
         This is a discovery prototype. Current entry conditions, accessibility and transport

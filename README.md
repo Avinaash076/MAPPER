@@ -1,33 +1,40 @@
 # Northern Trails · MAPPER
 
-A React Native discovery app for Hubballi, Dharwad and Belagavi. Choose interests, transport and time, then save a local day plan.
+A React Native tourism app for Hubballi, Dharwad and Belagavi, with a woven design, light/dark themes, maps and private drafts for hidden places.
 
-## Run locally
+## Website preview
 
 Use Node 22 and npm. In PowerShell:
 
 ```powershell
+cd E:\maps
 npm.cmd ci
-npm.cmd start
+npm.cmd run web
 ```
 
-Install Expo Go on your Android phone and scan the terminal QR code. Keep your phone and computer on the same network. Use `npm.cmd run web` for a local website preview.
+Open the URL printed by Expo. Use the sun/moon action to select System, Light or Dark. Choose **Plan my day** or **Explore map**.
 
-The project uses Expo SDK 57. Follow the matching Expo Go version guidance in [the setup guide](https://docs.expo.dev/get-started/create-a-project/).
+## Android preview
 
-## Included
+MapLibre requires a custom build; this version does not run in Expo Go.
 
-- Discover, My plan and Saved tabs; place details and filter sheet.
-- Fifteen sample places; ten attributed photos bundled for offline use.
-- Walking, bicycle, motorbike and car estimates, including the trip back to town.
-- Local bookmarks, plan ordering, time-budget feedback and storage recovery.
-- TypeScript, lint, formatting, focused tests, and GitHub Actions checks.
+```powershell
+npx.cmd eas-cli@latest login
+npx.cmd eas-cli@latest build:configure
+npx.cmd eas-cli@latest build --platform android --profile preview
+```
 
-Travel times and coordinates are sample estimates. Map downloads, routing, GPS, accounts and AI are later milestones.
+Install the resulting APK on the phone. For hot reload, use the development profile and `npm.cmd run start:dev-client` after installing that build. Build configuration requires the owner's Expo account.
 
-## Learn, maintain and release
+## Hidden places
 
-Start with the [documentation index](docs/README.md). It links to the system walkthrough, guided exercises, implementation review, deployment instructions and offline-routing roadmap.
+Tap **Share a place** / the plus action to save a location, photos and a description privately. Finish a draft later. Publication is only after review.
+
+Private drafts work without backend setup. Community uploads need the optional Supabase configuration in [the contribution guide](docs/hidden-places.md); no hosted project has been provisioned.
+
+## Documentation and checks
+
+[Documentation index](docs/README.md) · [Design and themes](docs/woven-theme.md) · [Detailed review](docs/review.md) · [Play Store/web deployment](docs/deployment.md)
 
 ```powershell
 npm.cmd run check
@@ -36,4 +43,4 @@ npm.cmd run build:android
 npm.cmd run build:web
 ```
 
-Source: [Avinaash076/MAPPER](https://github.com/Avinaash076/MAPPER).
+Real routes, downloadable maps and real AI remain later milestones. Source: [Avinaash076/MAPPER](https://github.com/Avinaash076/MAPPER).

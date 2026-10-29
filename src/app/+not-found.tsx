@@ -7,7 +7,7 @@ export default function NotFound() {
         title="A little off the trail"
         message="This screen could not be found. Head back to nearby places."
         action="Back to Discover"
-        onAction={() => router.replace('/')}
+        onAction={() => router.replace('/discover')}
       />
     </Screen>
   );

@@ -2,17 +2,13 @@
 
 ## Local setup
 
-Use Node 22, npm and an Android phone. The workspace was built with Node 22.20.0 and npm 10.9.3 on Windows. No Android SDK or Java executable was detected on PATH during setup, so a physical phone with Expo Go is the first testing path.
+Use Node 22 and npm. Start with `npm.cmd ci` and `npm.cmd run web`. Open the URL printed by Expo. This version includes native MapLibre and therefore requires a custom Android build, not Expo Go.
 
-```powershell
-cd E:\maps
-npm.cmd ci
-npm.cmd start
-```
+For a standalone APK, configure the owner's Expo project with `npx.cmd eas-cli@latest login` and `npx.cmd eas-cli@latest build:configure`, then run `npx.cmd eas-cli@latest build --platform android --profile preview`.
 
-Scan the terminal QR code with Expo Go. The phone must reach the development machine over the network. If local network discovery fails, check the network connection first; Expo's tunnel option is an alternative but uses an external service. Do not change Windows execution policy just to run npm: the `.cmd` executable works without that change.
+For hot reload, build with `--profile development`, install it, then run `npm.cmd run start:dev-client`. Windows does not need an execution-policy change; use the `.cmd` commands. Native local compilation requires an Android toolchain; EAS can perform the cloud build.
 
-The official Expo setup guidance currently specifies SDK 57 for physical-device Expo Go during the SDK 58 transition. Recheck the [official guide](https://docs.expo.dev/get-started/create-a-project/) before upgrading. Keep the lockfile committed and install Expo modules with the version appropriate to the selected SDK.
+Private contributions require no service keys. To send for review, follow hidden-places.md and restart Expo after changing `.env.local`.
 
 ## Learn in five working steps
 
@@ -78,3 +74,7 @@ Only Chrome may be used for app screenshots in this working session. Browser scr
 Before a change, inspect `git status` and pull remote changes when the working tree permits it. Make a small branch for a feature, keep code and matching docs together, run checks, then commit and push normally. The initial bootstrap may go directly to an empty repository; future collaborative work should use reviewed pull requests.
 
 The GitHub Actions workflow runs validation and both exports. It does not publish a website or release an app. Keep store credentials and API tokens in the appropriate secret store, never source files or `EXPO_PUBLIC_` variables.
+
+## Additional acceptance checks
+
+Test all three appearance choices, a system-theme change, theme persistence and selected-chip checks. With transport unselected, confirm no travel time is invented. Test location denial, services off, timeout, manual coordinates, low GPS accuracy, photo cancellation, five-photo limit, partial draft recovery, upload interruption and retry, email-code sign-in, rejection/resubmission and reviewed publication. Check privately captured coordinates never appear through the public catalog. Run native photo capture and restart tests on a real phone; localhost/HTTPS is required for browser geolocation/camera features.

@@ -2,7 +2,7 @@
 
 ## The current boundary
 
-This milestone is a local React Native app with Expo and TypeScript. The same screens can be exported for the web through React Native Web. There is no backend, login, server database, location tracking, route provider or AI provider yet.
+The current app uses Expo and TypeScript, with native and web MapLibre adapters. Local discovery and private drafts work without a backend. An optional Supabase service provides email-code sign-in, private photo uploads and reviewed community publication. Location is captured on request for a contribution; there is no background tracking, real route provider or real AI service. See hidden-places.md and woven-theme.md for the current modules and flow.
 
 The app starts with three curated town centres. It uses a selected centre rather than the phone's GPS position. A distance filter is a circle measured in a straight line, not a road-distance boundary.
 
@@ -41,7 +41,7 @@ Bundled fonts and photos require no runtime photo service. The optional photo-fe
 - Trim and case-normalize the search term. Match name, locality or category.
 - Match any selected interest. An empty interest list means all interests.
 - Check straight-line distance from the selected town centre.
-- Check whether the approximate outward travel, visit and return travel fit the available time.
+- When transport is selected, check whether approximate outward travel, visit and return travel fit the available time. With no transport, skip travel-time filtering.
 - Sort the remaining places by distance from town.
 
 Different filter dimensions combine with AND; selected interests combine with OR. For example, Nature plus Heritage accepts either interest, but the place must also match the search, distance and time limits.
@@ -62,7 +62,7 @@ AppState contains `filters`, `savedIds` and `planIds`. It stores IDs rather than
 
 `appReducer` handles a small action vocabulary: update filters, reset filters, toggle a bookmark, add/remove a stop, move a stop and hydrate. Duplicate stops are ignored. Ordering returns a new array and ignores moves outside the list.
 
-`loadState` is an I/O boundary. `decodeState` validates its unknown JSON input. Removed place IDs and duplicate IDs are pruned while preserving valid order. An unknown storage version is rejected rather than silently interpreted as the current schema.
+The original plan storage key is retained. Decoder versions 1 and 2 are accepted; writes use version 2, including optional transport. Community IDs are preserved while the remote catalog is unavailable. `loadState` is an I/O boundary. `decodeState` validates its unknown JSON input. Removed place IDs and duplicate IDs are pruned while preserving valid order. An unknown storage version is rejected rather than silently interpreted as the current schema.
 
 `createStateWriter` serializes snapshots into one write queue. A slow older write therefore cannot overwrite a newer plan. A failed write rejects to the UI; later writes can still succeed. AppProvider never writes defaults before the initial storage read completes. The save indicator means AsyncStorage acknowledged the write, not that data was backed up to an account.
 
@@ -87,3 +87,7 @@ If loading fails, Retry attempts to load the stored version again. Reset require
 Replace the place repository when a remote catalog is added. Replace sample travel calculations through a routing adapter when real routes are added. Keep route-provider responses out of screens. Add an offline-download feature next to planning rather than making the reducer store map files.
 
 AI should be a backend-backed question feature grounded in approved place records and source dates. Provider secrets must remain on the backend. See the separate offline and deployment documents before introducing those services.
+
+## Current additions
+
+ThemeProvider owns separately persisted appearance; PlaceCatalogProvider merges bundled and reviewed places. The contributions feature has pure models, ordered metadata storage, native/web photo storage, capture helpers, separate form sections and a submission service. Precise private submissions and public reviewed records are separate PostgreSQL tables. See hidden-places.md for configuration and the data lifecycle.
