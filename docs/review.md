@@ -22,6 +22,8 @@ Plan preferences, appearance, private draft metadata, image files/blobs and revi
 
 The local PostgreSQL policy test caught and corrected an SQL name-resolution issue in the photo-folder policy. Client metadata updates also exclude immutable ownership fields, matching column-level grants.
 
+The first hosted check exposed a fresh-checkout type dependency: local Expo startup had generated CSS declarations that CI did not have. The tracked TypeScript configuration now includes Expo's types directly, so map CSS imports do not depend on a prior development-server run.
+
 ## Verification
 
 The final verification record is updated after all checks complete. Successful JavaScript exports are not signed APKs or device tests.
