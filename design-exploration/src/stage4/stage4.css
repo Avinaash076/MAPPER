@@ -1,0 +1,735 @@
+@font-face {
+  font-family: 'Source Sans Pro';
+  src: url('/assets/fonts/SourceSansPro-Regular.ttf');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Source Sans Pro';
+  src: url('/assets/fonts/SourceSansPro-Semibold.ttf');
+  font-weight: 600;
+  font-display: swap;
+}
+.themed-icon {
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+}
+.studies {
+  background: #e8e7e0;
+  min-height: 100vh;
+}
+.study-toolbar {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 20px 32px;
+  background: #f9f8f2;
+  border-bottom: 1px solid #9caa9b;
+}
+.study-toolbar label {
+  font-size: 12px;
+  display: grid;
+  gap: 4px;
+}
+.study-toolbar button,
+.study-toolbar select {
+  min-height: 48px;
+  padding: 8px 12px;
+  border: 1px solid #758679;
+  border-radius: 8px;
+  background: #fff;
+  color: #172820;
+}
+.study-intro {
+  padding: 40px 32px 16px;
+}
+.study-intro h1 {
+  font: 600 48px Lora;
+  letter-spacing: -0.04em;
+}
+.study-intro h1 span {
+  display: block;
+  font: 400 18px Manrope;
+  letter-spacing: 0;
+  margin-top: 16px;
+}
+.study-disclosure {
+  font-size: 12px;
+  color: #536459;
+}
+.studies-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  padding: 24px 32px;
+}
+.study {
+  min-width: 0;
+}
+.study > header {
+  min-height: 154px;
+}
+.study > header h2 {
+  font-size: 22px;
+  margin: 8px 0;
+}
+.study > header p,
+.study > footer {
+  font-size: 14px;
+  color: #465b50;
+}
+.study-number {
+  font: 600 24px Lora;
+}
+.study > footer {
+  padding: 24px 0;
+}
+.study-scroll {
+  overflow: auto;
+  border: 1px solid #92a092;
+  border-radius: 16px;
+}
+.screen-study {
+  width: 390px;
+  max-width: 100%;
+  min-height: 820px;
+  --icon: var(--text);
+  --icon-muted: var(--muted);
+  --icon-selected: var(--onSecondary);
+}
+.screen-study .themed-icon {
+  color: inherit;
+}
+.study-app-header {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  gap: 12px;
+  border-bottom: 1px solid var(--divider);
+}
+.study-app-header .brand {
+  font-size: 14px;
+}
+.edition {
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  margin-left: auto;
+}
+.study-app-header .icon-button {
+  color: var(--icon);
+}
+.screen-study h1 {
+  font-size: 36px;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+.screen-study h2 {
+  font-size: 24px;
+}
+.screen-study p {
+  line-height: 1.6;
+}
+.screen-study .eyebrow {
+  font-size: 10px;
+}
+.screen-study .button {
+  width: 100%;
+  margin-top: 12px;
+}
+.screen-study > section {
+  padding: 24px 20px;
+}
+.study-wide {
+  width: 1440px;
+  max-width: none;
+}
+.desktop-studies {
+  display: block;
+}
+.desktop-studies .study {
+  margin-bottom: 48px;
+}
+.desktop-studies .study > header {
+  min-height: 0;
+  max-width: 720px;
+  margin-bottom: 24px;
+}
+.welcome-art {
+  position: relative;
+}
+.welcome-art img {
+  width: 100%;
+  height: 370px;
+  object-fit: cover;
+}
+.welcome-art > span {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  font-size: 9px;
+  background: #102719;
+  color: white;
+  padding: 6px;
+}
+.screen-study .study-welcome {
+  padding: 0;
+}
+.welcome-letter {
+  padding: 28px 20px;
+}
+.welcome-coordinates {
+  font: 11px Manrope;
+  letter-spacing: 0.06em;
+  border-block: 1px solid var(--divider);
+  padding: 12px 0;
+  margin: 24px 0;
+}
+.welcome-coordinates span {
+  float: right;
+}
+.layout-1 .study-welcome {
+  display: flex;
+  flex-direction: column;
+}
+.layout-1 .welcome-art {
+  order: 2;
+  margin: 0 20px 24px;
+}
+.layout-1 .welcome-art img {
+  height: 240px;
+}
+.layout-2 .welcome-art {
+  margin: 20px 20px 0;
+}
+.layout-2 .welcome-art img {
+  height: 280px;
+}
+.layout-2 .welcome-letter {
+  border-bottom: 3px double var(--border);
+}
+.study-wide .study-welcome {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+}
+.study-wide .welcome-art img {
+  height: 720px;
+}
+.study-wide .welcome-letter {
+  padding: 100px 64px;
+}
+.study-wide h1 {
+  font-size: 56px;
+}
+.step-number {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  margin-bottom: 24px;
+}
+.map-banner {
+  height: 240px;
+  margin: 20px 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+.style-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 20px 0;
+}
+.style-pair .map-preview {
+  height: 200px;
+  min-height: 200px;
+}
+.style-pair > div > button {
+  width: 100%;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  padding: 12px;
+}
+.style-pair > div > button[aria-pressed='true'] {
+  background: var(--secondary);
+  color: var(--onSecondary);
+  outline: 2px solid var(--primary);
+}
+.study-layers {
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--sheet-radius);
+}
+.layout-2 .onboarding-map .style-pair {
+  grid-template-columns: 1fr;
+}
+.study-wide .onboarding-map {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  padding: 48px;
+}
+.study-wide .onboarding-map .step-number {
+  grid-column: 1/-1;
+}
+.study-wide .onboarding-map .map-banner {
+  height: 500px;
+}
+.study-label {
+  display: grid;
+  gap: 8px;
+  font-size: 14px;
+  margin: 24px 0;
+}
+.study-label select,
+.study-label textarea {
+  min-height: 52px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  background: var(--surface);
+  color: var(--text);
+  max-width: 100%;
+  font: inherit;
+}
+.step-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.step-tabs button {
+  min-height: 48px;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+}
+.step-tabs button[aria-pressed='true'] {
+  background: var(--primary);
+  color: var(--onPrimary);
+}
+.study-wide .preference-study,
+.study-wide .search-study,
+.study-wide .contribution-study {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  padding: 64px;
+}
+.layout-2 .preference-intro {
+  padding-bottom: 20px;
+  border-bottom: 3px double var(--border);
+}
+.atlas-heading {
+  padding: 24px 20px 0;
+}
+.screen-study .atlas {
+  padding: 0;
+}
+.atlas-map {
+  height: 470px;
+  position: relative;
+}
+.layers-trigger {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 48px;
+  padding: 12px;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.atlas-map > .study-layers {
+  position: absolute;
+  inset: 75px 12px auto;
+  z-index: 4;
+}
+.map-note {
+  position: absolute;
+  bottom: 48px;
+  left: 20px;
+  right: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
+}
+.map-note > span {
+  font: 600 32px Lora;
+  color: var(--accent);
+}
+.map-note small {
+  display: block;
+}
+.atlas-notes {
+  padding: 24px 20px;
+}
+.notebook-heading {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.notebook-heading h2 {
+  font-size: 20px;
+}
+.atlas-index > button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 8px;
+  min-height: 76px;
+  border: 0;
+  border-top: 1px solid var(--divider);
+  background: transparent;
+  text-align: left;
+  color: var(--text);
+}
+.atlas-index > button > span {
+  font: 600 24px Lora;
+  color: var(--accent);
+}
+.atlas-index > button > div {
+  flex: 1;
+}
+.atlas-index small {
+  display: block;
+  margin-top: 4px;
+}
+.atlas-index .index-selected {
+  background: var(--secondary);
+  color: var(--onSecondary);
+}
+.field-observation {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 104px 1fr;
+  gap: 16px;
+  border-top: 3px double var(--border);
+  padding-top: 20px;
+}
+.field-observation .photo > img {
+  height: 180px;
+}
+.field-observation h2 {
+  font-size: 22px;
+}
+.field-observation p {
+  font-size: 14px;
+}
+.contribute-invite {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  padding: 16px;
+  background: var(--raised);
+  color: var(--text);
+  border: 1px solid var(--border);
+  width: 100%;
+}
+.contribute-invite small {
+  display: block;
+  margin-top: 4px;
+}
+.layout-1 .atlas {
+  display: flex;
+  flex-direction: column;
+}
+.layout-1 .atlas-map {
+  order: -1;
+  height: 550px;
+}
+.layout-1 .atlas-heading h1 {
+  font-size: 26px;
+}
+.layout-2 .atlas {
+  display: flex;
+  flex-direction: column;
+}
+.layout-2 .atlas-map {
+  order: 2;
+  height: 300px;
+}
+.layout-2 .field-observation {
+  grid-template-columns: 1fr;
+}
+.layout-2 .field-observation .photo > img {
+  height: 240px;
+}
+.study-wide .atlas {
+  display: grid;
+  grid-template-columns: 390px 1fr;
+}
+.study-wide .atlas-map {
+  grid-column: 2;
+  grid-row: 1/3;
+  height: 100%;
+  min-height: 900px;
+}
+.study-wide .atlas-heading {
+  grid-column: 1;
+  grid-row: 1;
+}
+.study-wide .atlas-heading h1 {
+  font-size: 32px;
+}
+.study-wide .atlas-notes {
+  grid-column: 1;
+  grid-row: 2;
+}
+.study-wide.layout-1 .atlas {
+  display: grid;
+  grid-template-columns: 1fr 440px;
+}
+.study-wide.layout-1 .atlas-map {
+  grid-column: 1;
+}
+.study-wide.layout-1 .atlas-heading,
+.study-wide.layout-1 .atlas-notes {
+  grid-column: 2;
+}
+.study-wide.layout-2 .atlas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.radius-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.radius-options label {
+  min-height: 48px;
+  padding: 12px;
+  border: 1px solid var(--border);
+}
+fieldset {
+  border: 1px solid var(--border);
+  margin: 24px 0;
+}
+.layout-0 .search-intro {
+  border-bottom: 3px double var(--border);
+  padding-bottom: 20px;
+}
+.layout-2 .search-study {
+  display: flex;
+  flex-direction: column;
+}
+.layout-2 .filter-body {
+  order: -1;
+}
+.detail-study > .photo > img {
+  height: 300px;
+}
+.detail-heading {
+  position: relative;
+  padding: 24px 0;
+}
+.detail-heading > .icon-button {
+  position: absolute;
+  right: 0;
+  bottom: 12px;
+}
+.field-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 24px 0;
+  border-block: 1px solid var(--border);
+  padding: 16px 0;
+  font-size: 10px;
+}
+.field-facts strong {
+  display: block;
+  font-size: 14px;
+  margin-top: 8px;
+}
+.detail-body details {
+  padding: 16px 0;
+}
+.detail-body summary {
+  min-height: 48px;
+}
+.layout-1 .detail-study {
+  display: flex;
+  flex-direction: column;
+}
+.layout-1 .detail-study > .photo {
+  order: 1;
+  margin: 20px 0;
+}
+.layout-1 .detail-heading {
+  order: 0;
+}
+.layout-1 .detail-body {
+  order: 2;
+}
+.layout-2 .detail-study > .photo > img {
+  height: 420px;
+}
+.study-wide .detail-study {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 32px;
+  padding: 48px;
+}
+.study-wide .detail-study > .photo {
+  grid-row: span 2;
+}
+.study-wide .detail-study > .photo > img {
+  height: 700px;
+}
+.study-wide .detail-heading,
+.study-wide .detail-body {
+  grid-column: 2;
+}
+.discovery-story {
+  margin: 32px 0;
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+}
+.discovery-story .photo > img {
+  height: 240px;
+}
+.discovery-story > div {
+  padding: 20px 0;
+}
+.story-number {
+  float: right;
+  font: 600 40px Lora;
+  color: var(--accent);
+}
+.layout-1 .discovery-story {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 16px;
+}
+.layout-1 .discovery-story > .photo {
+  width: 110px;
+  flex-shrink: 0;
+}
+.layout-1 .discovery-story > div {
+  flex: 1;
+}
+.layout-2 .discovery-story:nth-child(odd) {
+  margin-left: 32px;
+}
+.study-wide .hidden-study {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  padding: 48px;
+}
+.study-wide .hidden-heading {
+  grid-column: 1/-1;
+}
+.photo-drop {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  text-align: center;
+  padding: 32px 16px;
+  border: 1px dashed var(--border);
+  margin: 24px 0;
+  background: var(--raised);
+}
+.photo-drop input {
+  max-width: 100%;
+  font-size: 12px;
+}
+.layout-2 .contribution-study {
+  display: flex;
+  flex-direction: column;
+}
+.layout-2 .contribution-form {
+  order: -1;
+}
+.review-ledger > article {
+  display: flex;
+  gap: 16px;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+}
+.review-step {
+  font: 600 28px Lora;
+  color: var(--accent);
+}
+.review-ledger h3 {
+  font-size: 22px;
+}
+.layout-1 .review-ledger {
+  border-left: 2px solid var(--border);
+  padding-left: 20px;
+}
+.layout-1 .review-step {
+  display: none;
+}
+.layout-2 .review-ledger > article {
+  display: block;
+}
+.layout-2 .review-ledger .photo > img {
+  height: 160px;
+}
+.study-wide .review-ledger {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+.study-wide .app-nav {
+  justify-content: center;
+}
+.study-wide .app-nav button {
+  flex: 0 1 180px;
+}
+@media (max-width: 1100px) {
+  .studies-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+  .study {
+    width: 100%;
+  }
+  .screen-study {
+    margin: auto;
+  }
+  .study > header,
+  .study > footer {
+    max-width: 650px;
+    margin: auto;
+  }
+  .study-toolbar {
+    padding: 16px;
+  }
+  .study-intro {
+    padding: 24px 16px;
+  }
+  .study-intro h1 {
+    font-size: 36px;
+  }
+  .studies-grid {
+    padding: 16px;
+  }
+  .study-wide {
+    max-width: none;
+  }
+  .desktop-studies .study {
+    width: 100%;
+  }
+}

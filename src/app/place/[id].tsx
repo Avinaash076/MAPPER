@@ -11,6 +11,7 @@ import { categories } from '../../features/places/types';
 import { useApp } from '../../features/state/AppProvider';
 import { formatMinutes } from '../../features/planning/travel';
 import { space } from '../../theme/tokens';
+import { Disclosure } from '../../components/ui/Disclosure';
 export function generateStaticParams() {
   return placeRepository.list().map((place) => ({ id: place.id }));
 }
@@ -110,20 +111,22 @@ export default function PlaceScreen() {
           Entry fees are not verified. Check with the venue before visiting.
         </Label>
       </Panel>
-      <View style={layout.section}>
-        <Label size="heading">Getting there and getting around</Label>
+      <Disclosure title="Access & getting around">
         <Label tone="textMuted">{place.access}</Label>
-      </View>
-      <View style={layout.section}>
-        <Label size="heading">A note on the season</Label>
+      </Disclosure>
+      <Disclosure title="Season & current conditions">
         <Label tone="textMuted">{place.seasonalNotes}</Label>
-      </View>
+      </Disclosure>
       <Notice>
         This is a discovery prototype. Current entry conditions, accessibility and transport
         suitability need local confirmation.
       </Notice>
-      <View style={layout.section}>
-        <Label size="heading">Read more and photo credits</Label>
+      <Button
+        label="Ask about this place · AI preview"
+        secondary
+        onPress={() => router.push({ pathname: '/assistant', params: { placeId: id } })}
+      />
+      <Disclosure title="Sources & photo credits">
         {place.sources.map((source) => (
           <Button
             key={source.url}
@@ -155,7 +158,7 @@ export default function PlaceScreen() {
         {linkError && (
           <Notice warning>Could not open this link. Check your connection and try again.</Notice>
         )}
-      </View>
+      </Disclosure>
     </Screen>
   );
 }

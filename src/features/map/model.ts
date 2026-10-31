@@ -1,12 +1,14 @@
 import type { FeatureCollection, Point } from 'geojson';
 import type { Place } from '../places/types';
 import type { ColorScheme } from '../../theme/preferences';
+import type { MapAppearance } from './types';
 export const mapStyles = {
-  light: 'https://tiles.openfreemap.org/styles/positron',
+  light: 'https://tiles.openfreemap.org/styles/liberty',
   dark: 'https://tiles.openfreemap.org/styles/dark',
 };
-export function getMapStyle(scheme: ColorScheme) {
-  return mapStyles[scheme];
+export const mapMarkerColors = { fill: '#294E69', outline: '#FFFFFF' };
+export function getMapStyle(scheme: ColorScheme | MapAppearance) {
+  return mapStyles[scheme === 'liberty' ? 'light' : scheme];
 }
 export function placesToGeoJson(
   places: Place[],

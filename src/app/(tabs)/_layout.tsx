@@ -10,7 +10,14 @@ export default function TabLayout() {
         headerShown: false,
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.textMuted,
-        tabBarStyle: { backgroundColor: colors.background, borderTopColor: colors.border },
+        tabBarStyle: {
+          backgroundColor: colors.background,
+          borderTopColor: colors.border,
+          minHeight: 72,
+          paddingTop: 8,
+          paddingBottom: 8,
+        },
+        tabBarAllowFontScaling: true,
         tabBarLabelStyle: { fontFamily: fonts.semibold, fontSize: 12 },
         tabBarItemStyle: { paddingVertical: 4 },
       }}
@@ -28,7 +35,9 @@ export default function TabLayout() {
         name="plan"
         options={{
           title: 'My plan',
-          tabBarIcon: ({ color }) => <PathIcon size={24} color={String(color)} />,
+          tabBarIcon: ({ color, focused }) => (
+            <PathIcon size={24} color={String(color)} weight={focused ? 'fill' : 'regular'} />
+          ),
         }}
       />
       <Tabs.Screen

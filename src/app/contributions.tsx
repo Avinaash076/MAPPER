@@ -7,6 +7,7 @@ import { createEmptyDraft } from '../features/contributions/model';
 import { getMySubmissionStatuses } from '../features/contributions/submissionService';
 import { SignInPanel } from '../features/contributions/SignInPanel';
 import type { PlaceDraft } from '../features/contributions/types';
+import { Disclosure } from '../components/ui/Disclosure';
 
 export default function ContributionsScreen() {
   const [drafts, setDrafts] = useState<PlaceDraft[]>([]);
@@ -70,13 +71,24 @@ export default function ContributionsScreen() {
         Capture a location in the field. Add photos and a story now or later.
       </Label>
       {error ? <Notice warning>{error}</Notice> : null}
-      <Button
-        label={busy ? 'Please wait…' : 'Add a hidden place'}
-        disabled={busy}
-        onPress={() => {
-          void createDraft();
-        }}
-      />
+      {error && (
+        <Button
+          label="Retry loading drafts"
+          secondary
+          onPress={() => {
+            void load();
+          }}
+        />
+      )}
+      {drafts.length > 0 && (
+        <Button
+          label={busy ? 'Please wait…' : 'Add a hidden place'}
+          disabled={busy}
+          onPress={() => {
+            void createDraft();
+          }}
+        />
+      )}
       {!drafts.length && !error && (
         <EmptyState
           title="Know somewhere special?"
@@ -111,15 +123,17 @@ export default function ContributionsScreen() {
           />
         </Panel>
       ))}
-      <SignInPanel />
-      <Button
-        label="Refresh review status"
-        secondary
-        disabled={busy}
-        onPress={() => {
-          void refreshReviews();
-        }}
-      />
+      <Disclosure title="Account & review updates">
+        <SignInPanel />
+        <Button
+          label="Refresh review status"
+          secondary
+          disabled={busy}
+          onPress={() => {
+            void refreshReviews();
+          }}
+        />
+      </Disclosure>
     </Screen>
   );
 }

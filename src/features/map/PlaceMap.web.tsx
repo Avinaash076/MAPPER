@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import type { GeoJSONSource, Map as WebMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './map.css';
-import { getMapStyle, placesToGeoJson } from './model';
+import { getMapStyle, placesToGeoJson, mapMarkerColors } from './model';
 import type { PlaceMapProps } from './types';
 export function PlaceMap(props: PlaceMapProps) {
   const container = useRef<HTMLDivElement>(null);
@@ -21,7 +21,7 @@ export function PlaceMap(props: PlaceMapProps) {
         const current = latest.current;
         const instance = new library.Map({
           container: container.current,
-          style: getMapStyle(current.scheme),
+          style: getMapStyle(current.appearance ?? current.scheme),
           center: [current.center.longitude, current.center.latitude],
           zoom: 10,
           attributionControl: { compact: true },
@@ -38,8 +38,8 @@ export function PlaceMap(props: PlaceMapProps) {
             source: 'places',
             paint: {
               'circle-radius': ['case', ['==', ['get', 'id'], state.selectedId ?? ''], 12, 9],
-              'circle-color': state.scheme === 'dark' ? '#ABD3B8' : '#245740',
-              'circle-stroke-color': state.scheme === 'dark' ? '#232723' : '#FFFEFA',
+              'circle-color': mapMarkerColors.fill,
+              'circle-stroke-color': mapMarkerColors.outline,
               'circle-stroke-width': 3,
             },
           });
@@ -73,8 +73,8 @@ export function PlaceMap(props: PlaceMapProps) {
     map.current?.jumpTo({ center: [props.center.longitude, props.center.latitude], zoom: 10 });
   }, [props.center.longitude, props.center.latitude]);
   useEffect(() => {
-    if (map.current) map.current.setStyle(getMapStyle(props.scheme));
-  }, [props.scheme]);
+    if (map.current) map.current.setStyle(getMapStyle(props.appearance ?? props.scheme));
+  }, [props.appearance, props.scheme]);
   useEffect(() => {
     const instance = map.current;
     if (!instance?.getSource('places')) return;

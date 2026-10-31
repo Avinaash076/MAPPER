@@ -1,0 +1,11 @@
+{
+  "name": "mapper-stage-three",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "start": "node scripts/serve.mjs",
+    "start:lan": "node scripts/serve.mjs --lan",
+    "check": "tsc --project tsconfig.json && tsx --test tests/*.test.ts"
+  }
+}

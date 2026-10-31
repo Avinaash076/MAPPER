@@ -1,6 +1,10 @@
 # Northern Trails · MAPPER
 
-A React Native tourism app for Hubballi, Dharwad and Belagavi, with a woven design, light/dark themes, maps and private drafts for hidden places.
+A React Native tourism app for Hubballi, Dharwad and Belagavi, using the Discovery Lens blue UI, light/dark themes, maps, local plans and private drafts for hidden places. The AI assistant interface includes clearly labelled interactive examples.
+
+**Start here:** [PC, Android APK, live reload and phone IP instructions](docs/running.md) · [UI implementation and database next steps](docs/discovery-lens.md).
+
+The independent design comparison gallery is in `design-exploration/`. Run `npm.cmd run build` and `npm.cmd run start` from that directory, then open `http://localhost:4313`. It retains the other visual directions separately from the selected native app.
 
 ## Website preview
 

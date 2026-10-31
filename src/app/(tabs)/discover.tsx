@@ -3,7 +3,7 @@ import { router } from 'expo-router';
 import { FlatList, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { DiscoveryControls } from '../../features/places/DiscoveryControls';
-import { Button, EmptyState, Label, layout, Notice, Panel } from '../../components/ui';
+import { Button, EmptyState, Label, layout, Notice } from '../../components/ui';
 import { FilterSheet } from '../../components/FilterSheet';
 import { PlaceCard } from '../../components/PlaceCard';
 import { useApp } from '../../features/state/AppProvider';
@@ -14,12 +14,16 @@ import { areas } from '../../features/places/types';
 import { PlaceMap } from '../../features/map/PlaceMap';
 import type { MapStatus } from '../../features/map/types';
 import { PlacePreview } from '../../features/map/PlacePreview';
-import { DemoAssistant } from '../../features/assistant/DemoAssistant';
+import { Disclosure } from '../../components/ui/Disclosure';
+import { InterestChoices } from '../../features/setup/InterestChoices';
+import { MapLayers } from '../../features/map/MapStyleChoices';
+import { useMapAppearance } from '../../features/map/MapPreferences';
 import { useTheme } from '../../theme/ThemeProvider';
 import { radii, space } from '../../theme/tokens';
 
 export default function DiscoverScreen() {
   const { colors, scheme } = useTheme();
+  const { appearance } = useMapAppearance();
   const { state, dispatch } = useApp();
   const catalog = usePlaceCatalog();
   const [view, setView] = useState<'map' | 'list'>('map');
@@ -77,9 +81,25 @@ export default function DiscoverScreen() {
                 center={city.coordinates}
                 selectedId={selected?.id ?? null}
                 scheme={scheme}
+                appearance={appearance}
                 onSelect={setSelectedId}
                 onStatusChange={setMapStatus}
               />
+              <View style={{ position: 'absolute', top: space.md, left: space.md }}>
+                <MapLayers center={city.coordinates} />
+              </View>
+              {selected && (
+                <View
+                  style={{
+                    position: 'absolute',
+                    left: space.md,
+                    right: space.md,
+                    bottom: space.xxxl,
+                  }}
+                >
+                  <PlacePreview place={selected} />
+                </View>
+              )}
             </View>
             {view === 'map' && mapStatus !== 'ready' && (
               <Notice warning={mapStatus === 'error'}>
@@ -87,11 +107,6 @@ export default function DiscoverScreen() {
                   ? 'The map could not fully load. Your place list is still available.'
                   : 'Loading the map. You can browse the list while it loads.'}
               </Notice>
-            )}
-            {view === 'map' && selected && (
-              <Panel>
-                <PlacePreview place={selected} />
-              </Panel>
             )}
             {!results.length && (
               <EmptyState
@@ -101,15 +116,36 @@ export default function DiscoverScreen() {
                 onAction={reset}
               />
             )}
+            <Button
+              label="Know a place we’ve missed?"
+              onPress={() => router.push('/contributions')}
+            />
+            <Label size="small" tone="textMuted">
+              Add its location, your photos and story. Private until reviewed.
+            </Label>
           </View>
         }
         ListFooterComponent={
           <View style={layout.section}>
-            <DemoAssistant city={city.name} />
+            <Disclosure title="Explore by interest">
+              <InterestChoices
+                selected={state.filters.categories}
+                onChange={(categories) => dispatch({ type: 'filters', filters: { categories } })}
+              />
+            </Disclosure>
+            <Disclosure title="Plan your visit">
+              <Label tone="textMuted">
+                Open a place and tap Add to plan. In My plan, order your stops and choose transport.
+                One local day plan is supported.
+              </Label>
+              <Button label="Open my plan" secondary onPress={() => router.push('/plan')} />
+            </Disclosure>
             <Button
-              label="Know a hidden place? Share it"
+              label="Ask about these places · AI preview"
               secondary
-              onPress={() => router.push('/contributions')}
+              onPress={() =>
+                router.push({ pathname: '/assistant', params: { placeId: selected?.id } })
+              }
             />
             {catalog.error && (
               <Button
