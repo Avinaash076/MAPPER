@@ -2,8 +2,12 @@ import { useTheme } from '../../theme/ThemeProvider';
 import { Tabs } from 'expo-router';
 import { BookmarkSimpleIcon, CompassIcon, PathIcon } from 'phosphor-react-native';
 import { fonts } from '../../theme/tokens';
+import { useWindowDimensions } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export default function TabLayout() {
   const { colors } = useTheme();
+  const { fontScale } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
   return (
     <Tabs
       screenOptions={{
@@ -13,13 +17,13 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: colors.background,
           borderTopColor: colors.border,
-          minHeight: 72,
+          height: 80 + insets.bottom + Math.max(0, fontScale - 1) * 24,
           paddingTop: 8,
-          paddingBottom: 8,
+          paddingBottom: Math.max(8, insets.bottom),
         },
         tabBarAllowFontScaling: true,
-        tabBarLabelStyle: { fontFamily: fonts.semibold, fontSize: 12 },
-        tabBarItemStyle: { paddingVertical: 4 },
+        tabBarLabelStyle: { fontFamily: fonts.semibold, fontSize: 12, lineHeight: 18 },
+        tabBarItemStyle: { paddingVertical: 0 },
       }}
     >
       <Tabs.Screen

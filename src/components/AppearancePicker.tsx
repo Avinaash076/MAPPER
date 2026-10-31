@@ -15,9 +15,9 @@ const choices: { id: ThemePreference; label: string; description: string }[] = [
   {
     id: 'light',
     label: 'Light',
-    description: 'Warm cream, forest green and a little golden light.',
+    description: 'Pale surfaces, slate blue controls and clear contrast.',
   },
-  { id: 'dark', label: 'Dark', description: 'Quiet charcoal surfaces and soft green accents.' },
+  { id: 'dark', label: 'Dark', description: 'Deep slate surfaces and soft blue accents.' },
 ];
 
 export function AppearancePicker() {
@@ -37,7 +37,7 @@ export function AppearancePicker() {
       </IconButton>
       {open && (
         <Sheet title="Appearance" onClose={() => setOpen(false)}>
-          <Label tone="textMuted">Make this little corner feel like yours.</Label>
+          <Label tone="textMuted">Choose your app appearance. Map style stays independent.</Label>
           {choices.map((choice) => (
             <View key={choice.id} style={layout.section}>
               <Button

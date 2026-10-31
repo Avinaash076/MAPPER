@@ -1,4 +1,5 @@
 import { useTheme } from '../../theme/ThemeProvider';
+import type { ReactNode } from 'react';
 import { View } from 'react-native';
 import { ArrowRightIcon, CompassIcon } from 'phosphor-react-native';
 import { space } from '../../theme/tokens';
@@ -12,18 +13,20 @@ export function EmptyState({
   message,
   action,
   onAction,
+  icon,
 }: {
   title: string;
   message: string;
   action: string;
   onAction: () => void;
+  icon?: ReactNode;
 }) {
   const { colors } = useTheme();
   const styles = useUIStyles();
   return (
     <Panel style={{ alignItems: 'center', paddingVertical: space.xxl, gap: space.lg }}>
       <View style={styles.emptyIcon}>
-        <CompassIcon size={32} color={colors.primary} />
+        {icon ?? <CompassIcon size={32} color={colors.primary} />}
       </View>
       <Label size="heading" style={{ textAlign: 'center' }}>
         {title}

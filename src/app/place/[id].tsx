@@ -10,7 +10,7 @@ import { usePlaceCatalog } from '../../features/places/PlaceCatalogProvider';
 import { categories } from '../../features/places/types';
 import { useApp } from '../../features/state/AppProvider';
 import { formatMinutes } from '../../features/planning/travel';
-import { space } from '../../theme/tokens';
+import { radii, space } from '../../theme/tokens';
 import { Disclosure } from '../../components/ui/Disclosure';
 export function generateStaticParams() {
   return placeRepository.list().map((place) => ({ id: place.id }));
@@ -57,7 +57,7 @@ export default function PlaceScreen() {
       <Label size="title" accessibilityRole="header">
         {place.name}
       </Label>
-      <View style={{ borderRadius: 24, overflow: 'hidden' }}>
+      <View style={{ borderRadius: radii.large, overflow: 'hidden' }}>
         <PlacePhoto place={place} large />
       </View>
       {place.photo && (
@@ -101,14 +101,24 @@ export default function PlaceScreen() {
         }
       />
       <Panel style={{ gap: space.md }}>
-        <Label size="heading">Make room for it</Label>
-        <Label>Suggested visit: {formatMinutes(place.visitMinutes)}</Label>
+        <Label size="heading">Plan your visit</Label>
+        <View style={layout.between}>
+          <View style={layout.section}>
+            <Label size="small" tone="textMuted">
+              Suggested visit
+            </Label>
+            <Label>{formatMinutes(place.visitMinutes)}</Label>
+          </View>
+          <View style={layout.section}>
+            <Label size="small" tone="textMuted">
+              Opening hours
+            </Label>
+            <Label>{place.openingHours || 'Not verified'}</Label>
+          </View>
+        </View>
         <Label size="small" tone="textMuted">
-          Visit durations and coordinates are approximate sample values.
-        </Label>
-        <Label>Opening hours: {place.openingHours || 'Not verified'}</Label>
-        <Label size="small" tone="textMuted">
-          Entry fees are not verified. Check with the venue before visiting.
+          Sample duration and coordinates. Confirm fees, current access and transport suitability
+          locally before visiting.
         </Label>
       </Panel>
       <Disclosure title="Access & getting around">
@@ -117,10 +127,6 @@ export default function PlaceScreen() {
       <Disclosure title="Season & current conditions">
         <Label tone="textMuted">{place.seasonalNotes}</Label>
       </Disclosure>
-      <Notice>
-        This is a discovery prototype. Current entry conditions, accessibility and transport
-        suitability need local confirmation.
-      </Notice>
       <Button
         label="Ask about this place · AI preview"
         secondary

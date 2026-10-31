@@ -4,6 +4,8 @@ Read these in order when joining the project.
 
 For the selected blue UI, start with [PC and Android run instructions](running.md), [Discovery Lens implementation and database roadmap](discovery-lens.md), and the [validation record](ui-validation.md).
 
+Latest implementation: [Discovery Lens usability polish](ui-polish-review.md).
+
 | Document                                            | What it explains                                                           |
 | --------------------------------------------------- | -------------------------------------------------------------------------- |
 | [System walkthrough](architecture.md)               | Screens, data flow, functions, state, storage and where to change behavior |

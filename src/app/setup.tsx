@@ -1,19 +1,37 @@
 import { useCallback, useState } from 'react';
 import { router, useFocusEffect } from 'expo-router';
 import { BackHandler, View } from 'react-native';
-import { WovenArtwork } from '../components/WovenArtwork';
 import { Button, Chip, Label, layout, Screen } from '../components/ui';
+import { Disclosure } from '../components/ui/Disclosure';
 import { useApp } from '../features/state/AppProvider';
-import { areas, type DiscoveryFilters } from '../features/places/types';
+import { areas } from '../features/places/types';
 import { InterestChoices } from '../features/setup/InterestChoices';
 import { TransportChoices } from '../features/setup/TransportChoices';
-import { radii } from '../theme/tokens';
 import { MapStyleChoices } from '../features/map/MapStyleChoices';
+
+const steps = [
+  {
+    name: 'Town',
+    title: 'Where shall we start?',
+    help: 'Choose a town centre. No location permission needed.',
+  },
+  {
+    name: 'Interests',
+    title: 'What would you like to find?',
+    help: 'Choose any interests, or keep your options open.',
+  },
+  {
+    name: 'Transport',
+    title: 'How will you get around?',
+    help: 'A mode helps estimate travel time. You can choose later.',
+  },
+] as const;
 
 export default function SetupScreen() {
   const { state, dispatch } = useApp();
-  const [draft, setDraft] = useState<DiscoveryFilters>(state.filters);
   const [step, setStep] = useState(0);
+  const filters = state.filters;
+  const current = steps[step];
   useFocusEffect(
     useCallback(() => {
       const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
@@ -24,76 +42,63 @@ export default function SetupScreen() {
       return () => subscription.remove();
     }, [step]),
   );
-  function explore() {
-    dispatch({ type: 'filters', filters: { ...draft, query: '' } });
-    router.push('/discover');
+  function finish() {
+    dispatch({ type: 'filters', filters: { query: '' } });
+    router.replace('/discover');
+  }
+  function skip() {
+    dispatch({ type: 'filters', filters: step === 1 ? { categories: [] } : { transport: null } });
+    if (step === 1) setStep(2);
+    else finish();
   }
   return (
     <Screen>
-      {step === 1 && <WovenArtwork style={{ height: 160, borderRadius: radii.large }} />}
       <Label size="small" tone="accent">
-        {step + 1} OF 4 · MAKE IT YOURS
+        {step + 1} OF 3 · {current.name.toUpperCase()}
       </Label>
       <View style={layout.section}>
         <Label size="title" accessibilityRole="header">
-          {
-            [
-              'Choose your map',
-              'Where shall we start?',
-              'Follow your curiosity',
-              'How will you get around?',
-            ][step]
-          }
+          {current.title}
         </Label>
-        <Label tone="textMuted">
-          {
-            [
-              'A map that feels right to you.',
-              'Pick a town centre. No location permission needed.',
-              'Choose any interests, or leave it open.',
-              'Optional. You can decide later.',
-            ][step]
-          }
-        </Label>
+        <Label tone="textMuted">{current.help}</Label>
       </View>
       {step === 0 && (
-        <MapStyleChoices center={areas.find((area) => area.id === draft.area)!.coordinates} />
-      )}
-      <View style={[layout.section, { display: step === 1 ? 'flex' : 'none' }]}>
-        <Label size="heading">Starting city</Label>
-        <View style={layout.wrap}>
+        <View style={layout.section}>
+          <Label>Starting town</Label>
           {areas.map((area) => (
             <Chip
               key={area.id}
               label={area.name}
-              selected={draft.area === area.id}
-              onPress={() => setDraft({ ...draft, area: area.id })}
+              selected={filters.area === area.id}
+              onPress={() => dispatch({ type: 'filters', filters: { area: area.id } })}
             />
           ))}
+          <Disclosure title="Map appearance · optional">
+            <MapStyleChoices center={areas.find((area) => area.id === filters.area)!.coordinates} />
+          </Disclosure>
         </View>
-      </View>
-      <View style={[layout.section, { display: step === 2 ? 'flex' : 'none' }]}>
-        <Label size="heading">Your interests · optional</Label>
+      )}
+      {step === 1 && (
         <InterestChoices
-          selected={draft.categories}
-          onChange={(categories) => setDraft({ ...draft, categories })}
+          selected={filters.categories}
+          onChange={(categories) => dispatch({ type: 'filters', filters: { categories } })}
         />
-      </View>
-      <View style={[layout.section, { display: step === 3 ? 'flex' : 'none' }]}>
-        <Label size="heading">Transport · optional</Label>
+      )}
+      {step === 2 && (
         <TransportChoices
-          selected={draft.transport}
-          onChange={(transport) => setDraft({ ...draft, transport })}
+          selected={filters.transport}
+          onChange={(transport) => dispatch({ type: 'filters', filters: { transport } })}
         />
-        <Label size="small" tone="textMuted">
-          Choose later to browse without travel-time estimates.
-        </Label>
-      </View>
+      )}
       <Button
-        label={step === 3 ? 'Show nearby places' : 'Continue'}
-        onPress={() => (step < 3 ? setStep(step + 1) : explore())}
+        label={step === 2 ? 'Show nearby places' : 'Continue'}
+        onPress={() => (step < 2 ? setStep(step + 1) : finish())}
       />
+      {step > 0 && <Button label="Skip for now" secondary onPress={skip} />}
       {step > 0 && <Button label="Previous step" secondary onPress={() => setStep(step - 1)} />}
+      <Label size="small" tone="textMuted">
+        Your choices save on this device as you go.
+      </Label>
     </Screen>
   );
 }

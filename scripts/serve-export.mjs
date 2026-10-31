@@ -5,6 +5,10 @@ import { readFile } from 'node:fs/promises';
 
 const root = path.resolve('dist/web');
 const port = Number(process.env.PREVIEW_PORT || 4320);
+// Optional fixtures are used only by local screenshot captures, never by an app build.
+const captureStorage = process.env.CAPTURE_STORAGE_FILE
+  ? JSON.parse(await readFile(process.env.CAPTURE_STORAGE_FILE, 'utf8'))
+  : null;
 const mime = {
   '.html': 'text/html',
   '.js': 'text/javascript',
@@ -37,15 +41,24 @@ http
         return;
       }
       let body = await readFile(target);
-      if (path.extname(target) === '.html' && url.searchParams.has('capture'))
+      if (path.extname(target) === '.html' && url.searchParams.has('capture')) {
+        const theme = url.searchParams.get('theme');
+        const values = { ...(captureStorage || {}) };
+        if (theme === 'light' || theme === 'dark') values['northern-trails:appearance'] = theme;
+        const encoded = JSON.stringify(values).replaceAll('<', '\\u003c');
         body = Buffer.from(
           body
             .toString()
+            .replace(
+              '<head>',
+              `<head><script>for(const [key,value] of Object.entries(${encoded})){localStorage.setItem(key,value)}</script>`,
+            )
             .replace(
               '</body>',
               '<img src="/capture-wait.svg" alt="" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></body>',
             ),
         );
+      }
       response.writeHead(200, {
         'Content-Type': mime[path.extname(target)] || 'application/octet-stream',
         'Cache-Control': 'no-cache',

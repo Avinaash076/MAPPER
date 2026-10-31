@@ -8,24 +8,29 @@ export function PlaceMap({
   selectedId,
   scheme,
   appearance,
+  preview,
+  zoom = 10,
+  locationPin,
   onSelect,
   onStatusChange,
 }: PlaceMapProps) {
   const camera = useRef<CameraRef>(null);
-  const data = useMemo(() => placesToGeoJson(places), [places]);
+  const data = useMemo(() => placesToGeoJson(places, locationPin), [places, locationPin]);
   useEffect(() => {
-    camera.current?.jumpTo({ center: [center.longitude, center.latitude], zoom: 10 });
-  }, [center.longitude, center.latitude]);
+    camera.current?.jumpTo({ center: [center.longitude, center.latitude], zoom });
+  }, [center.longitude, center.latitude, zoom]);
   return (
     <Map
       style={{ flex: 1 }}
       mapStyle={getMapStyle(appearance ?? scheme)}
+      dragPan={!preview}
+      touchZoom={!preview}
       onDidFinishLoadingMap={() => onStatusChange('ready')}
       onDidFailLoadingMap={() => onStatusChange('error')}
     >
       <Camera
         ref={camera}
-        initialViewState={{ center: [center.longitude, center.latitude], zoom: 10 }}
+        initialViewState={{ center: [center.longitude, center.latitude], zoom }}
       />
       <GeoJSONSource
         id="places"

@@ -5,6 +5,7 @@ import { Button, Field, Label, layout, Panel } from '../../components/ui';
 import { radii } from '../../theme/tokens';
 import { getPhotoUri } from './photoStorage';
 import type { DraftPhoto } from './types';
+import { CheckRow } from '../../components/ui/CheckRow';
 
 function DraftPhotoCard({
   photo,
@@ -45,6 +46,7 @@ function DraftPhotoCard({
           {failed ? 'Photo unavailable. Remove and attach it again.' : 'Opening photo…'}
         </Label>
       )}
+      <Label size="small">Photo caption · optional</Label>
       <Field
         accessibilityLabel="Photo caption"
         placeholder="What does this photo show? · optional"
@@ -60,14 +62,18 @@ export function PhotoFields({
   photos,
   addPhotos,
   onChange,
+  rightsConfirmed,
+  onRightsChange,
 }: {
   photos: DraftPhoto[];
   addPhotos: (camera: boolean) => void;
   onChange: (photos: DraftPhoto[]) => void;
+  rightsConfirmed: boolean;
+  onRightsChange: (confirmed: boolean) => void;
 }) {
   return (
     <Panel style={layout.section}>
-      <Label size="heading">2 · Add your photos</Label>
+      <Label size="heading">2 · Add your photos ({photos.length}/5)</Label>
       <Label size="small" tone="textMuted">
         Up to five photos. A wide view and the approach help others understand a hidden place.
       </Label>
@@ -93,6 +99,13 @@ export function PhotoFields({
           onRemove={() => onChange(photos.filter((item) => item.id !== photo.id))}
         />
       ))}
+      {photos.length > 0 && (
+        <CheckRow
+          label="I took these photos or have permission to share them"
+          checked={rightsConfirmed}
+          onChange={onRightsChange}
+        />
+      )}
     </Panel>
   );
 }

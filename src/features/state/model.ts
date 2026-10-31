@@ -12,6 +12,7 @@ export type Action =
   | { type: 'toggleSaved'; id: string }
   | { type: 'addStop'; id: string }
   | { type: 'removeStop'; id: string }
+  | { type: 'restoreStop'; id: string; index: number }
   | { type: 'moveStop'; id: string; direction: -1 | 1 };
 export function appReducer(state: AppState, action: Action): AppState {
   switch (action.type) {
@@ -34,6 +35,12 @@ export function appReducer(state: AppState, action: Action): AppState {
         : { ...state, planIds: [...state.planIds, action.id] };
     case 'removeStop':
       return { ...state, planIds: state.planIds.filter((id) => id !== action.id) };
+    case 'restoreStop': {
+      if (state.planIds.includes(action.id)) return state;
+      const planIds = [...state.planIds];
+      planIds.splice(Math.max(0, Math.min(action.index, planIds.length)), 0, action.id);
+      return { ...state, planIds };
+    }
     case 'moveStop': {
       const from = state.planIds.indexOf(action.id);
       const to = from + action.direction;

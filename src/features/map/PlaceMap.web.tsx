@@ -8,6 +8,7 @@ export function PlaceMap(props: PlaceMapProps) {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<WebMap | null>(null);
   const latest = useRef(props);
+  const styleUrl = getMapStyle(props.appearance ?? props.scheme);
   useEffect(() => {
     latest.current = props;
   });
@@ -23,15 +24,20 @@ export function PlaceMap(props: PlaceMapProps) {
           container: container.current,
           style: getMapStyle(current.appearance ?? current.scheme),
           center: [current.center.longitude, current.center.latitude],
-          zoom: 10,
+          zoom: current.zoom ?? 10,
+          interactive: !current.preview,
           attributionControl: { compact: true },
         });
         map.current = instance;
-        instance.addControl(new library.NavigationControl({ showCompass: false }), 'top-right');
+        if (!current.preview)
+          instance.addControl(new library.NavigationControl({ showCompass: false }), 'top-right');
         instance.on('style.load', () => {
           if (cancelled) return;
           const state = latest.current;
-          instance.addSource('places', { type: 'geojson', data: placesToGeoJson(state.places) });
+          instance.addSource('places', {
+            type: 'geojson',
+            data: placesToGeoJson(state.places, state.locationPin),
+          });
           instance.addLayer({
             id: 'place-pins',
             type: 'circle',
@@ -70,27 +76,41 @@ export function PlaceMap(props: PlaceMapProps) {
     };
   }, []);
   useEffect(() => {
-    map.current?.jumpTo({ center: [props.center.longitude, props.center.latitude], zoom: 10 });
-  }, [props.center.longitude, props.center.latitude]);
+    map.current?.jumpTo({
+      center: [props.center.longitude, props.center.latitude],
+      zoom: props.zoom ?? 10,
+    });
+  }, [props.center.longitude, props.center.latitude, props.zoom]);
   useEffect(() => {
-    if (map.current) map.current.setStyle(getMapStyle(props.appearance ?? props.scheme));
-  }, [props.appearance, props.scheme]);
+    if (map.current) map.current.setStyle(styleUrl);
+  }, [styleUrl]);
   useEffect(() => {
     const instance = map.current;
     if (!instance?.getSource('places')) return;
-    (instance.getSource('places') as GeoJSONSource).setData(placesToGeoJson(props.places));
+    (instance.getSource('places') as GeoJSONSource).setData(
+      placesToGeoJson(props.places, props.locationPin),
+    );
+  }, [props.places, props.locationPin]);
+  useEffect(() => {
+    const instance = map.current;
+    if (!instance?.getLayer('place-pins')) return;
     instance.setPaintProperty('place-pins', 'circle-radius', [
       'case',
       ['==', ['get', 'id'], props.selectedId ?? ''],
       12,
       9,
     ]);
-  }, [props.places, props.selectedId]);
+  }, [props.selectedId]);
   return (
     <div
       ref={container}
       role="region"
       aria-label="Interactive map of nearby places. The same places are available in list view."
+      aria-description={
+        props.locationPin
+          ? 'Private captured location preview. Panning does not move the pin.'
+          : undefined
+      }
       style={{ width: '100%', height: '100%' }}
     />
   );

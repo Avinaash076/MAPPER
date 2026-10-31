@@ -4,6 +4,7 @@ import { Button, Field, Label, layout, Notice, Panel } from '../../components/ui
 import { CheckRow } from '../../components/ui/CheckRow';
 import { validCoordinates } from './model';
 import type { CapturedLocation } from './types';
+import { LocationPreview } from './LocationPreview';
 
 interface LocationFieldsProps {
   location: CapturedLocation | null;
@@ -23,6 +24,14 @@ export function LocationFields({
   const [latitude, setLatitude] = useState(location ? String(location.latitude) : '');
   const [longitude, setLongitude] = useState(location ? String(location.longitude) : '');
   const [error, setError] = useState('');
+  function toggleManual() {
+    if (!manual) {
+      setLatitude(location ? String(location.latitude) : '');
+      setLongitude(location ? String(location.longitude) : '');
+      setError('');
+    }
+    setManual(!manual);
+  }
   function applyCoordinates() {
     const lat = Number(latitude);
     const lon = Number(longitude);
@@ -49,15 +58,17 @@ export function LocationFields({
       </Label>
       <Button
         label={location ? 'Capture current location again' : 'Use my current location'}
+        secondary
         onPress={capture}
       />
       <Button
         label={manual ? 'Close manual entry' : 'Enter coordinates instead'}
         secondary
-        onPress={() => setManual(!manual)}
+        onPress={toggleManual}
       />
       {manual && (
         <View style={layout.section}>
+          <Label size="small">Latitude</Label>
           <Field
             accessibilityLabel="Place latitude"
             placeholder="Latitude, e.g. 15.3647"
@@ -65,6 +76,7 @@ export function LocationFields({
             onChangeText={setLatitude}
             keyboardType="numbers-and-punctuation"
           />
+          <Label size="small">Longitude</Label>
           <Field
             accessibilityLabel="Place longitude"
             placeholder="Longitude, e.g. 75.1240"
@@ -78,6 +90,7 @@ export function LocationFields({
       {error ? <Notice warning>{error}</Notice> : null}
       {location && (
         <>
+          <LocationPreview location={location} />
           <Label>
             {location.latitude.toFixed(6)}, {location.longitude.toFixed(6)}
           </Label>

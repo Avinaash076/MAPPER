@@ -3,7 +3,7 @@ import { useFocusEffect, router } from 'expo-router';
 import { randomUUID } from 'expo-crypto';
 import { Button, EmptyState, Label, layout, Notice, Panel, Screen } from '../components/ui';
 import { draftRepository } from '../features/contributions/localDrafts';
-import { createEmptyDraft } from '../features/contributions/model';
+import { createEmptyDraft, submissionProblems } from '../features/contributions/model';
 import { getMySubmissionStatuses } from '../features/contributions/submissionService';
 import { SignInPanel } from '../features/contributions/SignInPanel';
 import type { PlaceDraft } from '../features/contributions/types';
@@ -112,6 +112,20 @@ export default function ContributionsScreen() {
                   : 'Needs changes'}{' '}
             · {draft.photos.length} photos · {draft.location ? 'location saved' : 'no location yet'}
           </Label>
+          {draft.reviewNote && <Label>{draft.reviewNote}</Label>}
+          {(draft.status === 'draft' || draft.status === 'rejected') && (
+            <Label size="small" tone="textMuted">
+              {submissionProblems(draft)[0] ?? 'Ready for your final review.'}
+            </Label>
+          )}
+          {draft.status === 'pending' && (
+            <Label size="small">Sent privately. Waiting for an administrator’s review.</Label>
+          )}
+          {draft.status === 'approved' && (
+            <Label size="small">
+              Reviewed for publication. Current access still needs checking.
+            </Label>
+          )}
           <Button
             label={
               draft.status === 'draft' || draft.status === 'rejected'

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, View, useWindowDimensions } from 'react-native';
 import { CheckIcon } from 'phosphor-react-native';
 import { Button, Label, layout, Notice } from '../../components/ui';
 import { Sheet } from '../../components/ui/Sheet';
@@ -15,28 +15,33 @@ export function MapStyleChoices({ center }: { center: Coordinates }) {
   const { colors, scheme } = useTheme();
   const { appearance, choose, error } = useMapAppearance();
   const [status, setStatus] = useState<Record<string, MapStatus>>({});
+  const { width, fontScale } = useWindowDimensions();
+  const stacked = width < 420 || fontScale > 1.2;
   return (
     <View style={layout.section}>
       <Label tone="textMuted">Choose your map. Your app appearance stays independent.</Label>
-      <View style={[layout.row, { alignItems: 'stretch' }]}>
+      <View
+        style={[layout.row, { alignItems: 'stretch', flexDirection: stacked ? 'column' : 'row' }]}
+      >
         {(['liberty', 'dark'] as const).map((value) => (
           <View
             key={value}
             style={{
-              flex: 1,
+              flex: stacked ? undefined : 1,
               borderWidth: appearance === value ? 2 : 1,
               borderColor: appearance === value ? colors.primary : colors.border,
               borderRadius: radii.medium,
               overflow: 'hidden',
             }}
           >
-            <View style={{ height: 180 }}>
+            <View style={{ height: 160 }}>
               <PlaceMap
                 places={[]}
                 center={center}
                 selectedId={null}
                 scheme={scheme}
                 appearance={value}
+                preview
                 onSelect={ignoreSelection}
                 onStatusChange={(next) =>
                   setStatus((previous) =>

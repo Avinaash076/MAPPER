@@ -51,9 +51,9 @@ function AppNavigation() {
         <Stack.Screen name="setup" options={{ ...header, title: 'Your kind of day' }} />
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="place/[id]" options={{ ...header, title: 'A closer look' }} />
-        <Stack.Screen name="contributions" options={{ ...header, title: 'Your hidden places' }} />
+        <Stack.Screen name="contributions" options={{ ...header, title: 'Community' }} />
         <Stack.Screen name="contribute" options={{ ...header, title: 'Share a place' }} />
-        <Stack.Screen name="assistant" options={{ ...header, title: 'Ask a local question' }} />
+        <Stack.Screen name="assistant" options={{ headerShown: false }} />
       </Stack>
     </>
   );

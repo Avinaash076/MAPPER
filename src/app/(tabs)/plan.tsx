@@ -9,15 +9,16 @@ import { areas, transportLabels } from '../../features/places/types';
 import { formatMinutes, summarizePlan } from '../../features/planning/travel';
 import { Button, EmptyState, Label, layout, Notice, Panel, Screen } from '../../components/ui';
 import { AppHeader } from '../../components/AppHeader';
-import { FilterSheet } from '../../components/FilterSheet';
+import { PlanSettings } from '../../features/planning/PlanSettings';
 
 import { PlanSummaryCard } from '../../features/planning/PlanSummaryCard';
 import { PlanStopCard } from '../../features/planning/PlanStopCard';
 export default function PlanScreen() {
   const { colors } = useTheme();
-  const { state, storageStatus } = useApp();
+  const { state, storageStatus, dispatch } = useApp();
   const catalog = usePlaceCatalog();
   const [showFilters, setShowFilters] = useState(false);
+  const [removed, setRemoved] = useState<{ id: string; name: string; index: number } | null>(null);
   const stops = state.planIds.flatMap((id) => {
     const p = catalog.places.find((place) => place.id === id);
     return p ? [p] : [];
@@ -42,20 +43,33 @@ export default function PlanScreen() {
         </Label>
       </View>
       <Label size="title" accessibilityRole="header">
-        A little plan.{'\n'}Room to explore.
+        My day plan
       </Label>
-      <Label tone="textMuted">
-        Start and finish at {area.name} town centre. Change the starting town in Discover.
-      </Label>
-      <Button
-        label={
-          state.filters.transport
-            ? `${transportLabels[state.filters.transport]} · ${formatMinutes(state.filters.budgetMinutes)} available`
-            : 'Choose transport for travel estimates'
-        }
-        secondary
-        onPress={() => setShowFilters(true)}
-      />
+      <Label tone="textMuted">Start and finish at {area.name} town centre.</Label>
+      {stops.length > 0 && (
+        <Button
+          label={
+            state.filters.transport
+              ? `${transportLabels[state.filters.transport]} · ${formatMinutes(state.filters.budgetMinutes)} available`
+              : 'Choose transport for travel estimates'
+          }
+          secondary
+          onPress={() => setShowFilters(true)}
+        />
+      )}
+      {removed && (
+        <Panel style={layout.section}>
+          <Label accessibilityLiveRegion="polite">Removed {removed.name}</Label>
+          <Button
+            label="Undo removal"
+            secondary
+            onPress={() => {
+              dispatch({ type: 'restoreStop', id: removed.id, index: removed.index });
+              setRemoved(null);
+            }}
+          />
+        </Panel>
+      )}
       {!stops.length ? (
         <EmptyState
           title="Where shall we begin?"
@@ -86,6 +100,10 @@ export default function PlanScreen() {
               stopCount={stops.length}
               travelMinutes={summary?.legs[index] ?? null}
               townName={area.name}
+              onRemove={() => {
+                setRemoved({ id: place.id, name: place.name, index });
+                dispatch({ type: 'removeStop', id: place.id });
+              }}
             />
           ))}
           {summary && (
@@ -111,7 +129,7 @@ export default function PlanScreen() {
             ? 'Saving on this device…'
             : 'Changes are not saved yet'}
       </Label>
-      {showFilters && <FilterSheet visible close={() => setShowFilters(false)} />}
+      {showFilters && <PlanSettings close={() => setShowFilters(false)} />}
     </Screen>
   );
 }

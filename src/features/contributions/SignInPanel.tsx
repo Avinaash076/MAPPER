@@ -77,6 +77,7 @@ export function SignInPanel() {
           <Label size="small" tone="textMuted">
             Browsing and private drafts do not need an account.
           </Label>
+          <Label size="small">Email address</Label>
           <Field
             accessibilityLabel="Email address for contributor sign in"
             placeholder="Email address"
@@ -96,6 +97,7 @@ export function SignInPanel() {
           />
           {sent && (
             <>
+              <Label size="small">Sign-in code</Label>
               <Field
                 accessibilityLabel="Email sign-in code"
                 placeholder="Sign-in code"

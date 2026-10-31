@@ -54,7 +54,10 @@ export function useDraftEditor(id: string | undefined) {
       )) {
         await removePhoto(photo.localUri).catch(() => {});
       }
-      if (current === revision.current) setSaveState('Saved privately on this device');
+      if (current === revision.current) {
+        setSaveState('Saved privately on this device');
+        setError('');
+      }
     } catch {
       if (current === revision.current) {
         setSaveState('Not saved yet');
