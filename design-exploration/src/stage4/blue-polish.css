@@ -1,0 +1,217 @@
+.screen-study .lens-welcome {
+  padding: 0;
+}
+.lens-cover {
+  margin: 0 16px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.lens-cover img {
+  display: block;
+  width: 100%;
+  height: 310px;
+  object-fit: cover;
+  object-position: 50% 47%;
+}
+.lens-cover figcaption {
+  padding: 10px 16px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.lens-invitation {
+  padding: 28px 24px 32px;
+}
+.screen-study .lens-invitation h1 {
+  font: 700 36px/44px Manrope;
+  letter-spacing: -0.045em;
+  margin: 12px 0 16px;
+}
+.lens-intro {
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+.lens-locations {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 20px;
+}
+.lens-locations span {
+  margin: 0 8px;
+  color: var(--accent);
+}
+.study-wide .lens-welcome {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  gap: 64px;
+  padding: 32px;
+}
+.study-wide .lens-cover {
+  margin: 0;
+}
+.study-wide .lens-cover img {
+  height: 660px;
+}
+.study-wide .lens-invitation {
+  padding: 32px;
+  max-width: 540px;
+}
+.study-wide .lens-invitation h1 {
+  font-size: 52px;
+  line-height: 60px;
+}
+.screen-study .lens-assistant {
+  padding: 24px 16px;
+}
+.lens-assistant header h1 {
+  font: 700 30px/38px Manrope;
+  letter-spacing: -0.035em;
+}
+.lens-demo-badge {
+  display: inline-block;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--accent);
+}
+.lens-conversation {
+  min-height: 280px;
+  margin-top: 24px;
+}
+.lens-prompts {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+}
+.lens-prompts > p {
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+.lens-prompts button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  text-align: left;
+  width: 100%;
+  min-height: 64px;
+  border: 0;
+  border-top: 1px solid var(--divider);
+  color: var(--text);
+  background: transparent;
+  padding: 12px 0;
+  font: inherit;
+}
+.lens-user-message {
+  background: var(--secondary);
+  color: var(--onSecondary);
+  border-radius: 12px 12px 0 12px;
+  padding: 16px;
+  margin-left: 32px;
+}
+.lens-user-message p {
+  margin-bottom: 0;
+}
+.lens-answer {
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 20px;
+  border-radius: 0 16px 16px;
+}
+.lens-answer h2 {
+  font-size: 22px;
+}
+.lens-answer summary {
+  min-height: 48px;
+  padding: 12px 0;
+  cursor: pointer;
+}
+.lens-answer details a {
+  display: block;
+  padding: 12px 0;
+  color: var(--primary);
+}
+.lens-answer button {
+  min-height: 48px;
+  padding: 12px;
+  border-radius: 8px;
+}
+.lens-composer {
+  display: grid;
+  gap: 8px;
+  margin-top: 24px;
+}
+.lens-composer label {
+  font-size: 14px;
+}
+.lens-composer textarea {
+  width: 100%;
+  min-height: 80px;
+  resize: vertical;
+  padding: 16px;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font: inherit;
+}
+.lens-composer button {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--primary);
+  color: var(--onPrimary);
+  border: 0;
+  border-radius: 10px;
+  font: 600 16px Manrope;
+}
+.lens-composer button:disabled {
+  background: var(--secondary);
+  color: var(--onSecondary);
+  cursor: not-allowed;
+}
+.study-wide .lens-assistant {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 680px);
+  gap: 32px 64px;
+  padding: 64px;
+}
+.study-wide .lens-composer {
+  grid-column: 2;
+  margin-top: 0;
+}
+.study-wide .lens-conversation {
+  margin: 0;
+}
+.screen-study.direction-B .detail-heading h1 {
+  font-size: 32px;
+  line-height: 40px;
+}
+.screen-study.direction-B .detail-body {
+  max-width: 680px;
+}
+.screen-study.direction-B .contribution-intro h1,
+.screen-study.direction-B .review-study h1 {
+  font-size: 32px;
+  line-height: 40px;
+}
+.screen-study.direction-B .review-ledger article {
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 20px;
+  margin-top: 16px;
+}
+.screen-study.direction-B .review-ledger {
+  border-left: 0;
+  padding-left: 0;
+}
+.screen-study.direction-B .review-ledger h3 {
+  font-size: 20px;
+}

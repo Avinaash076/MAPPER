@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { useApp } from '../features/state/AppProvider';
 import { distanceOptions, timeOptions, type DiscoveryFilters } from '../features/places/types';
 import { TransportChoices } from '../features/setup/TransportChoices';
+import { InterestChoices } from '../features/setup/InterestChoices';
 import { formatMinutes } from '../features/planning/travel';
 import { Button, Chip, Label, layout, Notice } from './ui';
 import { Sheet } from './ui/Sheet';
@@ -11,6 +12,13 @@ export function FilterSheet({ close }: { visible: boolean; close: () => void }) 
   const [draft, setDraft] = useState<DiscoveryFilters>(state.filters);
   return (
     <Sheet title="Make it your kind of day" onClose={close}>
+      <View style={layout.section}>
+        <Label size="heading">Interests</Label>
+        <InterestChoices
+          selected={draft.categories}
+          onChange={(categories) => setDraft({ ...draft, categories })}
+        />
+      </View>
       <View style={layout.section}>
         <Label size="heading">Transport (optional)</Label>
         <TransportChoices

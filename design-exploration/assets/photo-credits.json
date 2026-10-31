@@ -1,0 +1,71 @@
+{
+  "kelgeri-lake": {
+    "uri": "https://upload.wikimedia.org/wikipedia/commons/4/41/Kelageri_Lake.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "author": "SWE-Yaatrik",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AKelageri%20Lake.jpg",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "karnatak-college": {
+    "uri": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Karnatak_college_%28cropped%29.jpg/1280px-Karnatak_college_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "author": "Kayceevinay~commonswiki",
+    "license": "Public domain",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AKarnatak%20college%20(cropped).jpg"
+  },
+  "belagavi-fort": {
+    "uri": "https://upload.wikimedia.org/wikipedia/commons/b/be/Belgaum_Fort.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "author": "SWE-Yaatrik",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File%3ABelgaum_Fort.jpg",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "kamal-basadi": {
+    "uri": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Old_jain_temple_belgaum_%281%29.jpg/1280px-Old_jain_temple_belgaum_%281%29.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "author": "Swapneel Bhandarkar",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AOld_jain_temple_belgaum_(1).jpg",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "gokak-falls": {
+    "uri": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Gokak_Falls_During_Night.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "author": "Sandeep Prakash",
+    "license": "CC BY-SA 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AGokak_Falls_During_Night.jpg",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "kittur-fort": {
+    "uri": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Kittur_fort.jpeg/1280px-Kittur_fort.jpeg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "author": "Sarangib",
+    "license": "CC0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AKittur_fort.jpeg",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "unkal-lake": {
+    "uri": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/Unkal_lake.jpg/1280px-Unkal_lake.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "author": "Mohammed aquib",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AUnkal%20lake.jpg",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "chandramouleshwara": {
+    "uri": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/The_Chandramauleshwara_Temple.jpg/1280px-The_Chandramauleshwara_Temple.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "author": "Hariprasad Shetty10",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AThe%20Chandramauleshwara%20Temple.jpg",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "godachinmalki": {
+    "uri": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Godachinmalki_falls.jpg/1280px-Godachinmalki_falls.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "author": "Rishi Muni",
+    "license": "CC BY-SA 4.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AGodachinmalki%20falls.jpg",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "bhimgad": {
+    "uri": "https://upload.wikimedia.org/wikipedia/commons/5/55/Otomops_wroughtoni.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+    "author": "Kalyanvarma",
+    "license": "CC BY-SA 3.0",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File%3AOtomops_wroughtoni.jpg",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  }
+}

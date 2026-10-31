@@ -5,4 +5,4 @@ export const fonts = {
   semibold: 'Manrope_600SemiBold',
   bold: 'Manrope_700Bold',
 };
-export const radii = { small: 8, medium: 16, large: 24 };
+export const radii = { small: 8, medium: 10, large: 16 };

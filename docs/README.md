@@ -2,6 +2,8 @@
 
 Read these in order when joining the project.
 
+For the selected blue UI, start with [PC and Android run instructions](running.md), [Discovery Lens implementation and database roadmap](discovery-lens.md), and the [validation record](ui-validation.md).
+
 | Document                                            | What it explains                                                           |
 | --------------------------------------------------- | -------------------------------------------------------------------------- |
 | [System walkthrough](architecture.md)               | Screens, data flow, functions, state, storage and where to change behavior |
@@ -11,7 +13,7 @@ Read these in order when joining the project.
 | [Offline maps and routes](offline-routing.md)       | What works offline now and how to add downloadable routes later            |
 | [Design and content credits](design-and-credits.md) | Visual rules, reference links, sources and photo licensing                 |
 
-The app is called **Northern Trails** in its UI. **MAPPER** is the repository name. A final public brand and store identifiers should be chosen before the first store release.
+The UI uses the **MAPPER / Northern Trails** identity. A final public brand and store identifiers should be chosen before the first store release.
 
 These documents belong with the source code in GitHub. Update the relevant document in the same change as the behavior it describes. GitHub maintenance happens during project work and through the configured checks; no unattended maintenance agent is configured.
 

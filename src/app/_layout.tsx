@@ -15,6 +15,7 @@ import { Label, Panel, Screen } from '../components/ui';
 import { AppearancePicker } from '../components/AppearancePicker';
 import { fonts } from '../theme/tokens';
 import { PlaceCatalogProvider } from '../features/places/PlaceCatalogProvider';
+import { MapPreferences } from '../features/map/MapPreferences';
 export { ErrorBoundary } from 'expo-router';
 function AppNavigation() {
   const { colors, scheme, ready: themeReady } = useTheme();
@@ -52,6 +53,7 @@ function AppNavigation() {
         <Stack.Screen name="place/[id]" options={{ ...header, title: 'A closer look' }} />
         <Stack.Screen name="contributions" options={{ ...header, title: 'Your hidden places' }} />
         <Stack.Screen name="contribute" options={{ ...header, title: 'Share a place' }} />
+        <Stack.Screen name="assistant" options={{ ...header, title: 'Ask a local question' }} />
       </Stack>
     </>
   );
@@ -69,7 +71,9 @@ export default function RootLayout() {
       <ThemeProvider>
         <PlaceCatalogProvider>
           <AppProvider>
-            <AppNavigation />
+            <MapPreferences>
+              <AppNavigation />
+            </MapPreferences>
           </AppProvider>
         </PlaceCatalogProvider>
       </ThemeProvider>

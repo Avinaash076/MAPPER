@@ -8,6 +8,8 @@ The mobile navigation is a three-tab bottom bar. Place details use the native st
 
 ## Supplied references
 
+The current selection is [Discovery Lens](discovery-lens.md). Its blue palette and finer woven welcome illustration supersede the earlier green/cream application selection. `assets/artwork/woven-field-guide.png` is an original AI-generated decorative landscape created for this exploration, also retained in `design-exploration/assets/`; it is not a photograph of a verified destination. The original artwork remains for design history.
+
 - [Elaya Design AI Design Skills](https://github.com/elayadesign/ai-design-skills), specifically its landing-page design guidance. Typography, consistent spacing, meaningful motion and complete states informed the native design. Marketing-page section requirements do not apply to this mobile discovery flow.
 - [Arc UI](https://uiarc.dev/) and [useLayouts](https://uselayouts.com/) informed the visual direction. Their web components are not copied into the native app or installed as native dependencies.
 - [OnePromptDesign](https://onepromptdesign.com/) is a visual reference. Destination imagery in this milestone is actual location photography, not generated imagery.

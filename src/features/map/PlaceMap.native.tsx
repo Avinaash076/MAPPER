@@ -1,17 +1,16 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { Camera, GeoJSONSource, Layer, Map, type CameraRef } from '@maplibre/maplibre-react-native';
-import { useTheme } from '../../theme/ThemeProvider';
-import { getMapStyle, placesToGeoJson } from './model';
+import { getMapStyle, placesToGeoJson, mapMarkerColors } from './model';
 import type { PlaceMapProps } from './types';
 export function PlaceMap({
   places,
   center,
   selectedId,
   scheme,
+  appearance,
   onSelect,
   onStatusChange,
 }: PlaceMapProps) {
-  const { colors } = useTheme();
   const camera = useRef<CameraRef>(null);
   const data = useMemo(() => placesToGeoJson(places), [places]);
   useEffect(() => {
@@ -20,7 +19,7 @@ export function PlaceMap({
   return (
     <Map
       style={{ flex: 1 }}
-      mapStyle={getMapStyle(scheme)}
+      mapStyle={getMapStyle(appearance ?? scheme)}
       onDidFinishLoadingMap={() => onStatusChange('ready')}
       onDidFailLoadingMap={() => onStatusChange('error')}
     >
@@ -41,8 +40,8 @@ export function PlaceMap({
           type="circle"
           paint={{
             'circle-radius': ['case', ['==', ['get', 'id'], selectedId ?? ''], 12, 9],
-            'circle-color': colors.primary,
-            'circle-stroke-color': colors.surface,
+            'circle-color': mapMarkerColors.fill,
+            'circle-stroke-color': mapMarkerColors.outline,
             'circle-stroke-width': 3,
           }}
         />
