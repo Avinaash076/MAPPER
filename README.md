@@ -4,6 +4,8 @@ A React Native tourism app for Hubballi, Dharwad and Belagavi, using the Discove
 
 **Start here:** [PC, Android APK, live reload and phone IP instructions](docs/running.md) · [UI implementation and database next steps](docs/discovery-lens.md).
 
+Latest changes: [Discovery Lens usability polish](docs/ui-polish-review.md) — responsive discovery, contribution review, conversational AI preview and simpler planning.
+
 The independent design comparison gallery is in `design-exploration/`. Run `npm.cmd run build` and `npm.cmd run start` from that directory, then open `http://localhost:4313`. It retains the other visual directions separately from the selected native app.
 
 ## Website preview
@@ -32,7 +34,7 @@ Install the resulting APK on the phone. For hot reload, use the development prof
 
 ## Hidden places
 
-Tap **Share a place** / the plus action to save a location, photos and a description privately. Finish a draft later. Publication is only after review.
+Tap **Know a place we’ve missed?** on Discover to save a location, photos and a description privately. Finish a draft later, then review it before sending. Publication is only after administrator review.
 
 Private drafts work without backend setup. Community uploads need the optional Supabase configuration in [the contribution guide](docs/hidden-places.md); no hosted project has been provisioned.
 

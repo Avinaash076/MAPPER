@@ -18,13 +18,21 @@ import { distanceKm, estimateTravelMinutes, formatMinutes } from '../features/pl
 import { useApp } from '../features/state/AppProvider';
 import { IconButton, Label, layout } from './ui';
 
-export function PlacePhoto({ place, large = false }: { place: Place; large?: boolean }) {
+export function PlacePhoto({
+  place,
+  large = false,
+  thumbnail = false,
+}: {
+  place: Place;
+  large?: boolean;
+  thumbnail?: boolean;
+}) {
   const { colors } = useTheme();
   const styles = useThemedStyles(createStyles);
   const [failed, setFailed] = useState(false);
   const source = photoAssets[place.id] ?? (place.photo ? { uri: place.photo.uri } : undefined);
   return (
-    <View style={[styles.photo, large && { aspectRatio: 1.25 }]}>
+    <View style={[styles.photo, large && { aspectRatio: 1.5 }]}>
       {source && !failed ? (
         <Image
           source={source}
@@ -34,11 +42,16 @@ export function PlacePhoto({ place, large = false }: { place: Place; large?: boo
           onError={() => setFailed(true)}
         />
       ) : (
-        <View style={styles.placeholder}>
-          <MountainsIcon size={40} color={colors.primary} weight="duotone" />
-          <Label size="small" tone="primary">
-            {failed ? 'Photo unavailable' : 'Destination photo coming soon'}
-          </Label>
+        <View
+          style={[styles.placeholder, thumbnail && { padding: space.xs }]}
+          accessibilityLabel="Destination photo unavailable"
+        >
+          <MountainsIcon size={thumbnail ? 24 : 40} color={colors.primary} weight="duotone" />
+          {!thumbnail && (
+            <Label size="small" tone="primary">
+              {failed ? 'Photo unavailable' : 'Destination photo coming soon'}
+            </Label>
+          )}
         </View>
       )}
     </View>

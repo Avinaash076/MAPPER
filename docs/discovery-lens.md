@@ -2,17 +2,19 @@
 
 The selected design is now implemented in the React Native application, with separate design studies under `design-exploration/`. The studies retain the four earlier directions and three layout families; their prototype interactions do not share the native app's local storage. Use the native app for real bookmarks, plans and private drafts.
 
+See the [latest usability polish review](ui-polish-review.md) for the follow-up refinements and code organisation.
+
 ## What changed
 
 - A consistent slate-blue light/dark palette, clear input boundaries and the original M trail mark.
 - Welcome: a finer locally bundled landscape illustration with a separate reading/action area; a two-column composition on wide screens.
-- Setup: map appearance, town, interests and transport in four small steps. Hardware Back returns through steps on Android. Skipping transport continues to suppress travel estimates.
+- Setup: town, interests and transport in three small steps, with optional map appearance. Selections save immediately. Hardware Back returns through steps on Android. Skipping transport continues to suppress travel estimates.
 - Discover: labelled search and filters before the map, one selected-place summary, then the prominent contribution action. Interests and planning guidance are expandable. The assistant opens separately.
 - Map appearance: exactly Liberty and Dark, independent of device/app theme and stored in its own AsyncStorage key. Side-by-side geographic previews use the same centre and zoom. Existing theme/trip storage keys remain unchanged.
 - Details: primary add/save actions remain visible; access, seasonal information and sources use disclosures.
-- Contribution: Location / Photos / Story steps retain the existing draft editor and saving rules. Account/review controls are disclosed at the review step. Publication policies have not changed.
-- Saved and My plan retain their working bookmark, ordering, removal and persistence behaviours, using the selected shared theme.
-- AI interface: separate route with contextual place/area, three example prompts, a question composer, answer cards, source disclosure and links back to place details. Arbitrary questions receive an honest demo response. No provider request, credentials or generated destination claims are introduced.
+- Contribution: Location / Photos / Story / Review steps retain the existing draft editor and saving rules. The review step exposes the summary, missing requirements and submission action. Publication policies have not changed.
+- Saved and My plan retain their working bookmark, ordering and persistence behaviours. My plan adds focused day settings and undo for the last removed stop.
+- AI interface: separate route with contextual place/area, session conversation history, three example prompts, an anchored question composer, answer cards, source disclosure and links back to place details. Arbitrary questions receive an honest demo response. No provider request, credentials or generated destination claims are introduced.
 
 ## Research applied
 

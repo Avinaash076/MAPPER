@@ -1,14 +1,18 @@
-import { useState } from 'react';
-import { Linking, View } from 'react-native';
+import { useRef, useState } from 'react';
+import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
-import { SparkleIcon } from 'phosphor-react-native';
-import { Button, Field, Label, layout, Notice, Panel, Screen } from '../../components/ui';
-import { Disclosure } from '../../components/ui/Disclosure';
+import { ArrowLeftIcon } from 'phosphor-react-native';
+import { Button, IconButton, Label, layout } from '../../components/ui';
+import { AppearancePicker } from '../../components/AppearancePicker';
 import { useApp } from '../state/AppProvider';
 import { usePlaceCatalog } from '../places/PlaceCatalogProvider';
 import { areas } from '../places/types';
 import { useTheme } from '../../theme/ThemeProvider';
-import { assistantQuestions, getExampleAnswer, type AssistantAnswer } from './model';
+import { space } from '../../theme/tokens';
+import { assistantQuestions, getExampleAnswer } from './model';
+import { AssistantMessage, type ConversationTurn } from './AssistantMessage';
+import { QuestionComposer } from './QuestionComposer';
 
 export function AssistantScreen() {
   const { colors } = useTheme();
@@ -17,91 +21,105 @@ export function AssistantScreen() {
   const { placeId } = useLocalSearchParams<{ placeId?: string }>();
   const place = places.find((item) => item.id === placeId);
   const area = areas.find((item) => item.id === state.filters.area)!.name;
+  const scroll = useRef<ScrollView>(null);
+  const nextId = useRef(0);
+  const shouldScroll = useRef(false);
   const [question, setQuestion] = useState('');
-  const [exchange, setExchange] = useState<{ question: string; answer: AssistantAnswer } | null>(
-    null,
-  );
-  const [linkError, setLinkError] = useState(false);
+  const [turns, setTurns] = useState<ConversationTurn[]>([]);
   function ask(text: string) {
-    if (!text.trim()) return;
-    setExchange({ question: text.trim(), answer: getExampleAnswer(text.trim(), { area, place }) });
+    const clean = text.trim();
+    if (!clean) return;
+    const turn = {
+      id: nextId.current++,
+      question: clean,
+      answer: getExampleAnswer(clean, { area, place }),
+    };
+    setTurns((previous) => [...previous, turn]);
     setQuestion('');
+    shouldScroll.current = true;
   }
   return (
-    <Screen>
-      <View style={layout.row}>
-        <SparkleIcon size={28} color={colors.primary} />
-        <Label size="eyebrow" tone="primary">
-          LOCAL HELP / AI PREVIEW
-        </Label>
-      </View>
-      <Label size="title" accessibilityRole="header">
-        A little guidance.{'\n'}Your kind of day.
-      </Label>
-      <Label tone="textMuted">
-        About {place?.name ?? area}. Try a question before making your plan.
-      </Label>
-      <Label size="small" tone="accent">
-        Interactive demo · example answers
-      </Label>
-      {!exchange && (
-        <Panel style={layout.section}>
-          {assistantQuestions.map((text) => (
-            <Button key={text} label={text} secondary onPress={() => ask(text)} />
-          ))}
-        </Panel>
-      )}
-      {exchange && (
-        <View style={layout.section}>
-          <Panel>
-            <Label tone="primary">You asked</Label>
-            <Label>{exchange.question}</Label>
-          </Panel>
-          <Panel style={layout.section}>
-            <Label size="small" tone="accent">
-              EXAMPLE RESPONSE
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <View style={{ flex: 1, width: '100%', maxWidth: 760, alignSelf: 'center' }}>
+          <View
+            style={{
+              padding: space.lg,
+              gap: space.xs,
+              borderBottomWidth: 1,
+              borderColor: colors.border,
+            }}
+          >
+            <View style={layout.between}>
+              <IconButton
+                label="Back to exploring"
+                onPress={() => (router.canGoBack() ? router.back() : router.replace('/discover'))}
+              >
+                <ArrowLeftIcon size={24} color={colors.primary} />
+              </IconButton>
+              <AppearancePicker />
+            </View>
+            <Label size="heading" accessibilityRole="header">
+              Ask about {place?.name ?? area}
             </Label>
-            <Label size="heading">{exchange.answer.title}</Label>
-            <Label>{exchange.answer.body}</Label>
-            {exchange.answer.sources.length > 0 && (
-              <Disclosure title="Background sources">
-                {exchange.answer.sources.map((source) => (
-                  <Button
-                    key={source.url}
-                    label={source.title}
-                    secondary
-                    onPress={() => {
-                      void Linking.openURL(source.url).catch(() => setLinkError(true));
-                    }}
-                  />
-                ))}
-              </Disclosure>
+            <Label size="small" tone="textMuted">
+              AI preview · example answers, not live advice
+            </Label>
+          </View>
+          <ScrollView
+            ref={scroll}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="on-drag"
+            contentContainerStyle={{ padding: space.lg, gap: space.xxl }}
+            onContentSizeChange={() => {
+              if (shouldScroll.current) {
+                scroll.current?.scrollToEnd({ animated: false });
+                shouldScroll.current = false;
+              }
+            }}
+          >
+            {turns.length === 0 && (
+              <View style={layout.section}>
+                <Label size="title">What would help you explore?</Label>
+                <Label tone="textMuted">
+                  Start with a question. Keep the place and your next step in view.
+                </Label>
+              </View>
             )}
-            {exchange.answer.placeId && (
-              <Button
-                label="Open place details"
-                onPress={() =>
-                  router.push({ pathname: '/place/[id]', params: { id: exchange.answer.placeId! } })
-                }
-              />
+            {turns.map((turn) => (
+              <AssistantMessage key={turn.id} turn={turn} />
+            ))}
+            <View style={layout.section}>
+              <Label size="small" tone="textMuted">
+                {turns.length ? 'Try another example' : 'A few starting points'}
+              </Label>
+              {assistantQuestions.map((text) => (
+                <Button key={text} label={text} secondary onPress={() => ask(text)} />
+              ))}
+            </View>
+            {turns.length > 0 && (
+              <Button label="Clear conversation" secondary onPress={() => setTurns([])} />
             )}
-          </Panel>
-          <Button label="Try another example" secondary onPress={() => setExchange(null)} />
+          </ScrollView>
+          <View
+            style={{
+              padding: space.lg,
+              borderTopWidth: 1,
+              borderColor: colors.border,
+              backgroundColor: colors.surface,
+            }}
+          >
+            <QuestionComposer
+              value={question}
+              onChange={setQuestion}
+              onSend={() => ask(question)}
+            />
+          </View>
         </View>
-      )}
-      <Label size="small">Your question</Label>
-      <Field
-        accessibilityLabel="Your question for the local assistant"
-        value={question}
-        onChangeText={setQuestion}
-        placeholder="Ask about this place or your plan"
-        multiline
-        maxLength={600}
-      />
-      <Button label="Send question" disabled={!question.trim()} onPress={() => ask(question)} />
-      {linkError && (
-        <Notice warning>Could not open the source. Check your connection and retry.</Notice>
-      )}
-    </Screen>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }

@@ -14,6 +14,7 @@ interface PlanStopCardProps {
   stopCount: number;
   travelMinutes: number | null;
   townName: string;
+  onRemove: () => void;
 }
 
 export function PlanStopCard({
@@ -22,6 +23,7 @@ export function PlanStopCard({
   stopCount,
   travelMinutes,
   townName,
+  onRemove,
 }: PlanStopCardProps) {
   const { colors } = useTheme();
   const { dispatch } = useApp();
@@ -42,7 +44,7 @@ export function PlanStopCard({
           {place.locality} · {formatMinutes(place.visitMinutes)} visit
         </Label>
         <Button
-          label="View place"
+          label="Place details"
           secondary
           onPress={() => router.push({ pathname: '/place/[id]', params: { id: place.id } })}
         />
@@ -63,10 +65,7 @@ export function PlanStopCard({
             >
               <ArrowDownIcon size={22} color={colors.primary} />
             </IconButton>
-            <IconButton
-              label={`Remove ${place.name} from plan`}
-              onPress={() => dispatch({ type: 'removeStop', id: place.id })}
-            >
+            <IconButton label={`Remove ${place.name} from plan`} onPress={onRemove}>
               <TrashIcon size={22} color={colors.danger} />
             </IconButton>
           </View>

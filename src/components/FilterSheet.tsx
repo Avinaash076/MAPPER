@@ -1,17 +1,31 @@
 import { useState } from 'react';
 import { View } from 'react-native';
 import { useApp } from '../features/state/AppProvider';
-import { distanceOptions, timeOptions, type DiscoveryFilters } from '../features/places/types';
+import {
+  defaultFilters,
+  distanceOptions,
+  timeOptions,
+  type DiscoveryFilters,
+} from '../features/places/types';
+import { usePlaceCatalog } from '../features/places/PlaceCatalogProvider';
+import { filterPlaces } from '../features/places/discovery';
 import { TransportChoices } from '../features/setup/TransportChoices';
 import { InterestChoices } from '../features/setup/InterestChoices';
 import { formatMinutes } from '../features/planning/travel';
 import { Button, Chip, Label, layout, Notice } from './ui';
 import { Sheet } from './ui/Sheet';
-export function FilterSheet({ close }: { visible: boolean; close: () => void }) {
+export function FilterSheet({ close }: { close: () => void }) {
   const { state, dispatch } = useApp();
   const [draft, setDraft] = useState<DiscoveryFilters>(state.filters);
+  const { places } = usePlaceCatalog();
+  const count = filterPlaces(places, draft).length;
   return (
-    <Sheet title="Make it your kind of day" onClose={close}>
+    <Sheet title="Filter nearby places" onClose={close}>
+      <Button
+        label="Reset filters"
+        secondary
+        onPress={() => setDraft({ ...defaultFilters, area: draft.area, query: draft.query })}
+      />
       <View style={layout.section}>
         <Label size="heading">Interests</Label>
         <InterestChoices
@@ -60,7 +74,7 @@ export function FilterSheet({ close }: { visible: boolean; close: () => void }) 
           : 'Browse without travel-time filtering. Choose transport whenever you want estimates.'}
       </Notice>
       <Button
-        label="Show nearby places"
+        label={`Show ${count} ${count === 1 ? 'place' : 'places'}`}
         onPress={() => {
           dispatch({ type: 'filters', filters: draft });
           close();

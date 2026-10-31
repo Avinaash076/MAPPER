@@ -8,6 +8,9 @@ export interface PlaceMapProps {
   selectedId: string | null;
   scheme: ColorScheme;
   appearance?: MapAppearance;
+  preview?: boolean;
+  zoom?: number;
+  locationPin?: Coordinates;
   onSelect: (id: string) => void;
   onStatusChange: (status: MapStatus) => void;
 }

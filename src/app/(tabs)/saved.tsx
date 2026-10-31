@@ -35,6 +35,7 @@ export default function SavedScreen() {
       {!saved.length ? (
         <EmptyState
           title="Keep a little inspiration"
+          icon={<BookmarkSimpleIcon size={32} color={colors.primary} />}
           message="Tap the bookmark on any place to keep it here for later."
           action="Discover places"
           onAction={() => router.navigate('/discover')}
