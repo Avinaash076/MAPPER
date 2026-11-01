@@ -64,7 +64,7 @@ export default function SetupScreen() {
       </View>
       {step === 0 && (
         <View style={layout.section}>
-          <Label>Starting town</Label>
+          <Label>Destination</Label>
           {areas.map((area) => (
             <Chip
               key={area.id}
