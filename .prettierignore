@@ -1,6 +1,7 @@
 node_modules
 .tools
 .npm-cache
+.metro-cache
 .expo
 .expo-user
 dist

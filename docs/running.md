@@ -23,6 +23,8 @@ Open the URL printed by Expo, normally `http://localhost:8081`. The welcome offe
 
 If Metro still shows an error from an older running bundle, stop it with Ctrl+C and run `npm.cmd run web -- --clear`.
 
+For `EMFILE`, unreadable Metro cache snapshots or an unexpected port prompt, follow [Windows Metro recovery](metro-troubleshooting.md). Keep one app development server running at a time.
+
 ## PC: separate design gallery
 
 After installing the root dependencies:

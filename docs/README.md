@@ -6,6 +6,8 @@ For the selected blue UI, start with [PC and Android run instructions](running.m
 
 Latest implementation: [Destination discovery redesign and API audit](destination-discovery-review.md). Previous milestone: [Discovery Lens usability polish](ui-polish-review.md).
 
+Development troubleshooting: [Windows Metro open-file and cache recovery](metro-troubleshooting.md).
+
 | Document                                            | What it explains                                                           |
 | --------------------------------------------------- | -------------------------------------------------------------------------- |
 | [System walkthrough](architecture.md)               | Screens, data flow, functions, state, storage and where to change behavior |
