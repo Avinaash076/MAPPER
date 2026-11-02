@@ -16,12 +16,14 @@ import { AppearancePicker } from '../components/AppearancePicker';
 import { fonts } from '../theme/tokens';
 import { PlaceCatalogProvider } from '../features/places/PlaceCatalogProvider';
 import { MapPreferences } from '../features/map/MapPreferences';
+import { JourneyProvider, useJourney } from '../features/journey/JourneyProvider';
 export { ErrorBoundary } from 'expo-router';
 function AppNavigation() {
   const { colors, scheme, ready: themeReady } = useTheme();
   const { ready } = useApp();
+  const { ready: journeyReady } = useJourney();
   const reducedMotion = useReducedMotion();
-  if (!ready || !themeReady)
+  if (!ready || !themeReady || !journeyReady)
     return (
       <Screen>
         <Label size="eyebrow">NORTHERN TRAILS</Label>
@@ -49,6 +51,12 @@ function AppNavigation() {
       >
         <Stack.Screen name="index" />
         <Stack.Screen name="setup" options={{ ...header, title: 'Your kind of day' }} />
+        <Stack.Screen name="destination" options={{ ...header, title: 'Choose destination' }} />
+        <Stack.Screen name="surprise" options={{ ...header, title: 'Discover nearby' }} />
+        <Stack.Screen name="starting-point" options={{ ...header, title: 'Starting point' }} />
+        <Stack.Screen name="trip-experience" options={{ ...header, title: 'Travel experience' }} />
+        <Stack.Screen name="trip-options" options={{ ...header, title: 'Trip settings' }} />
+        <Stack.Screen name="trip-map" options={{ ...header, title: 'Your trip' }} />
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="place/[id]" options={{ ...header, title: 'A closer look' }} />
         <Stack.Screen name="contributions" options={{ ...header, title: 'Community' }} />
@@ -71,9 +79,11 @@ export default function RootLayout() {
       <ThemeProvider>
         <PlaceCatalogProvider>
           <AppProvider>
-            <MapPreferences>
-              <AppNavigation />
-            </MapPreferences>
+            <JourneyProvider>
+              <MapPreferences>
+                <AppNavigation />
+              </MapPreferences>
+            </JourneyProvider>
           </AppProvider>
         </PlaceCatalogProvider>
       </ThemeProvider>

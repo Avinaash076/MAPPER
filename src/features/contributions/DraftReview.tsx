@@ -27,14 +27,14 @@ export function DraftReview({
             : 'A reviewer chooses the public location. Capturing a pin does not publish it.'}
         </Label>
       </Panel>
-      {onEdit && (
+      {onEdit ? (
         <View style={layout.wrap}>
           <Button label="Edit location" secondary onPress={() => onEdit(0)} />
           <Button label="Edit photos" secondary onPress={() => onEdit(1)} />
           <Button label="Edit story" secondary onPress={() => onEdit(2)} />
         </View>
-      )}
-      {onEdit && problems.length > 0 && (
+      ) : null}
+      {onEdit && problems.length > 0 ? (
         <Panel style={layout.section}>
           <Label size="heading">Before you send</Label>
           {problems.map((problem) => (
@@ -46,7 +46,7 @@ export function DraftReview({
             Your draft is saved privately while you finish these details.
           </Label>
         </Panel>
-      )}
+      ) : null}
     </View>
   );
 }

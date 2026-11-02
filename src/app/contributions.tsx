@@ -71,7 +71,7 @@ export default function ContributionsScreen() {
         Capture a location in the field. Add photos and a story now or later.
       </Label>
       {error ? <Notice warning>{error}</Notice> : null}
-      {error && (
+      {error ? (
         <Button
           label="Retry loading drafts"
           secondary
@@ -79,8 +79,8 @@ export default function ContributionsScreen() {
             void load();
           }}
         />
-      )}
-      {drafts.length > 0 && (
+      ) : null}
+      {drafts.length > 0 ? (
         <Button
           label={busy ? 'Please wait…' : 'Add a hidden place'}
           disabled={busy}
@@ -88,8 +88,8 @@ export default function ContributionsScreen() {
             void createDraft();
           }}
         />
-      )}
-      {!drafts.length && !error && (
+      ) : null}
+      {!drafts.length && !error ? (
         <EmptyState
           title="Know somewhere special?"
           message="Start a private draft. Incomplete drafts can be saved without a connection."
@@ -98,7 +98,7 @@ export default function ContributionsScreen() {
             void createDraft();
           }}
         />
-      )}
+      ) : null}
       {drafts.map((draft) => (
         <Panel key={draft.id} style={layout.section}>
           <Label size="heading">{draft.name || 'Untitled hidden place'}</Label>
@@ -112,20 +112,20 @@ export default function ContributionsScreen() {
                   : 'Needs changes'}{' '}
             · {draft.photos.length} photos · {draft.location ? 'location saved' : 'no location yet'}
           </Label>
-          {draft.reviewNote && <Label>{draft.reviewNote}</Label>}
-          {(draft.status === 'draft' || draft.status === 'rejected') && (
+          {draft.reviewNote ? <Label>{draft.reviewNote}</Label> : null}
+          {draft.status === 'draft' || draft.status === 'rejected' ? (
             <Label size="small" tone="textMuted">
               {submissionProblems(draft)[0] ?? 'Ready for your final review.'}
             </Label>
-          )}
-          {draft.status === 'pending' && (
+          ) : null}
+          {draft.status === 'pending' ? (
             <Label size="small">Sent privately. Waiting for an administrator’s review.</Label>
-          )}
-          {draft.status === 'approved' && (
+          ) : null}
+          {draft.status === 'approved' ? (
             <Label size="small">
               Reviewed for publication. Current access still needs checking.
             </Label>
-          )}
+          ) : null}
           <Button
             label={
               draft.status === 'draft' || draft.status === 'rejected'

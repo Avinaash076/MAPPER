@@ -18,8 +18,8 @@ export function StorageBanner() {
           : 'Changes could not be saved on this device. Keep the app open and retry.'}
       </Notice>
       <Button label="Retry storage" secondary onPress={retryStorage} />
-      {storageStatus === 'blocked' &&
-        (confirmReset ? (
+      {storageStatus === 'blocked' ? (
+        confirmReset ? (
           <>
             <Label size="small">
               Reset removes this device’s saved places, preferences and day plan.
@@ -35,7 +35,8 @@ export function StorageBanner() {
           </>
         ) : (
           <Button label="Reset local data…" secondary onPress={() => setConfirmReset(true)} />
-        ))}
+        )
+      ) : null}
     </Panel>
   );
 }

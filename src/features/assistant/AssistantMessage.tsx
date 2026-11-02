@@ -39,7 +39,7 @@ export function AssistantMessage({ turn }: { turn: ConversationTurn }) {
         </Label>
         <Label size="heading">{turn.answer.title}</Label>
         <Label>{turn.answer.body}</Label>
-        {turn.answer.sources.length > 0 && (
+        {turn.answer.sources.length > 0 ? (
           <Disclosure title={`Background sources (${turn.answer.sources.length})`}>
             {turn.answer.sources.map((source) => (
               <Button
@@ -51,12 +51,12 @@ export function AssistantMessage({ turn }: { turn: ConversationTurn }) {
                 }}
               />
             ))}
-            {linkError && (
+            {linkError ? (
               <Notice warning>Could not open the source. Tap it again to retry.</Notice>
-            )}
+            ) : null}
           </Disclosure>
-        )}
-        {turn.answer.placeId && (
+        ) : null}
+        {turn.answer.placeId ? (
           <Button
             label="View this place"
             secondary
@@ -64,7 +64,7 @@ export function AssistantMessage({ turn }: { turn: ConversationTurn }) {
               router.push({ pathname: '/place/[id]', params: { id: turn.answer.placeId! } })
             }
           />
-        )}
+        ) : null}
       </View>
     </View>
   );

@@ -46,7 +46,7 @@ export default function PlanScreen() {
         My day plan
       </Label>
       <Label tone="textMuted">Start and finish at {area.name} town centre.</Label>
-      {stops.length > 0 && (
+      {stops.length > 0 ? (
         <Button
           label={
             state.filters.transport
@@ -56,8 +56,8 @@ export default function PlanScreen() {
           secondary
           onPress={() => setShowFilters(true)}
         />
-      )}
-      {removed && (
+      ) : null}
+      {removed ? (
         <Panel style={layout.section}>
           <Label accessibilityLiveRegion="polite">Removed {removed.name}</Label>
           <Button
@@ -69,7 +69,7 @@ export default function PlanScreen() {
             }}
           />
         </Panel>
-      )}
+      ) : null}
       {!stops.length ? (
         <EmptyState
           title="Where shall we begin?"
@@ -106,11 +106,11 @@ export default function PlanScreen() {
               }}
             />
           ))}
-          {summary && (
+          {summary ? (
             <Label size="small" tone="textMuted">
               ↓ ~{formatMinutes(summary.legs[stops.length])} back to {area.name} town centre
             </Label>
-          )}
+          ) : null}
           <Button
             label="Find another stop"
             secondary
@@ -129,7 +129,7 @@ export default function PlanScreen() {
             ? 'Saving on this device…'
             : 'Changes are not saved yet'}
       </Label>
-      {showFilters && <PlanSettings close={() => setShowFilters(false)} />}
+      {showFilters ? <PlanSettings close={() => setShowFilters(false)} /> : null}
     </Screen>
   );
 }

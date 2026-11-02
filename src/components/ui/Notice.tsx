@@ -17,7 +17,7 @@ export function Notice({
       accessibilityLiveRegion="polite"
       style={[styles.notice, warning && { backgroundColor: colors.dangerSoft }]}
     >
-      {warning && <WarningCircleIcon size={20} color={colors.danger} />}
+      {warning ? <WarningCircleIcon size={20} color={colors.danger} /> : null}
       <View style={{ flex: 1 }}>
         <Label size="small" tone={warning ? 'danger' : 'textMuted'}>
           {children}

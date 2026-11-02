@@ -4,7 +4,11 @@ Read these in order when joining the project.
 
 For the selected blue UI, start with [PC and Android run instructions](running.md), [Discovery Lens implementation and database roadmap](discovery-lens.md), and the [validation record](ui-validation.md).
 
-Latest implementation: [Discovery Lens usability polish](ui-polish-review.md).
+Latest implementation: [Destination discovery redesign and API audit](destination-discovery-review.md). Previous milestone: [Discovery Lens usability polish](ui-polish-review.md).
+
+Development troubleshooting: [Windows Metro open-file and cache recovery](metro-troubleshooting.md).
+
+UI/map troubleshooting: [Empty text nodes, map loading and API keys](rendering-and-map-recovery.md).
 
 | Document                                            | What it explains                                                           |
 | --------------------------------------------------- | -------------------------------------------------------------------------- |

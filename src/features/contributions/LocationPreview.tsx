@@ -35,7 +35,7 @@ export function LocationPreview({ location }: { location: Coordinates }) {
         Private pin preview · map needs a connection. Pan or zoom to check the surroundings; this
         does not move your pin.
       </Label>
-      {status === 'error' && (
+      {status === 'error' ? (
         <Button
           label="Retry location map"
           secondary
@@ -44,7 +44,7 @@ export function LocationPreview({ location }: { location: Coordinates }) {
             setAttempt((value) => value + 1);
           }}
         />
-      )}
+      ) : null}
     </View>
   );
 }

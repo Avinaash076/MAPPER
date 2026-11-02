@@ -16,7 +16,7 @@ export function MapStyleChoices({ center }: { center: Coordinates }) {
   const { appearance, choose, error } = useMapAppearance();
   const [status, setStatus] = useState<Record<string, MapStatus>>({});
   const { width, fontScale } = useWindowDimensions();
-  const stacked = width < 420 || fontScale > 1.2;
+  const stacked = width < 360 || fontScale > 1.4;
   return (
     <View style={layout.section}>
       <Label tone="textMuted">Choose your map. Your app appearance stays independent.</Label>
@@ -65,17 +65,17 @@ export function MapStyleChoices({ center }: { center: Coordinates }) {
               }}
             >
               <Label style={{ flex: 1 }}>{value === 'liberty' ? 'Liberty' : 'Dark'}</Label>
-              {appearance === value && <CheckIcon size={20} color={colors.primary} />}
+              {appearance === value ? <CheckIcon size={20} color={colors.primary} /> : null}
             </Pressable>
-            {status[value] === 'error' && (
+            {status[value] === 'error' ? (
               <Label size="small">Preview unavailable · choice still works</Label>
-            )}
+            ) : null}
           </View>
         ))}
       </View>
-      {error && (
+      {error ? (
         <Notice warning>Map appearance could not be saved. Choose it again to retry.</Notice>
-      )}
+      ) : null}
     </View>
   );
 }
@@ -84,12 +84,12 @@ export function MapLayers({ center }: { center: Coordinates }) {
   return (
     <>
       <Button label="Map layers" secondary onPress={() => setOpen(true)} />
-      {open && (
+      {open ? (
         <Sheet title="Choose your map" onClose={() => setOpen(false)}>
           <MapStyleChoices center={center} />
           <Button label="Use this map" onPress={() => setOpen(false)} />
         </Sheet>
-      )}
+      ) : null}
     </>
   );
 }

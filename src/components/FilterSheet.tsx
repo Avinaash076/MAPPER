@@ -9,6 +9,7 @@ import {
 } from '../features/places/types';
 import { usePlaceCatalog } from '../features/places/PlaceCatalogProvider';
 import { filterPlaces } from '../features/places/discovery';
+import { useDiscoveryOrigin } from '../features/places/useDiscoveryOrigin';
 import { TransportChoices } from '../features/setup/TransportChoices';
 import { InterestChoices } from '../features/setup/InterestChoices';
 import { formatMinutes } from '../features/planning/travel';
@@ -18,7 +19,8 @@ export function FilterSheet({ close }: { close: () => void }) {
   const { state, dispatch } = useApp();
   const [draft, setDraft] = useState<DiscoveryFilters>(state.filters);
   const { places } = usePlaceCatalog();
-  const count = filterPlaces(places, draft).length;
+  const origin = useDiscoveryOrigin();
+  const count = filterPlaces(places, draft, origin.coordinates).length;
   return (
     <Sheet title="Filter nearby places" onClose={close}>
       <Button
@@ -41,7 +43,7 @@ export function FilterSheet({ close }: { close: () => void }) {
         />
       </View>
       <View style={layout.section}>
-        <Label size="heading">Distance from town centre</Label>
+        <Label size="heading">Distance from {origin.name}</Label>
         <View style={layout.wrap}>
           {distanceOptions.map((radiusKm) => (
             <Chip
@@ -53,7 +55,7 @@ export function FilterSheet({ close }: { close: () => void }) {
           ))}
         </View>
       </View>
-      {draft.transport !== null && (
+      {draft.transport !== null ? (
         <View style={layout.section}>
           <Label size="heading">Time for the whole outing</Label>
           <View style={layout.wrap}>
@@ -67,10 +69,10 @@ export function FilterSheet({ close }: { close: () => void }) {
             ))}
           </View>
         </View>
-      )}
+      ) : null}
       <Notice>
         {draft.transport
-          ? 'Sample travel estimates include a return to town. They do not check roads or current access.'
+          ? 'Sample travel estimates include a return to the selected starting point. They do not check roads or current access.'
           : 'Browse without travel-time filtering. Choose transport whenever you want estimates.'}
       </Notice>
       <Button

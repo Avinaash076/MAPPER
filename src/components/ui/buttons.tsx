@@ -113,7 +113,7 @@ export function Chip({
       ]}
     >
       {icon}
-      {selected && <CheckIcon size={16} color={colors.onPrimary} />}
+      {selected ? <CheckIcon size={16} color={colors.onPrimary} /> : null}
       <Label
         size="small"
         style={{ color: selected ? colors.onPrimary : colors.text, fontFamily: fonts.semibold }}

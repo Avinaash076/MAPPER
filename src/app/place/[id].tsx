@@ -60,11 +60,11 @@ export default function PlaceScreen() {
       <View style={{ borderRadius: radii.large, overflow: 'hidden' }}>
         <PlacePhoto place={place} large />
       </View>
-      {place.photo && (
+      {place.photo ? (
         <Label size="small" tone="textMuted">
           Photo: {place.photo.author} · {place.photo.license}
         </Label>
-      )}
+      ) : null}
       <View style={layout.wrap}>
         {place.categories.map((c) => (
           <Label key={c} size="small" tone="primary">
@@ -85,9 +85,9 @@ export default function PlaceScreen() {
           )
         }
       />
-      {added && (
+      {added ? (
         <Button label="View my day plan" secondary onPress={() => router.navigate('/plan')} />
-      )}
+      ) : null}
       <Button
         label={saved ? 'Saved · tap to remove' : 'Save for another day'}
         secondary
@@ -143,7 +143,7 @@ export default function PlaceScreen() {
             }}
           />
         ))}
-        {place.photo && (
+        {place.photo ? (
           <Button
             label="Photo source and attribution"
             secondary
@@ -151,8 +151,8 @@ export default function PlaceScreen() {
               void openSource(place.photo!.sourceUrl);
             }}
           />
-        )}
-        {place.photo?.licenseUrl && (
+        ) : null}
+        {place.photo?.licenseUrl ? (
           <Button
             label="Photo reuse license"
             secondary
@@ -160,10 +160,10 @@ export default function PlaceScreen() {
               void openSource(place.photo!.licenseUrl!);
             }}
           />
-        )}
-        {linkError && (
+        ) : null}
+        {linkError ? (
           <Notice warning>Could not open this link. Check your connection and try again.</Notice>
-        )}
+        ) : null}
       </Disclosure>
     </Screen>
   );

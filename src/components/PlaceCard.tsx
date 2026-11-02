@@ -12,10 +12,11 @@ import {
   MountainsIcon,
 } from 'phosphor-react-native';
 import { radii, space } from '../theme/tokens';
-import { type Place, areas } from '../features/places/types';
+import { type Place } from '../features/places/types';
 import { photoAssets } from '../features/places/photoAssets';
 import { distanceKm, estimateTravelMinutes, formatMinutes } from '../features/planning/travel';
 import { useApp } from '../features/state/AppProvider';
+import { useDiscoveryOrigin } from '../features/places/useDiscoveryOrigin';
 import { IconButton, Label, layout } from './ui';
 
 export function PlacePhoto({
@@ -47,11 +48,11 @@ export function PlacePhoto({
           accessibilityLabel="Destination photo unavailable"
         >
           <MountainsIcon size={thumbnail ? 24 : 40} color={colors.primary} weight="duotone" />
-          {!thumbnail && (
+          {!thumbnail ? (
             <Label size="small" tone="primary">
               {failed ? 'Photo unavailable' : 'Destination photo coming soon'}
             </Label>
-          )}
+          ) : null}
         </View>
       )}
     </View>
@@ -62,7 +63,7 @@ export function PlaceCard({ place }: { place: Place }) {
   const styles = useThemedStyles(createStyles);
   const { state, dispatch } = useApp();
   const saved = state.savedIds.includes(place.id);
-  const origin = areas.find((a) => a.id === state.filters.area)!.coordinates;
+  const origin = useDiscoveryOrigin().coordinates;
   const distance = distanceKm(origin, place.coordinates);
   const travel =
     state.filters.transport === null
@@ -92,11 +93,11 @@ export function PlaceCard({ place }: { place: Place }) {
             <Label size="small" tone="textMuted">
               {distance.toFixed(1)} km straight line
             </Label>
-            {travel !== null && (
+            {travel !== null ? (
               <Label size="small" tone="textMuted">
                 · ~{formatMinutes(travel)} away
               </Label>
-            )}
+            ) : null}
           </View>
         </View>
       </Pressable>

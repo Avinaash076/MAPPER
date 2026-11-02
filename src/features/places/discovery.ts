@@ -1,7 +1,10 @@
-import { areas, type DiscoveryFilters, type Place } from './types';
+import { areas, type Coordinates, type DiscoveryFilters, type Place } from './types';
 import { distanceKm, estimateTravelMinutes } from '../planning/travel';
-export function filterPlaces(places: Place[], filters: DiscoveryFilters): Place[] {
-  const origin = areas.find((a) => a.id === filters.area)!.coordinates;
+export function filterPlaces(
+  places: Place[],
+  filters: DiscoveryFilters,
+  origin: Coordinates = areas.find((a) => a.id === filters.area)!.coordinates,
+): Place[] {
   const query = filters.query.trim().toLocaleLowerCase();
   return places
     .filter((place) => {

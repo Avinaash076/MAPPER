@@ -2,12 +2,12 @@ import { useCallback, useState } from 'react';
 import { router, useFocusEffect } from 'expo-router';
 import { BackHandler, View } from 'react-native';
 import { Button, Chip, Label, layout, Screen } from '../components/ui';
-import { Disclosure } from '../components/ui/Disclosure';
 import { useApp } from '../features/state/AppProvider';
 import { areas } from '../features/places/types';
 import { InterestChoices } from '../features/setup/InterestChoices';
 import { TransportChoices } from '../features/setup/TransportChoices';
-import { MapStyleChoices } from '../features/map/MapStyleChoices';
+import { MapLayers } from '../features/map/MapStyleChoices';
+import { useJourney } from '../features/journey/JourneyProvider';
 
 const steps = [
   {
@@ -29,6 +29,7 @@ const steps = [
 
 export default function SetupScreen() {
   const { state, dispatch } = useApp();
+  const journey = useJourney();
   const [step, setStep] = useState(0);
   const filters = state.filters;
   const current = steps[step];
@@ -62,7 +63,7 @@ export default function SetupScreen() {
         </Label>
         <Label tone="textMuted">{current.help}</Label>
       </View>
-      {step === 0 && (
+      {step === 0 ? (
         <View style={layout.section}>
           <Label>Destination</Label>
           {areas.map((area) => (
@@ -70,32 +71,35 @@ export default function SetupScreen() {
               key={area.id}
               label={area.name}
               selected={filters.area === area.id}
-              onPress={() => dispatch({ type: 'filters', filters: { area: area.id } })}
+              onPress={() => {
+                journey.update({ exploreOrigin: null });
+                dispatch({ type: 'filters', filters: { area: area.id } });
+              }}
             />
           ))}
-          <Disclosure title="Map appearance · optional">
-            <MapStyleChoices center={areas.find((area) => area.id === filters.area)!.coordinates} />
-          </Disclosure>
+          <MapLayers center={areas.find((area) => area.id === filters.area)!.coordinates} />
         </View>
-      )}
-      {step === 1 && (
+      ) : null}
+      {step === 1 ? (
         <InterestChoices
           selected={filters.categories}
           onChange={(categories) => dispatch({ type: 'filters', filters: { categories } })}
         />
-      )}
-      {step === 2 && (
+      ) : null}
+      {step === 2 ? (
         <TransportChoices
           selected={filters.transport}
           onChange={(transport) => dispatch({ type: 'filters', filters: { transport } })}
         />
-      )}
+      ) : null}
       <Button
         label={step === 2 ? 'Show nearby places' : 'Continue'}
         onPress={() => (step < 2 ? setStep(step + 1) : finish())}
       />
-      {step > 0 && <Button label="Skip for now" secondary onPress={skip} />}
-      {step > 0 && <Button label="Previous step" secondary onPress={() => setStep(step - 1)} />}
+      {step > 0 ? <Button label="Skip for now" secondary onPress={skip} /> : null}
+      {step > 0 ? (
+        <Button label="Previous step" secondary onPress={() => setStep(step - 1)} />
+      ) : null}
       <Label size="small" tone="textMuted">
         Your choices save on this device as you go.
       </Label>

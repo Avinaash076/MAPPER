@@ -4,7 +4,7 @@ A React Native tourism app for Hubballi, Dharwad and Belagavi, using the Discove
 
 **Start here:** [PC, Android APK, live reload and phone IP instructions](docs/running.md) · [UI implementation and database next steps](docs/discovery-lens.md).
 
-Latest changes: [Discovery Lens usability polish](docs/ui-polish-review.md) — responsive discovery, contribution review, conversational AI preview and simpler planning.
+Latest changes: [Destination discovery redesign and API audit](docs/destination-discovery-review.md) — two entry paths, catalog search, current/manual starting points, trip experience and map previews. [Earlier usability polish](docs/ui-polish-review.md) covers the shared blue UI.
 
 The independent design comparison gallery is in `design-exploration/`. Run `npm.cmd run build` and `npm.cmd run start` from that directory, then open `http://localhost:4313`. It retains the other visual directions separately from the selected native app.
 
@@ -18,7 +18,7 @@ npm.cmd ci
 npm.cmd run web
 ```
 
-Open the URL printed by Expo. Use the sun/moon action to select System, Light or Dark. Choose **Plan my day** or **Explore map**.
+Open the URL printed by Expo. Use the sun/moon action to select System, Light or Dark. Choose **I know where I want to go** or **Surprise me**.
 
 ## Android preview
 

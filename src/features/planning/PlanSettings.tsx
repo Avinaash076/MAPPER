@@ -6,9 +6,11 @@ import { useApp } from '../state/AppProvider';
 import { areas, timeOptions } from '../places/types';
 import { TransportChoices } from '../setup/TransportChoices';
 import { formatMinutes } from './travel';
+import { useJourney } from '../journey/JourneyProvider';
 
 export function PlanSettings({ close }: { close: () => void }) {
   const { state, dispatch } = useApp();
+  const journey = useJourney();
   const [draft, setDraft] = useState(state.filters);
   return (
     <Sheet title="Your day settings" onClose={close}>
@@ -54,6 +56,7 @@ export function PlanSettings({ close }: { close: () => void }) {
       <Button
         label="Save day settings"
         onPress={() => {
+          journey.update({ exploreOrigin: null });
           dispatch({
             type: 'filters',
             filters: {
