@@ -33,13 +33,13 @@ export function TripDetails({ onNavigate }: { onNavigate: () => void }) {
             ? `~${formatMinutes(estimate.totalMinutes)} illustrative trip total`
             : 'Choose transport to see illustrative travel times.'}
         </Label>
-        {estimate.travelMinutes !== null && (
+        {estimate.travelMinutes !== null ? (
           <Label size="small" tone="textMuted">
             ~{formatMinutes(estimate.travelMinutes)} travel · {journey.state.departureTime}{' '}
             departure{journey.state.travelDate ? ` on ${journey.state.travelDate}` : ''} ·
             device-local time
           </Label>
-        )}
+        ) : null}
       </Panel>
       <Label size="small" tone="textMuted">
         Start: {journey.state.start?.name}. Ends at your destination; no return leg is included.
@@ -60,7 +60,7 @@ export function TripDetails({ onNavigate }: { onNavigate: () => void }) {
               ? `${formatMinutes(stop.visitMinutes)} suggested visit`
               : 'Town centre · no visit duration assumed'}
           </Label>
-          {journey.state.stopIds.includes(stop.point.id) && (
+          {journey.state.stopIds.includes(stop.point.id) ? (
             <View style={layout.wrap}>
               <Button
                 label="Remove stop"
@@ -76,7 +76,7 @@ export function TripDetails({ onNavigate }: { onNavigate: () => void }) {
                 }}
               />
             </View>
-          )}
+          ) : null}
         </Panel>
       ))}
       <Button
@@ -87,7 +87,7 @@ export function TripDetails({ onNavigate }: { onNavigate: () => void }) {
           router.push('/trip-options');
         }}
       />
-      {copyIds.length > 0 && (
+      {copyIds.length > 0 ? (
         <Button
           label={copied ? 'Stops are in My plan' : 'Add these stops to My plan'}
           disabled={copied}
@@ -95,7 +95,7 @@ export function TripDetails({ onNavigate }: { onNavigate: () => void }) {
             copyIds.forEach((id) => dispatch({ type: 'addStop', id }));
           }}
         />
-      )}
+      ) : null}
       <Label size="small" tone="textMuted">
         My plan remains a separate town-centre day outing. Copying stops preserves its current order
         and settings.

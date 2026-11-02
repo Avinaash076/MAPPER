@@ -1,4 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { View } from 'react-native';
+import { Notice } from '../../components/ui';
+import { mapFailureMessage } from './errors';
+import { space } from '../../theme/tokens';
 import type { GeoJSONSource, Map as WebMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './map.css';
@@ -8,6 +12,7 @@ export function PlaceMap(props: PlaceMapProps) {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<WebMap | null>(null);
   const latest = useRef(props);
+  const [failure, setFailure] = useState<string | null>(null);
   const styleUrl = getMapStyle(props.appearance ?? props.scheme);
   useEffect(() => {
     latest.current = props;
@@ -15,6 +20,20 @@ export function PlaceMap(props: PlaceMapProps) {
   useEffect(() => {
     let cancelled = false;
     let observer: ResizeObserver | undefined;
+    const timeout = setTimeout(() => {
+      if (!cancelled) {
+        setFailure(
+          'The map is taking longer than expected. Check your connection, retry or use the place list.',
+        );
+        latest.current.onStatusChange('error');
+      }
+    }, 30000);
+    function fail(problem: unknown) {
+      if (cancelled) return;
+      clearTimeout(timeout);
+      setFailure(mapFailureMessage(problem));
+      latest.current.onStatusChange('error');
+    }
     void import('maplibre-gl')
       .then((library) => {
         if (cancelled || !container.current) return;
@@ -68,9 +87,15 @@ export function PlaceMap(props: PlaceMapProps) {
               'circle-stroke-width': 3,
             },
           });
-          state.onStatusChange('ready');
         });
-        instance.on('error', () => latest.current.onStatusChange('error'));
+        // A downloaded style is not yet a rendered map: wait for the first load.
+        instance.on('load', () => {
+          if (cancelled) return;
+          clearTimeout(timeout);
+          setFailure(null);
+          latest.current.onStatusChange('ready');
+        });
+        instance.on('error', (event) => fail(event.error));
         instance.on('click', 'place-pins', (event) => {
           const id = event.features?.[0]?.properties?.id;
           if (typeof id === 'string') latest.current.onSelect(id);
@@ -81,14 +106,15 @@ export function PlaceMap(props: PlaceMapProps) {
         instance.on('mouseleave', 'place-pins', () => {
           instance.getCanvas().style.cursor = '';
         });
-        observer = new ResizeObserver(() => instance.resize());
-        observer.observe(container.current);
+        if (typeof ResizeObserver !== 'undefined') {
+          observer = new ResizeObserver(() => instance.resize());
+          observer.observe(container.current);
+        }
       })
-      .catch(() => {
-        if (!cancelled) latest.current.onStatusChange('error');
-      });
+      .catch(fail);
     return () => {
       cancelled = true;
+      clearTimeout(timeout);
       observer?.disconnect();
       map.current?.remove();
       map.current = null;
@@ -133,7 +159,6 @@ export function PlaceMap(props: PlaceMapProps) {
   }, [props.selectedId]);
   return (
     <div
-      ref={container}
       role="region"
       aria-label="Interactive map of nearby places. The same places are available in list view."
       aria-description={
@@ -141,7 +166,14 @@ export function PlaceMap(props: PlaceMapProps) {
           ? 'Private captured location preview. Panning does not move the pin.'
           : undefined
       }
-      style={{ width: '100%', height: '100%' }}
-    />
+      style={{ width: '100%', height: '100%', position: 'relative', minHeight: 1 }}
+    >
+      <div ref={container} style={{ width: '100%', height: '100%' }} />
+      {failure ? (
+        <View style={{ position: 'absolute', left: space.sm, right: space.sm, bottom: space.xxxl }}>
+          <Notice warning>{failure}</Notice>
+        </View>
+      ) : null}
+    </div>
   );
 }

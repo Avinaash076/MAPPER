@@ -99,13 +99,13 @@ export function PhotoFields({
           onRemove={() => onChange(photos.filter((item) => item.id !== photo.id))}
         />
       ))}
-      {photos.length > 0 && (
+      {photos.length > 0 ? (
         <CheckRow
           label="I took these photos or have permission to share them"
           checked={rightsConfirmed}
           onChange={onRightsChange}
         />
-      )}
+      ) : null}
     </Panel>
   );
 }

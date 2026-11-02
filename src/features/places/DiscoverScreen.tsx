@@ -92,8 +92,8 @@ export function DiscoverScreen() {
                 expanded={expanded}
               />
               <StorageBanner />
-              {catalog.error && <Notice>{catalog.error}</Notice>}
-              {!expanded && (
+              {catalog.error ? <Notice>{catalog.error}</Notice> : null}
+              {!expanded ? (
                 <>
                   <View
                     style={{ height: view === 'map' ? undefined : 0, overflow: 'hidden' }}
@@ -105,26 +105,26 @@ export function DiscoverScreen() {
                   </View>
                   <ContributionEntry />
                 </>
-              )}
-              {!results.length && (
+              ) : null}
+              {!results.length ? (
                 <EmptyState
                   title="No places match yet"
                   message="Try another interest or a wider distance range."
                   action="Reset search and filters"
                   onAction={() => dispatch({ type: 'resetFilters' })}
                 />
-              )}
-              {expanded && (
+              ) : null}
+              {expanded ? (
                 <Label size="small" tone="textMuted">
                   {results.length} places · nearest to {city.name} first
                 </Label>
-              )}
+              ) : null}
             </View>
           }
           ListFooterComponent={
             <View style={layout.section}>
               <DiscoveryActions placeId={selected?.id} />
-              {catalog.error && (
+              {catalog.error ? (
                 <Button
                   label="Refresh community places"
                   secondary
@@ -132,14 +132,14 @@ export function DiscoverScreen() {
                     void catalog.refresh();
                   }}
                 />
-              )}
+              ) : null}
               <Label size="small" tone="textMuted">
                 Sample place information. Check current access locally.
               </Label>
             </View>
           }
         />
-        {expanded && (
+        {expanded ? (
           <ScrollView
             style={{ flex: 1 }}
             contentContainerStyle={{ padding: space.xl, gap: space.lg }}
@@ -153,9 +153,9 @@ export function DiscoverScreen() {
             {map}
             <ContributionEntry />
           </ScrollView>
-        )}
+        ) : null}
       </View>
-      {showFilters && <FilterSheet close={() => setShowFilters(false)} />}
+      {showFilters ? <FilterSheet close={() => setShowFilters(false)} /> : null}
     </SafeAreaView>
   );
 }

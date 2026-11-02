@@ -63,7 +63,7 @@ export default function SetupScreen() {
         </Label>
         <Label tone="textMuted">{current.help}</Label>
       </View>
-      {step === 0 && (
+      {step === 0 ? (
         <View style={layout.section}>
           <Label>Starting town</Label>
           {areas.map((area) => (
@@ -79,25 +79,27 @@ export default function SetupScreen() {
           ))}
           <MapLayers center={areas.find((area) => area.id === filters.area)!.coordinates} />
         </View>
-      )}
-      {step === 1 && (
+      ) : null}
+      {step === 1 ? (
         <InterestChoices
           selected={filters.categories}
           onChange={(categories) => dispatch({ type: 'filters', filters: { categories } })}
         />
-      )}
-      {step === 2 && (
+      ) : null}
+      {step === 2 ? (
         <TransportChoices
           selected={filters.transport}
           onChange={(transport) => dispatch({ type: 'filters', filters: { transport } })}
         />
-      )}
+      ) : null}
       <Button
         label={step === 2 ? 'Show nearby places' : 'Continue'}
         onPress={() => (step < 2 ? setStep(step + 1) : finish())}
       />
-      {step > 0 && <Button label="Skip for now" secondary onPress={skip} />}
-      {step > 0 && <Button label="Previous step" secondary onPress={() => setStep(step - 1)} />}
+      {step > 0 ? <Button label="Skip for now" secondary onPress={skip} /> : null}
+      {step > 0 ? (
+        <Button label="Previous step" secondary onPress={() => setStep(step - 1)} />
+      ) : null}
       <Label size="small" tone="textMuted">
         Your choices save on this device as you go.
       </Label>

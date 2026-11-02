@@ -29,9 +29,9 @@ export function DestinationScreen() {
         onSelect={setSelected}
         recent={journey.state.recent}
       />
-      {selected && (
+      {selected ? (
         <Panel style={layout.section}>
-          {place && (
+          {place ? (
             <>
               <PlacePhoto place={place} />
               <Label size="small" tone="textMuted">
@@ -40,14 +40,14 @@ export function DestinationScreen() {
                   : 'Destination photo unavailable'}
               </Label>
             </>
-          )}
+          ) : null}
           <Label size="heading">{selected.name}</Label>
           <Label tone="textMuted">
             {place?.description ??
               'Use the town centre as your destination, then discover places nearby.'}
           </Label>
         </Panel>
-      )}
+      ) : null}
       <Button
         label="Continue to starting point"
         disabled={!selected || !journey.ready || !journey.canWrite}

@@ -1,10 +1,16 @@
 import Svg, { Circle, Path } from 'react-native-svg';
+import { Platform } from 'react-native';
 import { useTheme } from '../theme/ThemeProvider';
 
 export function BrandMark() {
   const { colors } = useTheme();
   return (
-    <Svg width={32} height={32} viewBox="0 0 64 64" accessible={false}>
+    <Svg
+      width={32}
+      height={32}
+      viewBox="0 0 64 64"
+      {...(Platform.OS === 'web' ? { 'aria-hidden': true } : { accessible: false })}
+    >
       <Path
         d="M9 47 22 16 32 36 42 16 55 47"
         fill="none"

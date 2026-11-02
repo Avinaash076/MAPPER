@@ -66,7 +66,7 @@ export function LocationFields({
         secondary
         onPress={toggleManual}
       />
-      {manual && (
+      {manual ? (
         <View style={layout.section}>
           <Label size="small">Latitude</Label>
           <Field
@@ -86,9 +86,9 @@ export function LocationFields({
           />
           <Button label="Use these coordinates" secondary onPress={applyCoordinates} />
         </View>
-      )}
+      ) : null}
       {error ? <Notice warning>{error}</Notice> : null}
-      {location && (
+      {location ? (
         <>
           <LocationPreview location={location} />
           <Label>
@@ -100,19 +100,19 @@ export function LocationFields({
               : 'Manually entered location'}{' '}
             · {new Date(location.capturedAt).toLocaleString()}
           </Label>
-          {location.accuracyMeters !== null && location.accuracyMeters > 100 && (
+          {location.accuracyMeters !== null && location.accuracyMeters > 100 ? (
             <Notice>
               Location accuracy is low. Try again in an open area or correct the coordinates before
               sharing.
             </Notice>
-          )}
+          ) : null}
           <CheckRow
             label="I checked that these coordinates mark the place"
             checked={confirmed}
             onChange={onConfirm}
           />
         </>
-      )}
+      ) : null}
     </Panel>
   );
 }

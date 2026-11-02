@@ -18,7 +18,7 @@ export function CityPicker({ compact = false }: { compact?: boolean }) {
         secondary
         onPress={() => setOpen(true)}
       />
-      {open && (
+      {open ? (
         <Sheet title="Start exploring from" onClose={() => setOpen(false)}>
           <Label tone="textMuted">Choose a town centre for nearby places.</Label>
           {areas.map((area) => (
@@ -37,7 +37,7 @@ export function CityPicker({ compact = false }: { compact?: boolean }) {
             />
           ))}
         </Sheet>
-      )}
+      ) : null}
     </>
   );
 }

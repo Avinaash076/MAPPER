@@ -39,12 +39,12 @@ export function PointSearch({
       <Label size="small" tone="textMuted">
         Suggestions from our regional catalog · live address search is not connected.
       </Label>
-      {catalog.loading && (
+      {catalog.loading ? (
         <Label size="small" accessibilityLiveRegion="polite">
           Loading reviewed places; bundled destinations are available.
         </Label>
-      )}
-      {catalog.error && (
+      ) : null}
+      {catalog.error ? (
         <View style={layout.section}>
           <Notice>{catalog.error}</Notice>
           <Button
@@ -55,7 +55,7 @@ export function PointSearch({
             }}
           />
         </View>
-      )}
+      ) : null}
       <Label size="small" tone="textMuted">
         {query.trim()
           ? `${choices.length} matching destinations`
@@ -71,7 +71,7 @@ export function PointSearch({
           onPress={() => choose(point)}
         />
       ))}
-      {query.trim() && !results.length && (
+      {query.trim() && !results.length ? (
         <Panel style={layout.section}>
           <Label size="heading">No catalog match</Label>
           <Label tone="textMuted">
@@ -87,7 +87,7 @@ export function PointSearch({
             }}
           />
         </Panel>
-      )}
+      ) : null}
     </View>
   );
 }

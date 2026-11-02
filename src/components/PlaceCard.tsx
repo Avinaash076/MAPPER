@@ -48,11 +48,11 @@ export function PlacePhoto({
           accessibilityLabel="Destination photo unavailable"
         >
           <MountainsIcon size={thumbnail ? 24 : 40} color={colors.primary} weight="duotone" />
-          {!thumbnail && (
+          {!thumbnail ? (
             <Label size="small" tone="primary">
               {failed ? 'Photo unavailable' : 'Destination photo coming soon'}
             </Label>
-          )}
+          ) : null}
         </View>
       )}
     </View>
@@ -93,11 +93,11 @@ export function PlaceCard({ place }: { place: Place }) {
             <Label size="small" tone="textMuted">
               {distance.toFixed(1)} km straight line
             </Label>
-            {travel !== null && (
+            {travel !== null ? (
               <Label size="small" tone="textMuted">
                 · ~{formatMinutes(travel)} away
               </Label>
-            )}
+            ) : null}
           </View>
         </View>
       </Pressable>

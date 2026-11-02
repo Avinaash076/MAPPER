@@ -80,7 +80,7 @@ export function SurpriseScreen() {
           onDate={setDate}
         />
       </Disclosure>
-      {error && <Notice warning>{error}</Notice>}
+      {error ? <Notice warning>{error}</Notice> : null}
       <Button
         label="Discover nearby places"
         disabled={!origin || !journey.ready || !journey.canWrite}

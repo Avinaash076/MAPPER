@@ -59,7 +59,7 @@ export function ContributeScreen() {
               ? 'This contribution has been approved.'
               : 'Sent privately for review. It is not public yet.'}
           </Notice>
-          {draft.reviewNote && <Label>{draft.reviewNote}</Label>}
+          {draft.reviewNote ? <Label>{draft.reviewNote}</Label> : null}
           <DraftReview draft={draft} />
           <Button
             label="Back to your hidden places"
@@ -94,13 +94,13 @@ export function ContributeScreen() {
                   void change({ locationConfirmed });
                 }}
               />
-              {duplicates.length > 0 && (
+              {duplicates.length > 0 ? (
                 <Notice>
                   There may already be a place nearby:{' '}
                   {duplicates.map((place) => place.name).join(', ')}. Check whether your discovery
                   is the same spot before submitting.
                 </Notice>
-              )}
+              ) : null}
             </View>
             <View style={{ display: step === 1 ? 'flex' : 'none' }}>
               <PhotoFields
@@ -126,7 +126,7 @@ export function ContributeScreen() {
               />
             </View>
           </View>
-          {step === 3 && (
+          {step === 3 ? (
             <>
               <DraftReview draft={draft} onEdit={setStep} />
               <CheckRow
@@ -137,22 +137,22 @@ export function ContributeScreen() {
                 }}
               />
             </>
-          )}
-          {step < 3 && (
+          ) : null}
+          {step < 3 ? (
             <Button
               label={step === 2 ? 'Review your discovery' : 'Continue'}
               disabled={Boolean(busy)}
               onPress={() => setStep(step + 1)}
             />
-          )}
-          {step > 0 && (
+          ) : null}
+          {step > 0 ? (
             <Button
               label="Previous step"
               secondary
               disabled={Boolean(busy)}
               onPress={() => setStep(step - 1)}
             />
-          )}
+          ) : null}
           <Button
             label="Save draft"
             secondary
@@ -161,7 +161,7 @@ export function ContributeScreen() {
               void change({});
             }}
           />
-          {step === 3 && (
+          {step === 3 ? (
             <View style={layout.section}>
               <SignInPanel />
               <Button
@@ -172,7 +172,7 @@ export function ContributeScreen() {
                 }}
               />
             </View>
-          )}
+          ) : null}
           <Label size="small" tone="textMuted">
             Only approved places can appear publicly. Your precise captured coordinates stay private
             until a reviewer chooses the public location.

@@ -50,7 +50,7 @@ export function TripOptionsScreen() {
         Leave room to explore.
       </Label>
       <JourneyNotice />
-      {aroundDestination && (
+      {aroundDestination ? (
         <View style={layout.section}>
           <Label size="heading">Around your destination</Label>
           <View style={layout.wrap}>
@@ -64,8 +64,8 @@ export function TripOptionsScreen() {
             ))}
           </View>
         </View>
-      )}
-      {alongRoute && (
+      ) : null}
+      {alongRoute ? (
         <Disclosure title="Along-route corridor · connection pending">
           <Label>Distance on either side of a road route</Label>
           <View style={layout.wrap}>
@@ -83,7 +83,7 @@ export function TripOptionsScreen() {
             connected.
           </Label>
         </Disclosure>
-      )}
+      ) : null}
       <View style={layout.section}>
         <Label size="heading">Getting around · optional</Label>
         <TransportChoices
@@ -110,7 +110,7 @@ export function TripOptionsScreen() {
           onDate={(travelDate) => setDraft({ ...draft, travelDate })}
         />
       </Disclosure>
-      {error && <Notice warning>{error}</Notice>}
+      {error ? <Notice warning>{error}</Notice> : null}
       <Button label="Show my trip" onPress={showPlan} />
     </Screen>
   );

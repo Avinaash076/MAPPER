@@ -45,23 +45,23 @@ export function DiscoveryMap({
         <View style={{ position: 'absolute', top: space.md, left: space.md }}>
           <MapLayers center={center} />
         </View>
-        {selected && (
+        {selected ? (
           <View
             style={{ position: 'absolute', left: space.md, right: space.md, bottom: space.xxxl }}
           >
             <PlacePreview place={selected} />
           </View>
-        )}
+        ) : null}
       </View>
-      {status !== 'ready' && (
+      {status !== 'ready' ? (
         <Notice warning={status === 'error'}>
           {status === 'error'
             ? 'The map could not fully load. Your place list is still available.'
             : 'Loading the map. You can browse the place list meanwhile.'}
         </Notice>
-      )}
-      {status !== 'ready' && <Button label="Browse place list" secondary onPress={onList} />}
-      {status === 'error' && (
+      ) : null}
+      {status !== 'ready' ? <Button label="Browse place list" secondary onPress={onList} /> : null}
+      {status === 'error' ? (
         <Button
           label="Retry map"
           secondary
@@ -70,7 +70,7 @@ export function DiscoveryMap({
             setAttempt((value) => value + 1);
           }}
         />
-      )}
+      ) : null}
     </View>
   );
 }

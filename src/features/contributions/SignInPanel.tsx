@@ -95,7 +95,7 @@ export function SignInPanel() {
               void sendCode();
             }}
           />
-          {sent && (
+          {sent ? (
             <>
               <Label size="small">Sign-in code</Label>
               <Field
@@ -114,7 +114,7 @@ export function SignInPanel() {
                 }}
               />
             </>
-          )}
+          ) : null}
         </>
       )}
       {message ? (

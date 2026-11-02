@@ -35,7 +35,7 @@ export function AppearancePicker() {
           <SunIcon size={24} color={colors.primary} />
         )}
       </IconButton>
-      {open && (
+      {open ? (
         <Sheet title="Appearance" onClose={() => setOpen(false)}>
           <Label tone="textMuted">Choose your app appearance. Map style stays independent.</Label>
           {choices.map((choice) => (
@@ -55,9 +55,9 @@ export function AppearancePicker() {
               </Label>
             </View>
           ))}
-          {storageError && <Notice warning>{storageError}</Notice>}
+          {storageError ? <Notice warning>{storageError}</Notice> : null}
         </Sheet>
-      )}
+      ) : null}
     </>
   );
 }

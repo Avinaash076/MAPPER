@@ -44,12 +44,12 @@ export function DiscoveryControls({ view, onViewChange, onFilters, count, expand
           label={activeCount ? `Filters · ${activeCount} active` : 'Filters'}
           onPress={onFilters}
         />
-        {!expanded && (
+        {!expanded ? (
           <Chip
             label={view === 'map' ? `List · ${count}` : 'View map'}
             onPress={() => onViewChange(view === 'map' ? 'list' : 'map')}
           />
-        )}
+        ) : null}
       </View>
     </View>
   );

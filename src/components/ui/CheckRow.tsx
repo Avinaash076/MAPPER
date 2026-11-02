@@ -40,7 +40,7 @@ export function CheckRow({
           justifyContent: 'center',
         }}
       >
-        {checked && <CheckIcon size={20} color={colors.onPrimary} />}
+        {checked ? <CheckIcon size={20} color={colors.onPrimary} /> : null}
       </View>
       <Label style={{ flex: 1 }}>{label}</Label>
     </Pressable>

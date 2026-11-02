@@ -29,12 +29,12 @@ export function PlanStopCard({
   const { dispatch } = useApp();
   return (
     <View style={layout.section}>
-      {travelMinutes !== null && (
+      {travelMinutes !== null ? (
         <Label size="small" tone="textMuted">
           ↓ ~{formatMinutes(travelMinutes)} travel{' '}
           {index === 0 ? `from ${townName}` : 'from previous stop'}
         </Label>
-      )}
+      ) : null}
       <Panel style={{ gap: space.md }}>
         <Label size="eyebrow" tone="accent">
           STOP {index + 1}

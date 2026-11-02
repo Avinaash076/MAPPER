@@ -8,6 +8,8 @@ Latest implementation: [Destination discovery redesign and API audit](destinatio
 
 Development troubleshooting: [Windows Metro open-file and cache recovery](metro-troubleshooting.md).
 
+UI/map troubleshooting: [Empty text nodes, map loading and API keys](rendering-and-map-recovery.md).
+
 | Document                                            | What it explains                                                           |
 | --------------------------------------------------- | -------------------------------------------------------------------------- |
 | [System walkthrough](architecture.md)               | Screens, data flow, functions, state, storage and where to change behavior |

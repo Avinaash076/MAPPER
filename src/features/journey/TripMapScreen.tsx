@@ -98,14 +98,14 @@ export function TripMapScreen() {
         <Label size="small" tone="textMuted">
           Green: start · gold: destination · blue: catalog places. Road route pending.
         </Label>
-        {status !== 'ready' && (
+        {status !== 'ready' ? (
           <View style={layout.section}>
             <Label size="small">
               {status === 'error'
                 ? 'Map unavailable. Trip details and the place list still work.'
                 : 'Loading the map. Trip details remain available.'}
             </Label>
-            {status === 'error' && (
+            {status === 'error' ? (
               <Button
                 label="Retry map"
                 secondary
@@ -114,14 +114,14 @@ export function TripMapScreen() {
                   setAttempt((value) => value + 1);
                 }}
               />
-            )}
+            ) : null}
           </View>
-        )}
+        ) : null}
         <Button
           label={`Trip details · ${journey.state.stopIds.length} optional ${journey.state.stopIds.length === 1 ? 'stop' : 'stops'}`}
           onPress={() => setSheet('details')}
         />
-        {journey.state.experience !== 'direct' && (
+        {journey.state.experience !== 'direct' ? (
           <Button
             label={
               alongRoute && journey.state.experience === 'along-route'
@@ -131,29 +131,29 @@ export function TripMapScreen() {
             secondary
             onPress={() => setSheet('places')}
           />
-        )}
+        ) : null}
       </ScrollView>
-      {sheet === 'details' && (
+      {sheet === 'details' ? (
         <Sheet title="Your trip preview" onClose={() => setSheet(null)}>
           <TripDetails onNavigate={() => setSheet(null)} />
         </Sheet>
-      )}
-      {sheet === 'places' && (
+      ) : null}
+      {sheet === 'places' ? (
         <Sheet title="Choose places to explore" onClose={() => setSheet(null)}>
-          {alongRoute && (
+          {alongRoute ? (
             <Notice>
               Road routing is not connected. Your {journey.state.corridorRadiusKm} km corridor
               preference is saved; no along-route suggestions are available.
             </Notice>
-          )}
-          {catalog.error && <Notice>{catalog.error}</Notice>}
-          {suggestions.length > 0 && (
+          ) : null}
+          {catalog.error ? <Notice>{catalog.error}</Notice> : null}
+          {suggestions.length > 0 ? (
             <Label size="small" tone="textMuted">
               Around {journey.state.destination.name} · {journey.state.destinationRadiusKm} km
               straight-line radius · your discovery interests apply
             </Label>
-          )}
-          {!suggestions.length && (
+          ) : null}
+          {!suggestions.length ? (
             <Panel style={layout.section}>
               <Label size="heading">No suggestions in this scope</Label>
               <Label tone="textMuted">
@@ -168,7 +168,7 @@ export function TripMapScreen() {
                 }}
               />
             </Panel>
-          )}
+          ) : null}
           {suggestions.map((place) => (
             <Panel key={place.id} style={layout.section}>
               <Label size="heading">{place.name}</Label>
@@ -194,7 +194,7 @@ export function TripMapScreen() {
           ))}
           <Button label="View trip details" onPress={() => setSheet('details')} />
         </Sheet>
-      )}
+      ) : null}
     </SafeAreaView>
   );
 }

@@ -52,7 +52,7 @@ export function LocationChoices({
       <Label size="small" tone="textMuted">
         Location is requested only when you tap. You can always choose a town manually.
       </Label>
-      {destination && (
+      {destination ? (
         <Button
           label="I am already at the destination"
           secondary
@@ -61,7 +61,7 @@ export function LocationChoices({
             onSelect(destination);
           }}
         />
-      )}
+      ) : null}
       <Disclosure title={discovery ? 'Choose an area manually' : 'Search for a starting location'}>
         <PointSearch
           label={discovery ? 'Town or catalog place' : 'Starting town or catalog place'}
@@ -69,8 +69,8 @@ export function LocationChoices({
           onSelect={onSelect}
         />
       </Disclosure>
-      {error && <Notice warning>{error}</Notice>}
-      {selected && (
+      {error ? <Notice warning>{error}</Notice> : null}
+      {selected ? (
         <Panel style={layout.section}>
           <Label size="small" tone="primary">
             SELECTED LOCATION
@@ -80,7 +80,7 @@ export function LocationChoices({
             {selected.coordinates.latitude.toFixed(4)}, {selected.coordinates.longitude.toFixed(4)}
           </Label>
         </Panel>
-      )}
+      ) : null}
     </View>
   );
 }

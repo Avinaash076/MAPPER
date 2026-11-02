@@ -28,11 +28,11 @@ export function PlaceResult({
           <Label size="small" tone="textMuted">
             {place.locality} · {formatMinutes(place.visitMinutes)} visit
           </Label>
-          {selected && (
+          {selected ? (
             <Label size="small" tone="primary">
               Selected on map
             </Label>
-          )}
+          ) : null}
         </View>
       </View>
       <View style={layout.between}>
@@ -41,7 +41,7 @@ export function PlaceResult({
           onPress={() => router.push({ pathname: '/place/[id]', params: { id: place.id } })}
           secondary
         />
-        {!selected && <Button label="Show on map" secondary onPress={onSelect} />}
+        {!selected ? <Button label="Show on map" secondary onPress={onSelect} /> : null}
       </View>
     </Panel>
   );

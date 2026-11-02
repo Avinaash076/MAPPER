@@ -81,14 +81,14 @@ export function AssistantScreen() {
               }
             }}
           >
-            {turns.length === 0 && (
+            {turns.length === 0 ? (
               <View style={layout.section}>
                 <Label size="title">What would help you explore?</Label>
                 <Label tone="textMuted">
                   Start with a question. Keep the place and your next step in view.
                 </Label>
               </View>
-            )}
+            ) : null}
             {turns.map((turn) => (
               <AssistantMessage key={turn.id} turn={turn} />
             ))}
@@ -100,9 +100,9 @@ export function AssistantScreen() {
                 <Button key={text} label={text} secondary onPress={() => ask(text)} />
               ))}
             </View>
-            {turns.length > 0 && (
+            {turns.length > 0 ? (
               <Button label="Clear conversation" secondary onPress={() => setTurns([])} />
-            )}
+            ) : null}
           </ScrollView>
           <View
             style={{

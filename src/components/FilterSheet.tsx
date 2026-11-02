@@ -55,7 +55,7 @@ export function FilterSheet({ close }: { close: () => void }) {
           ))}
         </View>
       </View>
-      {draft.transport !== null && (
+      {draft.transport !== null ? (
         <View style={layout.section}>
           <Label size="heading">Time for the whole outing</Label>
           <View style={layout.wrap}>
@@ -69,7 +69,7 @@ export function FilterSheet({ close }: { close: () => void }) {
             ))}
           </View>
         </View>
-      )}
+      ) : null}
       <Notice>
         {draft.transport
           ? 'Sample travel estimates include a return to the selected starting point. They do not check roads or current access.'
