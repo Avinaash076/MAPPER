@@ -19,7 +19,9 @@ cd E:\maps
 npm.cmd run web
 ```
 
-Open the URL printed by Expo, normally `http://localhost:8081`. The actual app includes the blue UI, one local day plan, bookmarks, private drafts and the interactive AI interface demo. No Supabase or AI key is needed for local browsing and private drafts. Photos, maps and source links have different offline requirements; maps need internet.
+Open the URL printed by Expo, normally `http://localhost:8081`. The welcome offers **I know where I want to go** (destination → start → experience → settings → trip map) and **Surprise me** (location/interests → Discover). It retains one local day plan, bookmarks, private drafts and the AI interface demo. No Supabase or AI key is needed for local browsing and private drafts. Maps need internet. Catalog autocomplete is local; road routing, live ETA, pricing and weather integrations remain pending. See the [API audit](destination-discovery-review.md).
+
+If Metro still shows an error from an older running bundle, stop it with Ctrl+C and run `npm.cmd run web -- --clear`.
 
 ## PC: separate design gallery
 

@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import type { GeoJSONSource, Map as WebMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './map.css';
-import { getMapStyle, placesToGeoJson, mapMarkerColors } from './model';
+import { getMapStyle, placesToGeoJson, mapMarkerColors, pointBounds } from './model';
 import type { PlaceMapProps } from './types';
 export function PlaceMap(props: PlaceMapProps) {
   const container = useRef<HTMLDivElement>(null);
@@ -29,6 +29,17 @@ export function PlaceMap(props: PlaceMapProps) {
           attributionControl: { compact: true },
         });
         map.current = instance;
+        const bounds = pointBounds(
+          current.extraPoints ? [...current.extraPoints, ...current.places] : [],
+        );
+        if (bounds)
+          instance.fitBounds(
+            [
+              [bounds[0], bounds[1]],
+              [bounds[2], bounds[3]],
+            ],
+            { padding: 48, duration: 0, maxZoom: 14 },
+          );
         if (!current.preview)
           instance.addControl(new library.NavigationControl({ showCompass: false }), 'top-right');
         instance.on('style.load', () => {
@@ -36,7 +47,7 @@ export function PlaceMap(props: PlaceMapProps) {
           const state = latest.current;
           instance.addSource('places', {
             type: 'geojson',
-            data: placesToGeoJson(state.places, state.locationPin),
+            data: placesToGeoJson(state.places, state.locationPin, state.extraPoints),
           });
           instance.addLayer({
             id: 'place-pins',
@@ -44,7 +55,15 @@ export function PlaceMap(props: PlaceMapProps) {
             source: 'places',
             paint: {
               'circle-radius': ['case', ['==', ['get', 'id'], state.selectedId ?? ''], 12, 9],
-              'circle-color': mapMarkerColors.fill,
+              'circle-color': [
+                'match',
+                ['get', 'id'],
+                'journey:start',
+                mapMarkerColors.start,
+                'journey:destination',
+                mapMarkerColors.destination,
+                mapMarkerColors.fill,
+              ],
               'circle-stroke-color': mapMarkerColors.outline,
               'circle-stroke-width': 3,
             },
@@ -82,15 +101,26 @@ export function PlaceMap(props: PlaceMapProps) {
     });
   }, [props.center.longitude, props.center.latitude, props.zoom]);
   useEffect(() => {
+    const bounds = pointBounds(props.extraPoints ? [...props.extraPoints, ...props.places] : []);
+    if (bounds)
+      map.current?.fitBounds(
+        [
+          [bounds[0], bounds[1]],
+          [bounds[2], bounds[3]],
+        ],
+        { padding: 48, duration: 0, maxZoom: 14 },
+      );
+  }, [props.extraPoints, props.places]);
+  useEffect(() => {
     if (map.current) map.current.setStyle(styleUrl);
   }, [styleUrl]);
   useEffect(() => {
     const instance = map.current;
     if (!instance?.getSource('places')) return;
     (instance.getSource('places') as GeoJSONSource).setData(
-      placesToGeoJson(props.places, props.locationPin),
+      placesToGeoJson(props.places, props.locationPin, props.extraPoints),
     );
-  }, [props.places, props.locationPin]);
+  }, [props.places, props.locationPin, props.extraPoints]);
   useEffect(() => {
     const instance = map.current;
     if (!instance?.getLayer('place-pins')) return;

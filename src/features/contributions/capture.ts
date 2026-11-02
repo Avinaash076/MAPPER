@@ -4,28 +4,14 @@ import * as ImageManipulator from 'expo-image-manipulator';
 import { randomUUID } from 'expo-crypto';
 import { savePhoto } from './photoStorage';
 import type { CapturedLocation, DraftPhoto } from './types';
+import { requestLocation } from '../../services/locationRequest';
 
 export async function captureCurrentLocation(): Promise<CapturedLocation> {
-  const permission = await Location.requestForegroundPermissionsAsync();
-  if (!permission.granted)
-    throw new Error(
-      'Location permission was not granted. You can enter the place coordinates manually.',
-    );
-  if (!(await Location.hasServicesEnabledAsync()))
-    throw new Error('Location services are off. Enable them or enter coordinates manually.');
-  let timeout: ReturnType<typeof setTimeout> | undefined;
-  const position = await Promise.race([
-    Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High }),
-    new Promise<never>((_resolve, reject) => {
-      timeout = setTimeout(
-        () =>
-          reject(
-            new Error('Location took too long. Try outdoors or enter the coordinates manually.'),
-          ),
-        20000,
-      );
-    }),
-  ]).finally(() => clearTimeout(timeout));
+  const position = await requestLocation({
+    requestPermission: () => Location.requestForegroundPermissionsAsync(),
+    servicesEnabled: () => Location.hasServicesEnabledAsync(),
+    getPosition: () => Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.High }),
+  });
   return {
     latitude: position.coords.latitude,
     longitude: position.coords.longitude,

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { Camera, GeoJSONSource, Layer, Map, type CameraRef } from '@maplibre/maplibre-react-native';
-import { getMapStyle, placesToGeoJson, mapMarkerColors } from './model';
+import { getMapStyle, placesToGeoJson, mapMarkerColors, pointBounds } from './model';
 import type { PlaceMapProps } from './types';
 export function PlaceMap({
   places,
@@ -11,14 +11,25 @@ export function PlaceMap({
   preview,
   zoom = 10,
   locationPin,
+  extraPoints,
   onSelect,
   onStatusChange,
 }: PlaceMapProps) {
   const camera = useRef<CameraRef>(null);
-  const data = useMemo(() => placesToGeoJson(places, locationPin), [places, locationPin]);
+  const data = useMemo(
+    () => placesToGeoJson(places, locationPin, extraPoints),
+    [places, locationPin, extraPoints],
+  );
+  const bounds = useMemo(
+    () => pointBounds(extraPoints ? [...extraPoints, ...places] : []),
+    [extraPoints, places],
+  );
   useEffect(() => {
     camera.current?.jumpTo({ center: [center.longitude, center.latitude], zoom });
   }, [center.longitude, center.latitude, zoom]);
+  useEffect(() => {
+    if (bounds) camera.current?.fitBounds(bounds, { duration: 0 });
+  }, [bounds]);
   return (
     <Map
       style={{ flex: 1 }}
@@ -30,7 +41,9 @@ export function PlaceMap({
     >
       <Camera
         ref={camera}
-        initialViewState={{ center: [center.longitude, center.latitude], zoom }}
+        initialViewState={
+          bounds ? { bounds } : { center: [center.longitude, center.latitude], zoom }
+        }
       />
       <GeoJSONSource
         id="places"
@@ -45,7 +58,15 @@ export function PlaceMap({
           type="circle"
           paint={{
             'circle-radius': ['case', ['==', ['get', 'id'], selectedId ?? ''], 12, 9],
-            'circle-color': mapMarkerColors.fill,
+            'circle-color': [
+              'match',
+              ['get', 'id'],
+              'journey:start',
+              mapMarkerColors.start,
+              'journey:destination',
+              mapMarkerColors.destination,
+              mapMarkerColors.fill,
+            ],
             'circle-stroke-color': mapMarkerColors.outline,
             'circle-stroke-width': 3,
           }}

@@ -2,12 +2,12 @@ import { useCallback, useState } from 'react';
 import { router, useFocusEffect } from 'expo-router';
 import { BackHandler, View } from 'react-native';
 import { Button, Chip, Label, layout, Screen } from '../components/ui';
-import { Disclosure } from '../components/ui/Disclosure';
 import { useApp } from '../features/state/AppProvider';
 import { areas } from '../features/places/types';
 import { InterestChoices } from '../features/setup/InterestChoices';
 import { TransportChoices } from '../features/setup/TransportChoices';
-import { MapStyleChoices } from '../features/map/MapStyleChoices';
+import { MapLayers } from '../features/map/MapStyleChoices';
+import { useJourney } from '../features/journey/JourneyProvider';
 
 const steps = [
   {
@@ -29,6 +29,7 @@ const steps = [
 
 export default function SetupScreen() {
   const { state, dispatch } = useApp();
+  const journey = useJourney();
   const [step, setStep] = useState(0);
   const filters = state.filters;
   const current = steps[step];
@@ -70,12 +71,13 @@ export default function SetupScreen() {
               key={area.id}
               label={area.name}
               selected={filters.area === area.id}
-              onPress={() => dispatch({ type: 'filters', filters: { area: area.id } })}
+              onPress={() => {
+                journey.update({ exploreOrigin: null });
+                dispatch({ type: 'filters', filters: { area: area.id } });
+              }}
             />
           ))}
-          <Disclosure title="Map appearance · optional">
-            <MapStyleChoices center={areas.find((area) => area.id === filters.area)!.coordinates} />
-          </Disclosure>
+          <MapLayers center={areas.find((area) => area.id === filters.area)!.coordinates} />
         </View>
       )}
       {step === 1 && (

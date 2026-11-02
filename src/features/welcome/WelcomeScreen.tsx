@@ -41,7 +41,7 @@ export function WelcomeScreen() {
             }}
           >
             <WovenArtwork
-              style={{ height: expanded ? 620 : Math.min(320, height * 0.36), width: '100%' }}
+              style={{ height: expanded ? 560 : Math.min(240, height * 0.28), width: '100%' }}
             />
             <View style={{ padding: space.md, backgroundColor: colors.surface }}>
               <Label size="small" tone="textMuted">
@@ -63,17 +63,27 @@ export function WelcomeScreen() {
               size="title"
               style={{ fontSize: expanded ? 48 : 36, lineHeight: expanded ? 56 : 44 }}
             >
-              A little nearby.{'\n'}A lot to discover.
+              Your next day out{'\n'}starts here.
             </Label>
             <Label tone="textMuted">
-              Find quiet lakes, stories in stone and places shared by the people who know them.
+              Discover destinations and hidden places across northern Karnataka.
             </Label>
-            <Button
-              label="Plan my day"
-              onPress={() => router.push('/setup')}
-              icon={<ArrowRightIcon size={20} color={colors.onPrimary} />}
-            />
-            <Button label="Explore map" secondary onPress={() => router.push('/discover')} />
+            <View style={layout.section}>
+              <Button
+                label="I know where I want to go"
+                onPress={() => router.push('/destination')}
+                icon={<ArrowRightIcon size={20} color={colors.onPrimary} />}
+              />
+              <Label size="small" tone="textMuted">
+                Choose a destination and plan your journey.
+              </Label>
+            </View>
+            <View style={layout.section}>
+              <Button label="Surprise me" secondary onPress={() => router.push('/surprise')} />
+              <Label size="small" tone="textMuted">
+                Discover places based on your interests, location, and budget.
+              </Label>
+            </View>
             <Label size="small" tone="textMuted">
               Hubballi · Dharwad · Belagavi
             </Label>

@@ -53,5 +53,5 @@ export const defaultFilters: DiscoveryFilters = {
   radiusKm: 100,
   budgetMinutes: 480,
 };
-export const distanceOptions = [5, 15, 30, 60, 100, 150];
+export const distanceOptions = [5, 10, 15, 25, 30, 50, 60, 100, 150];
 export const timeOptions = [120, 240, 480, 720];

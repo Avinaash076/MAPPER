@@ -16,7 +16,7 @@ export function MapStyleChoices({ center }: { center: Coordinates }) {
   const { appearance, choose, error } = useMapAppearance();
   const [status, setStatus] = useState<Record<string, MapStatus>>({});
   const { width, fontScale } = useWindowDimensions();
-  const stacked = width < 420 || fontScale > 1.2;
+  const stacked = width < 360 || fontScale > 1.4;
   return (
     <View style={layout.section}>
       <Label tone="textMuted">Choose your map. Your app appearance stays independent.</Label>
