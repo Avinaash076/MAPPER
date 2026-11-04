@@ -14,6 +14,8 @@ If `E:\maps` already contains your checkout, open it and switch to the feature b
 
 ## PC: actual app
 
+Optional backend setup and testing: [Supabase step-by-step guide](supabase-setup.md). Use the existing app without it for local catalog browsing, plans and private drafts.
+
 ```powershell
 cd E:\maps
 npm.cmd run web

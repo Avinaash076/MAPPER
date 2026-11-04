@@ -1,5 +1,7 @@
 # Project documentation
 
+First backend test: [Supabase setup and testing on Windows](supabase-setup.md), including safe setup/check commands and optional interactive provider tests.
+
 Optional online services: [Geoapify routes, Open-Meteo forecasts and Mistral setup](travel-services.md). Backend keys and deployment are separate from app installation.
 
 Read these in order when joining the project.

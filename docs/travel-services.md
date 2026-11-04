@@ -30,20 +30,22 @@ The server reuses named seed records, avoiding a second seed catalog. It reads c
 
 ## Staging setup
 
+For a guided first test, follow [Supabase setup and testing](supabase-setup.md). Supabase CLI v3 requires `--remote` on hosted database commands; these commands use `supabase@3` explicitly.
+
 Use a Supabase project you own. Preserve existing migration history; do not reset a database.
 
 ```powershell
 cd E:\maps
-npx.cmd supabase@latest login
-npx.cmd supabase@latest link --project-ref YOUR_PROJECT_REF
-npx.cmd supabase@latest db push --dry-run
+npx.cmd supabase@3 login
+npx.cmd supabase@3 link YOUR_PROJECT_REF
+npx.cmd supabase@3 db push --dry-run --remote
 ```
 
 Review the dry-run list for the intended project, then apply pending migrations:
 
 ```powershell
-npx.cmd supabase@latest db push
-Copy-Item supabase\functions\.env.example supabase\functions\.env.local
+npx.cmd supabase@3 db push --remote
+npm.cmd run backend:setup
 ```
 
 The new migration `202611040001_travel_service_limits.sql` creates counters and a service-only quota function. It does not change contribution publication. A new project also needs the existing hidden-place migration for community sharing.
@@ -55,8 +57,8 @@ If you already renamed the server template to `supabase/functions/.env`, keep th
 Supabase supplies `SUPABASE_URL`, `SUPABASE_ANON_KEY` and `SUPABASE_SERVICE_ROLE_KEY` inside hosted functions. These privileged credentials do not belong in the app. See [function secrets](https://supabase.com/docs/guides/functions/secrets).
 
 ```powershell
-npx.cmd supabase@latest secrets set --env-file supabase/functions/.env.local --project-ref YOUR_PROJECT_REF
-npx.cmd supabase@latest functions deploy travel-services --project-ref YOUR_PROJECT_REF
+npx.cmd supabase@3 secrets set --env-file supabase/functions/.env.local
+npx.cmd supabase@3 functions deploy travel-services --use-api
 ```
 
 The function's `verify_jwt=false` delegates verification to the handler. The handler calls Supabase Auth `/auth/v1/user` before any provider call and rejects invalid, expired, missing or anonymous sessions and unconfirmed email accounts. This uses Auth-server verification rather than the legacy gateway JWT verifier. Do not remove it. CORS is additional browser restriction, not authentication.
