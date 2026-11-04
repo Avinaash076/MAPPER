@@ -48,7 +48,9 @@ Copy-Item supabase\functions\.env.example supabase\functions\.env.local
 
 The new migration `202611040001_travel_service_limits.sql` creates counters and a service-only quota function. It does not change contribution publication. A new project also needs the existing hidden-place migration for community sharing.
 
-Edit the ignored **server** file `supabase/functions/.env.local`. Add Geoapify and Mistral keys. Set `MISTRAL_MODEL` to a chat model enabled in your account; no model is silently substituted. Choose prototype weather only for non-commercial testing, or commercial mode with a subscribed key. Set `ALLOWED_APP_ORIGINS` to comma-separated exact website origins, including scheme and port. Native requests have no browser origin but still require verified authentication.
+Edit the ignored **server** file `supabase/functions/.env.local`. Add Geoapify and Mistral keys. The template selects `MISTRAL_MODEL=mistral-small-latest` for initial testing; confirm your account has access or explicitly choose another enabled chat model. No model is silently substituted. Choose prototype weather only for non-commercial testing, or commercial mode with a subscribed key. Prototype mode needs no Open-Meteo key. Set `ALLOWED_APP_ORIGINS` to comma-separated exact website origins, including scheme and port. Native requests have no browser origin but still require verified authentication.
+
+If you already renamed the server template to `supabase/functions/.env`, keep that ignored file and use `--env-file supabase/functions/.env` instead in the secrets command below. Save editor changes first. Renaming a file does not upload secrets or start the backend; keep the public example template free of real keys.
 
 Supabase supplies `SUPABASE_URL`, `SUPABASE_ANON_KEY` and `SUPABASE_SERVICE_ROLE_KEY` inside hosted functions. These privileged credentials do not belong in the app. See [function secrets](https://supabase.com/docs/guides/functions/secrets).
 
