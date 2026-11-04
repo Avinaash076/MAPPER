@@ -3,6 +3,8 @@ import { View } from 'react-native';
 import { Button, Field, Label, layout, Notice, Panel } from '../../components/ui';
 import { usePlaceCatalog } from '../places/PlaceCatalogProvider';
 import { searchDestinations, townPoints, type TravelPoint } from './model';
+import { OnlineAddressSearch } from './OnlineAddressSearch';
+import { Disclosure } from '../../components/ui/Disclosure';
 
 export function PointSearch({
   label,
@@ -37,7 +39,7 @@ export function PointSearch({
         returnKeyType="search"
       />
       <Label size="small" tone="textMuted">
-        Suggestions from our regional catalog · live address search is not connected.
+        Regional catalog suggestions. Search online below for other addresses.
       </Label>
       {catalog.loading ? (
         <Label size="small" accessibilityLiveRegion="polite">
@@ -88,6 +90,9 @@ export function PointSearch({
           />
         </Panel>
       ) : null}
+      <Disclosure title="Search beyond the catalog">
+        <OnlineAddressSearch query={query} onSelect={choose} />
+      </Disclosure>
     </View>
   );
 }

@@ -35,10 +35,16 @@ export function AssistantMessage({ turn }: { turn: ConversationTurn }) {
       </Panel>
       <View style={layout.section}>
         <Label size="small" tone="accent">
-          MAPPER · example answer
+          {turn.answer.demo ? 'MAPPER · example answer' : 'MAPPER · AI answer from Mistral'}
         </Label>
         <Label size="heading">{turn.answer.title}</Label>
         <Label>{turn.answer.body}</Label>
+        {!turn.answer.demo ? (
+          <Label size="small" tone="textMuted">
+            AI can make mistakes. Background sources do not confirm current opening hours,
+            permission or safety.
+          </Label>
+        ) : null}
         {turn.answer.sources.length > 0 ? (
           <Disclosure title={`Background sources (${turn.answer.sources.length})`}>
             {turn.answer.sources.map((source) => (

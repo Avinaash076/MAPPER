@@ -33,7 +33,7 @@ export function DiscoveryActions({ placeId }: { placeId?: string }) {
         <Button label="Open my plan" secondary onPress={() => router.navigate('/plan')} />
       </Disclosure>
       <Button
-        label="Ask a local question · AI preview"
+        label="Ask MAPPER · AI & examples"
         secondary
         onPress={() => router.push({ pathname: '/assistant', params: { placeId } })}
       />

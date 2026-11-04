@@ -66,7 +66,7 @@ export function TripOptionsScreen() {
         </View>
       ) : null}
       {alongRoute ? (
-        <Disclosure title="Along-route corridor · connection pending">
+        <Disclosure title="Along-route corridor">
           <Label>Distance on either side of a road route</Label>
           <View style={layout.wrap}>
             {corridorRadii.map((value) => (
@@ -79,8 +79,9 @@ export function TripOptionsScreen() {
             ))}
           </View>
           <Label size="small" tone="textMuted">
-            Saved separately from destination radius. No corridor search runs until road routing is
-            connected.
+            Saved separately from destination radius. Check an online route in trip details to see
+            catalog places near its geometry. This does not verify a drivable detour or entry
+            permission.
           </Label>
         </Disclosure>
       ) : null}
@@ -91,7 +92,8 @@ export function TripOptionsScreen() {
           onChange={(transport) => setDraft({ ...draft, transport })}
         />
         <Label size="small" tone="textMuted">
-          Choose a mode for illustrative travel times. These are not road-route ETAs.
+          Choose a mode for travel estimates. Trip details can request an online road route when
+          services are configured; offline estimates remain illustrative.
         </Label>
       </View>
       <Disclosure title="Departure, budget & date · optional">

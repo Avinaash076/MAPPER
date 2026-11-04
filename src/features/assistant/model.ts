@@ -17,7 +17,7 @@ export interface AssistantAnswer {
   body: string;
   sources: { title: string; url: string }[];
   placeId?: string;
-  demo: true;
+  demo: boolean;
 }
 
 // Deliberate examples for UI evaluation. No network request or generated destination claim.
@@ -48,6 +48,6 @@ export function getExampleAnswer(question: string, context: AssistantContext): A
   return {
     ...base,
     title: 'Try an example question',
-    body: 'This assistant is an interface demo. A live service is not connected, so it cannot answer this question yet. Try one of the example questions above to explore the conversation and source presentation.',
+    body: 'You are in example mode, so no live AI request was made. Try an example question to explore this interface, or choose Ask AI when the online service is configured.',
   };
 }

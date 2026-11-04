@@ -1,0 +1,24 @@
+project_id = "mapper"
+
+# Used by a local Supabase stack. Hosted Auth settings are configured in the dashboard.
+[auth]
+site_url = "http://localhost:8081"
+
+[auth.email]
+enable_signup = true
+enable_confirmations = true
+otp_length = 6
+otp_expiry = 3600
+
+[auth.email.template.magic_link]
+subject = "Your MAPPER sign-in code"
+content_path = "./supabase/templates/sign-in-code.html"
+
+[auth.email.template.confirmation]
+subject = "Your MAPPER confirmation code"
+content_path = "./supabase/templates/sign-in-code.html"
+
+[functions.travel-services]
+# The handler verifies the caller's JWT with Supabase Auth, including modern signing keys.
+# Disabling the legacy gateway verifier does NOT make provider calls public.
+verify_jwt = false

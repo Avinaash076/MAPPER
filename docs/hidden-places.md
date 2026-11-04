@@ -29,6 +29,8 @@ Private drafts, location capture when the device can obtain a fix, photo attachm
 
 ## Connect reviewed sharing
 
+For first-time setup, use [Supabase setup and testing](supabase-setup.md). It applies both migrations in order and includes connection, email and provider test commands. Prefer that migration workflow over manually applying SQL when using the CLI.
+
 The implementation uses Supabase Auth, a private photo bucket and PostgreSQL row-level security. No hosted project has been created or deployed by this change.
 
 1. Create a project in the owner's Supabase account.

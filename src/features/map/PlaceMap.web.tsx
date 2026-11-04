@@ -6,7 +6,15 @@ import { space } from '../../theme/tokens';
 import type { GeoJSONSource, Map as WebMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './map.css';
-import { getMapStyle, placesToGeoJson, mapMarkerColors, pointBounds } from './model';
+import {
+  getMapStyle,
+  placesToGeoJson,
+  mapMarkerColors,
+  pointBounds,
+  routeColor,
+  routeFeature,
+  routeExtentPoints,
+} from './model';
 import type { PlaceMapProps } from './types';
 export function PlaceMap(props: PlaceMapProps) {
   const container = useRef<HTMLDivElement>(null);
@@ -49,7 +57,9 @@ export function PlaceMap(props: PlaceMapProps) {
         });
         map.current = instance;
         const bounds = pointBounds(
-          current.extraPoints ? [...current.extraPoints, ...current.places] : [],
+          current.extraPoints
+            ? [...current.extraPoints, ...current.places, ...routeExtentPoints(current.route)]
+            : [],
         );
         if (bounds)
           instance.fitBounds(
@@ -64,6 +74,14 @@ export function PlaceMap(props: PlaceMapProps) {
         instance.on('style.load', () => {
           if (cancelled) return;
           const state = latest.current;
+          instance.addSource('journey-route', { type: 'geojson', data: routeFeature(state.route) });
+          instance.addLayer({
+            id: 'journey-route-line',
+            type: 'line',
+            source: 'journey-route',
+            paint: { 'line-color': routeColor(state.appearance ?? state.scheme), 'line-width': 5 },
+            layout: { 'line-join': 'round', 'line-cap': 'round' },
+          });
           instance.addSource('places', {
             type: 'geojson',
             data: placesToGeoJson(state.places, state.locationPin, state.extraPoints),
@@ -127,7 +145,11 @@ export function PlaceMap(props: PlaceMapProps) {
     });
   }, [props.center.longitude, props.center.latitude, props.zoom]);
   useEffect(() => {
-    const bounds = pointBounds(props.extraPoints ? [...props.extraPoints, ...props.places] : []);
+    const bounds = pointBounds(
+      props.extraPoints
+        ? [...props.extraPoints, ...props.places, ...routeExtentPoints(props.route)]
+        : [],
+    );
     if (bounds)
       map.current?.fitBounds(
         [
@@ -136,7 +158,11 @@ export function PlaceMap(props: PlaceMapProps) {
         ],
         { padding: 48, duration: 0, maxZoom: 14 },
       );
-  }, [props.extraPoints, props.places]);
+  }, [props.extraPoints, props.places, props.route]);
+  useEffect(() => {
+    const source = map.current?.getSource('journey-route') as GeoJSONSource | undefined;
+    source?.setData(routeFeature(props.route));
+  }, [props.route]);
   useEffect(() => {
     if (map.current) map.current.setStyle(styleUrl);
   }, [styleUrl]);

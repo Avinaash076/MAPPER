@@ -2,6 +2,8 @@
 
 2 November 2026 · `feature/woven-theme`
 
+This is the historical rendering-fix record. Optional provider adapters and route lines were added afterward; see [current service setup](travel-services.md). They require a configured/deployed backend and do not change the keyless basemap requirements below.
+
 ## What caused the reported text errors
 
 React Native requires text inside `Text` (the shared `Label` here). A JSX expression such as `error && <Notice>` returns the empty string when `error` is `''`. React Native Web then reports `Unexpected text node: .` under its containing View. `query.trim() && …` has the same problem when the field is empty. These were render-time errors; successful compilation did not establish their absence.

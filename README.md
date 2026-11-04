@@ -1,8 +1,12 @@
 # Northern Trails · MAPPER
 
-A React Native tourism app for Hubballi, Dharwad and Belagavi, using the Discovery Lens blue UI, light/dark themes, maps, local plans and private drafts for hidden places. The AI assistant interface includes clearly labelled interactive examples.
+A React Native tourism app for Hubballi, Dharwad and Belagavi, using the Discovery Lens blue UI, light/dark themes, maps, local plans and private drafts for hidden places. Optional Geoapify routing, Open-Meteo forecasts and Mistral AI use a signed-in backend; labelled examples and local browsing work without it.
 
 **Start here:** [PC, Android APK, live reload and phone IP instructions](docs/running.md) · [UI implementation and database next steps](docs/discovery-lens.md).
+
+**Online services:** [Provider keys, Supabase deployment, privacy and validation](docs/travel-services.md). Keep all provider keys on the server. No hosted service has been deployed by this code change.
+
+**First Supabase test:** [Step-by-step setup, email codes, migrations and test commands](docs/supabase-setup.md). Start with `npm.cmd run backend:setup` and `npm.cmd run backend:check`.
 
 Latest changes: [Destination discovery redesign and API audit](docs/destination-discovery-review.md) — two entry paths, catalog search, current/manual starting points, trip experience and map previews. [Earlier usability polish](docs/ui-polish-review.md) covers the shared blue UI.
 
@@ -49,4 +53,4 @@ npm.cmd run build:android
 npm.cmd run build:web
 ```
 
-Real routes, downloadable maps and real AI remain later milestones. Source: [Avinaash076/MAPPER](https://github.com/Avinaash076/MAPPER).
+Online routes and AI require the optional backend setup above. Downloaded maps, offline routing and live traffic remain later milestones. Source: [Avinaash076/MAPPER](https://github.com/Avinaash076/MAPPER).

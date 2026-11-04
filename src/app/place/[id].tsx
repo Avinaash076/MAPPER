@@ -128,7 +128,7 @@ export default function PlaceScreen() {
         <Label tone="textMuted">{place.seasonalNotes}</Label>
       </Disclosure>
       <Button
-        label="Ask about this place · AI preview"
+        label="Ask about this place · AI & examples"
         secondary
         onPress={() => router.push({ pathname: '/assistant', params: { placeId: id } })}
       />

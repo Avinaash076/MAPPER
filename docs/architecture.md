@@ -2,9 +2,9 @@
 
 ## The current boundary
 
-The current app uses Expo and TypeScript, with native and web MapLibre adapters. Local discovery and private drafts work without a backend. An optional Supabase service provides email-code sign-in, private photo uploads and reviewed community publication. Location is captured on explicit request for nearby discovery, trip origins or a contribution. There is no background tracking, real route provider or real AI service. See [destination discovery and API audit](destination-discovery-review.md) and [hidden places](hidden-places.md) for the current modules and flow.
+The current app uses Expo and TypeScript, with native and web MapLibre adapters. Local discovery and private drafts work without a backend. Optional Supabase services provide email-code sign-in, private uploads, reviewed publication and an authenticated gateway for Geoapify routes/search, Open-Meteo forecasts and Mistral AI. These require server configuration and deployment; they are disabled by default. Location is captured on explicit request; there is no background tracking. See [online service architecture and setup](travel-services.md), [destination discovery](destination-discovery-review.md) and [hidden places](hidden-places.md).
 
-The welcome offers destination planning and exploratory discovery. Discovery can use one of three curated town centres or an explicitly captured position. A distance filter is a circle measured in a straight line, not a road-distance boundary. The journey flow has its own validated `mapper:journey:v1` record, independent of the original day plan and bookmarks. Destination radius and route-corridor preference are different fields; the latter stays inactive until road routing is connected.
+The welcome offers destination planning and exploratory discovery. Discovery can use one of three curated town centres or an explicitly captured position. A distance filter is a circle measured in a straight line, not a road-distance boundary. The journey flow has its own validated `mapper:journey:v1` record, independent of the original day plan and bookmarks. Destination radius and route-corridor preference are different fields; corridor suggestions require an explicitly requested online route and do not establish drivable detours.
 
 ## Folders and responsibilities
 

@@ -15,6 +15,35 @@ export const mapMarkerColors = {
 export function getMapStyle(scheme: ColorScheme | MapAppearance) {
   return mapStyles[scheme === 'liberty' ? 'light' : scheme];
 }
+export function routeColor(appearance: ColorScheme | MapAppearance) {
+  return appearance === 'dark' ? '#9BC6E3' : '#294E69';
+}
+export function routeFeature(route?: { type: 'MultiLineString'; coordinates: number[][][] }) {
+  return {
+    type: 'FeatureCollection' as const,
+    features: route ? [{ type: 'Feature' as const, properties: {}, geometry: route }] : [],
+  };
+}
+export function routeExtentPoints(route?: { coordinates: number[][][] }): MapPoint[] {
+  if (!route) return [];
+  let west = 180,
+    east = -180,
+    south = 90,
+    north = -90;
+  for (const line of route.coordinates)
+    for (const pair of line) {
+      west = Math.min(west, pair[0]);
+      east = Math.max(east, pair[0]);
+      south = Math.min(south, pair[1]);
+      north = Math.max(north, pair[1]);
+    }
+  return west <= east
+    ? [
+        { id: 'route:sw', name: 'Route extent', coordinates: { latitude: south, longitude: west } },
+        { id: 'route:ne', name: 'Route extent', coordinates: { latitude: north, longitude: east } },
+      ]
+    : [];
+}
 export function pointBounds(points: MapPoint[]): [number, number, number, number] | null {
   if (points.length < 2) return null;
   const longitudes = points.map((point) => point.coordinates.longitude);

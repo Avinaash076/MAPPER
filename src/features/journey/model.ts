@@ -22,7 +22,7 @@ export const experiences: { id: TripExperience; title: string; description: stri
   {
     id: 'along-route',
     title: 'Explore along the way',
-    description: 'Find stops near the road you take. Routing connection pending.',
+    description: 'Check an online route to find catalog stops near the road you take.',
   },
   {
     id: 'destination',
@@ -32,7 +32,7 @@ export const experiences: { id: TripExperience; title: string; description: stri
   {
     id: 'both',
     title: 'Both',
-    description: 'Explore the route and destination. Route suggestions pending.',
+    description: 'Explore places near your destination and a checked online route.',
   },
 ];
 export interface JourneyState {

@@ -1,9 +1,13 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 import { ArrowLeftIcon } from 'phosphor-react-native';
-import { Button, IconButton, Label, layout } from '../../components/ui';
+import { Button, Chip, IconButton, Label, Notice, layout } from '../../components/ui';
+import { Disclosure } from '../../components/ui/Disclosure';
+import { SignInPanel } from '../contributions/SignInPanel';
+import { requestTravel, travelServicesEnabled } from '../../services/travel/client';
+import { useServiceSession } from '../../services/travel/useServiceSession';
 import { AppearancePicker } from '../../components/AppearancePicker';
 import { useApp } from '../state/AppProvider';
 import { usePlaceCatalog } from '../places/PlaceCatalogProvider';
@@ -15,6 +19,15 @@ import { AssistantMessage, type ConversationTurn } from './AssistantMessage';
 import { QuestionComposer } from './QuestionComposer';
 
 export function AssistantScreen() {
+  const account = useServiceSession();
+  const { placeId } = useLocalSearchParams<{ placeId?: string }>();
+  const { state } = useApp();
+  return (
+    <AssistantConversation key={`${account}:${placeId ?? state.filters.area}`} account={account} />
+  );
+}
+
+function AssistantConversation({ account }: { account: string | null }) {
   const { colors } = useTheme();
   const { state } = useApp();
   const { places } = usePlaceCatalog();
@@ -26,17 +39,59 @@ export function AssistantScreen() {
   const shouldScroll = useRef(false);
   const [question, setQuestion] = useState('');
   const [turns, setTurns] = useState<ConversationTurn[]>([]);
-  function ask(text: string) {
+  const [mode, setMode] = useState<'example' | 'live'>('example');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  const liveUnavailable = mode === 'live' ? !travelServicesEnabled || !account : false;
+  const pending = useRef<AbortController | null>(null);
+  useEffect(() => () => pending.current?.abort(), []);
+  function resetConversation() {
+    pending.current?.abort();
+    pending.current = null;
+    setBusy(false);
+    setTurns([]);
+    setError('');
+  }
+  function chooseMode(next: 'example' | 'live') {
+    if (next === mode) return;
+    resetConversation();
+    setMode(next);
+  }
+  async function ask(text: string) {
     const clean = text.trim();
-    if (!clean) return;
-    const turn = {
-      id: nextId.current++,
-      question: clean,
-      answer: getExampleAnswer(clean, { area, place }),
-    };
-    setTurns((previous) => [...previous, turn]);
-    setQuestion('');
-    shouldScroll.current = true;
+    if (!clean || (pending.current && !pending.current.signal.aborted)) return;
+    const controller = new AbortController();
+    pending.current = controller;
+    setBusy(true);
+    setError('');
+    try {
+      const answer =
+        mode === 'live'
+          ? await requestTravel(
+              'assistant',
+              {
+                question: clean,
+                area,
+                placeIds: place
+                  ? [place.id]
+                  : state.planIds.filter((id) => places.some((item) => item.id === id)).slice(0, 5),
+              },
+              controller.signal,
+            )
+          : getExampleAnswer(clean, { area, place });
+      if (controller.signal.aborted) return;
+      setTurns((previous) => [...previous, { id: nextId.current++, question: clean, answer }]);
+      setQuestion('');
+      shouldScroll.current = true;
+    } catch (error) {
+      if (!controller.signal.aborted) {
+        setQuestion(clean);
+        setError(error instanceof Error ? error.message : 'The answer could not be loaded. Retry.');
+      }
+    } finally {
+      if (!controller.signal.aborted) setBusy(false);
+      if (pending.current === controller) pending.current = null;
+    }
   }
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
@@ -66,7 +121,9 @@ export function AssistantScreen() {
               Ask about {place?.name ?? area}
             </Label>
             <Label size="small" tone="textMuted">
-              AI preview · example answers, not live advice
+              {mode === 'example'
+                ? 'Example answers · no network request'
+                : 'Mistral AI · public place context · check important details'}
             </Label>
           </View>
           <ScrollView
@@ -81,6 +138,34 @@ export function AssistantScreen() {
               }
             }}
           >
+            <View style={layout.wrap}>
+              <Chip
+                label="Examples"
+                selected={mode === 'example'}
+                onPress={() => chooseMode('example')}
+              />
+              <Chip label="Ask AI" selected={mode === 'live'} onPress={() => chooseMode('live')} />
+            </View>
+            {mode === 'live' ? (
+              <>
+                <Label size="small" tone="textMuted">
+                  Each question is answered independently. Your question and up to five public place
+                  records are sent to Mistral. Private drafts, photographs and your captured
+                  location are excluded. Avoid personal details in questions.
+                </Label>
+                {!travelServicesEnabled ? (
+                  <Notice>
+                    Live AI has not been configured yet. You can explore the labelled examples.
+                  </Notice>
+                ) : !account ? (
+                  <SignInPanel purpose="travel" />
+                ) : (
+                  <Disclosure title="Online services account">
+                    <SignInPanel purpose="travel" />
+                  </Disclosure>
+                )}
+              </>
+            ) : null}
             {turns.length === 0 ? (
               <View style={layout.section}>
                 <Label size="title">What would help you explore?</Label>
@@ -94,15 +179,27 @@ export function AssistantScreen() {
             ))}
             <View style={layout.section}>
               <Label size="small" tone="textMuted">
-                {turns.length ? 'Try another example' : 'A few starting points'}
+                {mode === 'example' && turns.length
+                  ? 'Try another example'
+                  : 'A few starting points'}
               </Label>
               {assistantQuestions.map((text) => (
-                <Button key={text} label={text} secondary onPress={() => ask(text)} />
+                <Button
+                  key={text}
+                  label={text}
+                  secondary
+                  disabled={busy || liveUnavailable}
+                  onPress={() => {
+                    void ask(text);
+                  }}
+                />
               ))}
             </View>
             {turns.length > 0 ? (
-              <Button label="Clear conversation" secondary onPress={() => setTurns([])} />
+              <Button label="Clear conversation" secondary onPress={resetConversation} />
             ) : null}
+            {error ? <Notice warning>{error}</Notice> : null}
+            {busy ? <Label accessibilityLiveRegion="polite">Asking Mistral…</Label> : null}
           </ScrollView>
           <View
             style={{
@@ -115,7 +212,11 @@ export function AssistantScreen() {
             <QuestionComposer
               value={question}
               onChange={setQuestion}
-              onSend={() => ask(question)}
+              busy={busy}
+              disabled={liveUnavailable}
+              onSend={() => {
+                void ask(question);
+              }}
             />
           </View>
         </View>
