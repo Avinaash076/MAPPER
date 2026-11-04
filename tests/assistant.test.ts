@@ -20,7 +20,7 @@ test('assistant example preserves supplied source references and admits unverifi
 });
 test('unrecognised questions do not produce invented answers or sources', () => {
   const answer = getExampleAnswer('Is this road open today?', { area: 'Dharwad' });
-  assert.match(answer.body, /live service is not connected/);
+  assert.match(answer.body, /example mode.*no live AI request/);
   assert.deepEqual(answer.sources, []);
   assert.equal(answer.placeId, undefined);
 });

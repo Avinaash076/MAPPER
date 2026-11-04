@@ -1,6 +1,14 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { Camera, GeoJSONSource, Layer, Map, type CameraRef } from '@maplibre/maplibre-react-native';
-import { getMapStyle, placesToGeoJson, mapMarkerColors, pointBounds } from './model';
+import {
+  getMapStyle,
+  placesToGeoJson,
+  mapMarkerColors,
+  pointBounds,
+  routeFeature,
+  routeColor,
+  routeExtentPoints,
+} from './model';
 import type { PlaceMapProps } from './types';
 export function PlaceMap({
   places,
@@ -12,6 +20,7 @@ export function PlaceMap({
   zoom = 10,
   locationPin,
   extraPoints,
+  route,
   onSelect,
   onStatusChange,
 }: PlaceMapProps) {
@@ -21,8 +30,8 @@ export function PlaceMap({
     [places, locationPin, extraPoints],
   );
   const bounds = useMemo(
-    () => pointBounds(extraPoints ? [...extraPoints, ...places] : []),
-    [extraPoints, places],
+    () => pointBounds(extraPoints ? [...extraPoints, ...places, ...routeExtentPoints(route)] : []),
+    [extraPoints, places, route],
   );
   useEffect(() => {
     camera.current?.jumpTo({ center: [center.longitude, center.latitude], zoom });
@@ -45,6 +54,14 @@ export function PlaceMap({
           bounds ? { bounds } : { center: [center.longitude, center.latitude], zoom }
         }
       />
+      <GeoJSONSource id="journey-route" data={routeFeature(route)}>
+        <Layer
+          id="journey-route-line"
+          type="line"
+          paint={{ 'line-color': routeColor(appearance ?? scheme), 'line-width': 5 }}
+          layout={{ 'line-join': 'round', 'line-cap': 'round' }}
+        />
+      </GeoJSONSource>
       <GeoJSONSource
         id="places"
         data={data}

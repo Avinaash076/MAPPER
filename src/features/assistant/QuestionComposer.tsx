@@ -5,10 +5,14 @@ export function QuestionComposer({
   value,
   onChange,
   onSend,
+  busy = false,
+  disabled = false,
 }: {
   value: string;
   onChange: (value: string) => void;
   onSend: () => void;
+  busy?: boolean;
+  disabled?: boolean;
 }) {
   return (
     <View style={layout.section}>
@@ -23,7 +27,11 @@ export function QuestionComposer({
           maxLength={600}
           style={{ flex: 1, minHeight: 56, maxHeight: 120, textAlignVertical: 'top' }}
         />
-        <Button label="Send" disabled={!value.trim()} onPress={onSend} />
+        <Button
+          label={busy ? 'Asking…' : 'Send'}
+          disabled={busy || disabled || !value.trim()}
+          onPress={onSend}
+        />
       </View>
     </View>
   );

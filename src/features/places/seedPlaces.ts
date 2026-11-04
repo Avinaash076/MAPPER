@@ -1,4 +1,4 @@
-import type { Place } from './types';
+import type { Place } from './types.ts';
 
 // Editorial demo data. Coordinates and visit durations are approximate.
 export const seedPlaces: Omit<Place, 'photo'>[] = [

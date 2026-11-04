@@ -13,14 +13,18 @@ import { space } from '../../theme/tokens';
 import { usePlaceCatalog } from '../places/PlaceCatalogProvider';
 import { useApp } from '../state/AppProvider';
 import { useJourney } from './JourneyProvider';
-import { destinationSuggestions, experiences } from './model';
+import { experiences } from './model';
+import { journeySuggestions } from './routeModel';
+import { useOnlineTrip } from './useOnlineTrip';
 import { TripDetails } from './TripDetails';
 import { JourneyNotice } from './JourneyNotice';
+import { ProviderCredits } from '../../components/ProviderCredits';
 
 export function TripMapScreen() {
   const journey = useJourney();
   const { state: app } = useApp();
   const catalog = usePlaceCatalog();
+  const online = useOnlineTrip(journey.state, catalog.places);
   const { colors, scheme } = useTheme();
   const { appearance } = useMapAppearance();
   const { panel } = useLocalSearchParams<{ panel?: string }>();
@@ -30,8 +34,9 @@ export function TripMapScreen() {
   const [status, setStatus] = useState<MapStatus>('loading');
   const [attempt, setAttempt] = useState(0);
   const suggestions = useMemo(
-    () => destinationSuggestions(catalog.places, journey.state, app.filters.categories),
-    [catalog.places, journey.state, app.filters.categories],
+    () =>
+      journeySuggestions(catalog.places, journey.state, app.filters.categories, online.route.data),
+    [catalog.places, journey.state, app.filters.categories, online.route.data],
   );
   const markers = useMemo(
     () =>
@@ -79,6 +84,7 @@ export function TripMapScreen() {
           key={attempt}
           places={markers}
           extraPoints={points}
+          route={online.route.data?.geometry}
           center={journey.state.destination.coordinates}
           selectedId="journey:destination"
           scheme={scheme}
@@ -96,8 +102,12 @@ export function TripMapScreen() {
       >
         <JourneyNotice />
         <Label size="small" tone="textMuted">
-          Green: start · gold: destination · blue: catalog places. Road route pending.
+          Green: start · gold: destination · blue: catalog places.{' '}
+          {online.route.data
+            ? 'Line: Geoapify route; no live traffic.'
+            : 'No online route loaded. Trip details show online service options.'}
         </Label>
+        {online.route.data ? <ProviderCredits provider="Geoapify" /> : null}
         {status !== 'ready' ? (
           <View style={layout.section}>
             <Label size="small">
@@ -124,33 +134,36 @@ export function TripMapScreen() {
         {journey.state.experience !== 'direct' ? (
           <Button
             label={
-              alongRoute && journey.state.experience === 'along-route'
-                ? 'Along-route suggestions · pending'
+              alongRoute && journey.state.experience === 'along-route' && !online.route.data
+                ? 'Check a route for along-route places'
                 : `Nearby places · ${suggestions.length}`
             }
             secondary
-            onPress={() => setSheet('places')}
+            onPress={() => setSheet(alongRoute && !online.route.data ? 'details' : 'places')}
           />
         ) : null}
       </ScrollView>
       {sheet === 'details' ? (
         <Sheet title="Your trip preview" onClose={() => setSheet(null)}>
-          <TripDetails onNavigate={() => setSheet(null)} />
+          <TripDetails online={online} onNavigate={() => setSheet(null)} />
         </Sheet>
       ) : null}
       {sheet === 'places' ? (
         <Sheet title="Choose places to explore" onClose={() => setSheet(null)}>
-          {alongRoute ? (
+          {alongRoute && !online.route.data ? (
             <Notice>
-              Road routing is not connected. Your {journey.state.corridorRadiusKm} km corridor
-              preference is saved; no along-route suggestions are available.
+              Check a route in trip details to find catalog places within your{' '}
+              {journey.state.corridorRadiusKm} km corridor. Your preference is saved.
             </Notice>
           ) : null}
           {catalog.error ? <Notice>{catalog.error}</Notice> : null}
           {suggestions.length > 0 ? (
             <Label size="small" tone="textMuted">
-              Around {journey.state.destination.name} · {journey.state.destinationRadiusKm} km
-              straight-line radius · your discovery interests apply
+              {alongRoute && online.route.data
+                ? `Catalog places near the route (${journey.state.corridorRadiusKm} km corridor)`
+                : `Around ${journey.state.destination.name} · ${journey.state.destinationRadiusKm} km straight-line radius`}{' '}
+              · your discovery interests apply. Near a route does not guarantee road access or a
+              short detour.
             </Label>
           ) : null}
           {!suggestions.length ? (

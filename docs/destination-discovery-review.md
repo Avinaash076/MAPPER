@@ -2,6 +2,8 @@
 
 2 November 2026 · `feature/woven-theme`
 
+Historical milestone audit. Later optional provider integrations, their current limits and activation steps are documented in [online travel services](travel-services.md). They are disabled until configured and deployed.
+
 ## Audit before implementation
 
 The project uses Expo Router in `src/app`, React context/reducers, semantic light/dark tokens and React Native primitives. Welcome is composed by `features/welcome/WelcomeScreen.tsx`; Discover is `features/places/DiscoverScreen.tsx`. Existing local bookmarks, day plans, photo drafts, reviewed-publication services, map layers and the isolated design gallery are preserved.

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { communityClient } from '../../services/communityClient';
 import { Button, Field, Label, Notice, Panel, layout } from '../../components/ui';
 
-export function SignInPanel() {
+export function SignInPanel({ purpose = 'community' }: { purpose?: 'community' | 'travel' }) {
   const [email, setEmail] = useState('');
   const [token, setToken] = useState('');
   const [sent, setSent] = useState(false);
@@ -14,6 +14,10 @@ export function SignInPanel() {
     const { data } = communityClient.auth.onAuthStateChange((_event, session) =>
       setSignedIn(Boolean(session)),
     );
+    void communityClient.auth
+      .getSession()
+      .then(({ data }) => setSignedIn(Boolean(data.session)))
+      .catch(() => {});
     return () => data.subscription.unsubscribe();
   }, []);
   async function sendCode() {
@@ -60,7 +64,13 @@ export function SignInPanel() {
   return (
     <Panel style={layout.section}>
       <Label size="heading">
-        {signedIn ? 'Ready to send for review' : 'Sign in to share with the community'}
+        {purpose === 'travel'
+          ? signedIn
+            ? 'Online travel services enabled'
+            : 'Sign in for online travel services'
+          : signedIn
+            ? 'Ready to send for review'
+            : 'Sign in to share with the community'}
       </Label>
       {signedIn ? (
         <Button

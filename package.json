@@ -55,7 +55,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src tests scripts",
+    "lint": "eslint src tests scripts supabase/functions",
     "test": "tsx --test tests/*.test.ts",
     "check:dependencies": "expo install --check",
     "format": "prettier --write .",

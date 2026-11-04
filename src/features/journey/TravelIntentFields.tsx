@@ -45,8 +45,8 @@ export function TravelIntentFields({
         autoCorrect={false}
       />
       <Label size="small" tone="textMuted">
-        For your planning notes. Weather, seasonal ranking and date-specific access are not
-        connected.
+        Trip details can check a destination forecast for today and the next six days when online
+        services are enabled. Seasonal ranking and date-specific access are not verified.
       </Label>
     </View>
   );

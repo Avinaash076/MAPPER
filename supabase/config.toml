@@ -1,0 +1,6 @@
+project_id = "mapper"
+
+[functions.travel-services]
+# The handler verifies the caller's JWT with Supabase Auth, including modern signing keys.
+# Disabling the legacy gateway verifier does NOT make provider calls public.
+verify_jwt = false

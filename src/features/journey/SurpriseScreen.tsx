@@ -87,7 +87,7 @@ export function SurpriseScreen() {
         onPress={discover}
       />
       <Label size="small" tone="textMuted">
-        Uses the available regional catalog and local filters. AI recommendations are not connected.
+        Uses the available regional catalog and local filters. No AI ranking is used.
       </Label>
     </Screen>
   );

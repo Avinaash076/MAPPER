@@ -17,6 +17,7 @@ export interface PlaceMapProps {
   zoom?: number;
   locationPin?: Coordinates;
   extraPoints?: MapPoint[];
+  route?: { type: 'MultiLineString'; coordinates: number[][][] };
   onSelect: (id: string) => void;
   onStatusChange: (status: MapStatus) => void;
 }

@@ -2,6 +2,8 @@
 
 Review date: 29 October 2026. Branch: `feature/woven-theme`.
 
+Later work: [routing, forecasts and Mistral implementation review](travel-services.md), including server setup, account limits and validation boundaries.
+
 ## Implemented
 
 - Woven welcome and setup, city selection, optional interests/transport and direct map entry.
