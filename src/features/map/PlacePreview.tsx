@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import { Pressable, View } from 'react-native';
-import { ArrowRightIcon } from 'phosphor-react-native';
+import { ArrowRightIcon } from '../../components/icons';
 import type { Place } from '../places/types';
 import { Label } from '../../components/ui';
 import { useTheme } from '../../theme/ThemeProvider';

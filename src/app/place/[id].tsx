@@ -2,7 +2,7 @@ import { useTheme } from '../../theme/ThemeProvider';
 import React from 'react';
 import { useLocalSearchParams, router } from 'expo-router';
 import { Linking, View } from 'react-native';
-import { BookmarkSimpleIcon, CheckIcon, PlusIcon } from 'phosphor-react-native';
+import { BookmarkSimpleIcon, CheckIcon, PlusIcon } from '../../components/icons';
 import { PlacePhoto } from '../../components/PlaceCard';
 import { Button, EmptyState, Label, layout, Notice, Panel, Screen } from '../../components/ui';
 import { placeRepository } from '../../features/places/repository';

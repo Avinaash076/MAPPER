@@ -4,8 +4,10 @@ const { getDefaultConfig } = require('expo/metro-config');
 
 const config = getDefaultConfig(__dirname);
 
-// Bound both Metro worker pools, especially on Windows machines with many cores.
-config.maxWorkers = Math.min(config.maxWorkers, 2);
+// Windows can exhaust file handles with simultaneous web/SSR transformation.
+// One worker also avoids Metro's extra transformation worker pool on Windows.
+config.maxWorkers = process.platform === 'win32' ? 1 : Math.min(config.maxWorkers, 2);
+if (process.platform === 'win32') config.transformer.unstable_workerThreads = false;
 
 // File-map snapshots use V8 serialization: don't share them between Node versions.
 const runtimeCache = path.join(

@@ -1,7 +1,7 @@
 import { useTheme } from '../../theme/ThemeProvider';
 import type React from 'react';
 import { useState } from 'react';
-import { CheckIcon } from 'phosphor-react-native';
+import { CheckIcon } from '../icons';
 import { Pressable } from 'react-native';
 import { fonts } from '../../theme/tokens';
 import { Label } from './Label';

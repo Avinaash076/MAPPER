@@ -1,6 +1,6 @@
 import { useId, useState, type PropsWithChildren } from 'react';
 import { Pressable, View } from 'react-native';
-import { CaretDownIcon, CaretRightIcon } from 'phosphor-react-native';
+import { CaretDownIcon, CaretRightIcon } from '../icons';
 import { useTheme } from '../../theme/ThemeProvider';
 import { space } from '../../theme/tokens';
 import { Label } from './Label';

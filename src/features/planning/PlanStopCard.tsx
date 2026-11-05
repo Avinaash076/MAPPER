@@ -1,7 +1,7 @@
 import { useTheme } from '../../theme/ThemeProvider';
 import { View } from 'react-native';
 import { router } from 'expo-router';
-import { ArrowDownIcon, ArrowUpIcon, TrashIcon } from 'phosphor-react-native';
+import { ArrowDownIcon, ArrowUpIcon, TrashIcon } from '../../components/icons';
 import { Button, IconButton, Label, layout, Panel } from '../../components/ui';
 import { space } from '../../theme/tokens';
 import { useApp } from '../state/AppProvider';

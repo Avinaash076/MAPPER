@@ -1,7 +1,7 @@
 import { useTheme } from '../../theme/ThemeProvider';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
-import { ArrowRightIcon, CompassIcon } from 'phosphor-react-native';
+import { ArrowRightIcon, CompassIcon } from '../icons';
 import { space } from '../../theme/tokens';
 import { Label } from './Label';
 import { Panel } from './Panel';

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
-import { ArrowLeftIcon } from 'phosphor-react-native';
+import { ArrowLeftIcon } from '../../components/icons';
 import { Button, Chip, IconButton, Label, Notice, layout } from '../../components/ui';
 import { Disclosure } from '../../components/ui/Disclosure';
 import { SignInPanel } from '../contributions/SignInPanel';

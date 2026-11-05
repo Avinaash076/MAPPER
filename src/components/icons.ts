@@ -1,0 +1,20 @@
+// Import individual public entry points so Metro avoids the full icon catalog.
+export { ArrowDownIcon } from 'phosphor-react-native/src/icons/ArrowDown';
+export { ArrowLeftIcon } from 'phosphor-react-native/src/icons/ArrowLeft';
+export { ArrowRightIcon } from 'phosphor-react-native/src/icons/ArrowRight';
+export { ArrowUpIcon } from 'phosphor-react-native/src/icons/ArrowUp';
+export { ArrowUpRightIcon } from 'phosphor-react-native/src/icons/ArrowUpRight';
+export { BookmarkSimpleIcon } from 'phosphor-react-native/src/icons/BookmarkSimple';
+export { CaretDownIcon } from 'phosphor-react-native/src/icons/CaretDown';
+export { CaretRightIcon } from 'phosphor-react-native/src/icons/CaretRight';
+export { CheckIcon } from 'phosphor-react-native/src/icons/Check';
+export { ClockIcon } from 'phosphor-react-native/src/icons/Clock';
+export { CompassIcon } from 'phosphor-react-native/src/icons/Compass';
+export { MoonIcon } from 'phosphor-react-native/src/icons/Moon';
+export { MountainsIcon } from 'phosphor-react-native/src/icons/Mountains';
+export { PathIcon } from 'phosphor-react-native/src/icons/Path';
+export { PlusIcon } from 'phosphor-react-native/src/icons/Plus';
+export { SunIcon } from 'phosphor-react-native/src/icons/Sun';
+export { TrashIcon } from 'phosphor-react-native/src/icons/Trash';
+export { WarningCircleIcon } from 'phosphor-react-native/src/icons/WarningCircle';
+export { XIcon } from 'phosphor-react-native/src/icons/X';

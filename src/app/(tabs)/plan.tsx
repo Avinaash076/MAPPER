@@ -2,7 +2,7 @@ import { useTheme } from '../../theme/ThemeProvider';
 import React, { useState } from 'react';
 import { router } from 'expo-router';
 import { View } from 'react-native';
-import { PathIcon } from 'phosphor-react-native';
+import { PathIcon } from '../../components/icons';
 import { useApp } from '../../features/state/AppProvider';
 import { usePlaceCatalog } from '../../features/places/PlaceCatalogProvider';
 import { areas, transportLabels } from '../../features/places/types';

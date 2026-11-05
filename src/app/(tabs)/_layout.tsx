@@ -1,6 +1,6 @@
 import { useTheme } from '../../theme/ThemeProvider';
 import { Tabs } from 'expo-router';
-import { BookmarkSimpleIcon, CompassIcon, PathIcon } from 'phosphor-react-native';
+import { BookmarkSimpleIcon, CompassIcon, PathIcon } from '../../components/icons';
 import { fonts } from '../../theme/tokens';
 import { useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
