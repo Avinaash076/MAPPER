@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View } from 'react-native';
-import { CheckIcon, MoonIcon, SunIcon } from 'phosphor-react-native';
+import { CheckIcon, MoonIcon, SunIcon } from './icons';
 import { useTheme } from '../theme/ThemeProvider';
 import type { ThemePreference } from '../theme/preferences';
 import { Button, IconButton, Label, layout, Notice } from './ui';

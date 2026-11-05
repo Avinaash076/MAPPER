@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import { Modal, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { XIcon } from 'phosphor-react-native';
+import { XIcon } from '../icons';
 import { useTheme } from '../../theme/ThemeProvider';
 import { useReducedMotion } from '../../theme/useReducedMotion';
 import { radii, space } from '../../theme/tokens';

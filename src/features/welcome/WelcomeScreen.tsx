@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { ScrollView, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ArrowRightIcon } from 'phosphor-react-native';
+import { ArrowRightIcon } from '../../components/icons';
 import { AppHeader } from '../../components/AppHeader';
 import { WovenArtwork } from '../../components/WovenArtwork';
 import { Button, Label, layout } from '../../components/ui';

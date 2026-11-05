@@ -1,5 +1,5 @@
 import { Pressable, View } from 'react-native';
-import { CheckIcon } from 'phosphor-react-native';
+import { CheckIcon } from '../icons';
 import { useTheme } from '../../theme/ThemeProvider';
 import { Label } from './Label';
 import { radii, space } from '../../theme/tokens';

@@ -1,7 +1,7 @@
 import { useTheme } from '../../theme/ThemeProvider';
 import type React from 'react';
 import { View } from 'react-native';
-import { WarningCircleIcon } from 'phosphor-react-native';
+import { WarningCircleIcon } from '../icons';
 
 import { Label } from './Label';
 import { useUIStyles } from './styles';

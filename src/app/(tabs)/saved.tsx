@@ -1,7 +1,7 @@
 import { useTheme } from '../../theme/ThemeProvider';
 import { AppHeader } from '../../components/AppHeader';
 import { router } from 'expo-router';
-import { BookmarkSimpleIcon } from 'phosphor-react-native';
+import { BookmarkSimpleIcon } from '../../components/icons';
 import { View } from 'react-native';
 import { useApp } from '../../features/state/AppProvider';
 import { usePlaceCatalog } from '../../features/places/PlaceCatalogProvider';

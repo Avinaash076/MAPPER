@@ -5,12 +5,7 @@ import React, { useState } from 'react';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
-import {
-  ArrowUpRightIcon,
-  BookmarkSimpleIcon,
-  ClockIcon,
-  MountainsIcon,
-} from 'phosphor-react-native';
+import { ArrowUpRightIcon, BookmarkSimpleIcon, ClockIcon, MountainsIcon } from './icons';
 import { radii, space } from '../theme/tokens';
 import { type Place } from '../features/places/types';
 import { photoAssets } from '../features/places/photoAssets';

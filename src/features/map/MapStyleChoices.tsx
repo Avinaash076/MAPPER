@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Pressable, View, useWindowDimensions } from 'react-native';
-import { CheckIcon } from 'phosphor-react-native';
+import { CheckIcon } from '../../components/icons';
 import { Button, Label, layout, Notice } from '../../components/ui';
 import { Sheet } from '../../components/ui/Sheet';
 import { PlaceMap } from './PlaceMap';
