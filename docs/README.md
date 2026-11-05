@@ -1,5 +1,7 @@
 # Project documentation
 
+Studying the code before making changes? Start with the [complete file/function study guide](study-guide.md): reading order, plain-language function explanations, app data flows and every tracked file in the audited source snapshot.
+
 First backend test: [Supabase setup and testing on Windows](supabase-setup.md), including safe setup/check commands and optional interactive provider tests.
 
 Optional online services: [Geoapify routes, Open-Meteo forecasts and Mistral setup](travel-services.md). Backend keys and deployment are separate from app installation.
