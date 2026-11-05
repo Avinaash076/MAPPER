@@ -8,6 +8,8 @@ A React Native tourism app for Hubballi, Dharwad and Belagavi, using the Discove
 
 **First Supabase test:** [Step-by-step setup, email codes, migrations and test commands](docs/supabase-setup.md). Start with `npm.cmd run backend:setup` and `npm.cmd run backend:check`.
 
+**Check only provider keys:** `npm.cmd run keys:check` reads the ignored server environment and contacts providers directly from Node; no Supabase deployment is needed. Add `-- --chat` to explicitly test a real sample AI completion. This does not activate the app's online UI.
+
 Latest changes: [Destination discovery redesign and API audit](docs/destination-discovery-review.md) — two entry paths, catalog search, current/manual starting points, trip experience and map previews. [Earlier usability polish](docs/ui-polish-review.md) covers the shared blue UI.
 
 The independent design comparison gallery is in `design-exploration/`. Run `npm.cmd run build` and `npm.cmd run start` from that directory, then open `http://localhost:4313`. It retains the other visual directions separately from the selected native app.

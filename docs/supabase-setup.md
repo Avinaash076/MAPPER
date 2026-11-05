@@ -4,6 +4,27 @@ Use a **hosted staging project plus the app on localhost** for the first test. T
 
 This guide uses Supabase CLI **v3**, checked against CLI 3.0.0 on 4 November 2026. In v3, database commands default to a local stack: **include `--remote` for the hosted database**. Functions and secrets target the linked hosted project. See the official [v3 migration guide](https://supabase.com/docs/guides/local-development/cli/migrating-to-v3).
 
+## Test only provider keys without Supabase
+
+You can skip Supabase entirely for a first key check. Save Geoapify/Mistral keys, `MISTRAL_MODEL=mistral-small-latest` and `OPEN_METEO_MODE=prototype` in your existing `supabase/functions/.env`. Leave `OPEN_METEO_API_KEY` blank for prototype mode. Then run:
+
+```powershell
+cd E:\maps
+npm.cmd run keys:check
+```
+
+This Node-only helper checks providers directly using one Geoapify address request, a Mistral model lookup and an Open-Meteo forecast request. It requires internet, but no Supabase project, migrations, sign-in, deployment or `EXPO_PUBLIC_TRAVEL_SERVICES_ENABLED=true`. Keys and raw responses are hidden. The default Mistral check validates access to the selected chat model; it does not generate an answer. [Mistral model lookup contract](https://docs.mistral.ai/api/endpoint/models).
+
+To explicitly test a real sample Mistral answer instead of model lookup:
+
+```powershell
+npm.cmd run keys:check -- --chat
+```
+
+The chat option makes a real completion request and consumes AI credits/quota. Geoapify/forecast requests also use their provider allowances. These direct checks bypass the app's database quotas and use only a public sample place. Do not run them repeatedly. They do not validate road routing, hosted Auth/CORS/quotas or the mobile UI. To use the online features **inside the app**, follow the Supabase setup below. The app keeps its backend boundary and never bundles provider keys.
+
+Local-check implementation verification on 5 November 2026: all 74 tests, TypeScript, lint and formatting passed. Mocked tests cover provider-only endpoints, no default chat generation, rejected keys/quotas, redacted errors and the explicit sample-chat path. The help command was run without making requests. The owner's real keys were not used for live checks during implementation; run the command yourself to establish your account's actual results.
+
 ## 1. Create your staging project
 
 Create a project such as `mapper-staging` in your account at [Supabase](https://supabase.com/dashboard). Save the database password privately; the CLI may ask for it. Wait for the project to be ready.

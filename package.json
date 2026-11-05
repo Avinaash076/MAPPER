@@ -67,7 +67,8 @@
     "start:dev-client": "expo start --dev-client",
     "backend:setup": "tsx scripts/backend/setup.ts",
     "backend:check": "tsx scripts/backend/check.ts",
-    "backend:test": "tsx scripts/backend/live-test.ts"
+    "backend:test": "tsx scripts/backend/live-test.ts",
+    "keys:check": "tsx scripts/backend/check-keys.ts"
   },
   "private": true
 }
