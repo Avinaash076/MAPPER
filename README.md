@@ -4,7 +4,7 @@ A React Native tourism app for Hubballi, Dharwad and Belagavi, using the Discove
 
 **Start here:** [PC, Android APK, live reload and phone IP instructions](docs/running.md) · [UI implementation and database next steps](docs/discovery-lens.md).
 
-**Study the code:** [File-by-file guide, named functions and reading order](docs/study-guide.md).
+**Study the code:** [Master learning document: languages, every page, database changes and principles review](docs/master-learning-guide.md) · [File-by-file guide and named functions](docs/study-guide.md).
 
 **Online services:** [Provider keys, Supabase deployment, privacy and validation](docs/travel-services.md). Keep all provider keys on the server. No hosted service has been deployed by this code change.
 

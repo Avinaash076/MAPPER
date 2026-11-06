@@ -2,6 +2,8 @@
 
 Use this guide to understand the existing project before writing more code. Application development is paused. This is a documentation-only addition; no application logic, credentials, migrations or deployments are changed by preparing this guide.
 
+For a deeper explanation of the language, each production page, database changes and current code-quality strengths/weaknesses, read the companion [master learning document](master-learning-guide.md). This file remains the complete source/definition index for its audited snapshot.
+
 ## Repository verification
 
 Checked on **5 November 2026**:

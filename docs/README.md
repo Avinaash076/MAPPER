@@ -1,6 +1,6 @@
 # Project documentation
 
-Studying the code before making changes? Start with the [complete file/function study guide](study-guide.md): reading order, plain-language function explanations, app data flows and every tracked file in the audited source snapshot.
+Studying the code before making changes? Start with the [master learning document](master-learning-guide.md): languages, every production page, SQL and local storage, a database-change walkthrough and an evidence-based principles review. Keep the [complete file/function study guide](study-guide.md) beside it for the source inventory and named definitions.
 
 First backend test: [Supabase setup and testing on Windows](supabase-setup.md), including safe setup/check commands and optional interactive provider tests.
 
