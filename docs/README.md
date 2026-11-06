@@ -1,5 +1,7 @@
 # Project documentation
 
+Studying the code before making changes? Start with the [master learning document](master-learning-guide.md): languages, every production page, SQL and local storage, a database-change walkthrough and an evidence-based principles review. Keep the [complete file/function study guide](study-guide.md) beside it for the source inventory and named definitions.
+
 First backend test: [Supabase setup and testing on Windows](supabase-setup.md), including safe setup/check commands and optional interactive provider tests.
 
 Optional online services: [Geoapify routes, Open-Meteo forecasts and Mistral setup](travel-services.md). Backend keys and deployment are separate from app installation.

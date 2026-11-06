@@ -8,18 +8,25 @@ The welcome offers destination planning and exploratory discovery. Discovery can
 
 ## Folders and responsibilities
 
-| Location                         | Responsibility                                                                       |
-| -------------------------------- | ------------------------------------------------------------------------------------ |
-| `src/app`                        | Expo Router routes, stack and bottom-tab navigation                                  |
-| `src/components/ui`              | Small reusable text, button, field, panel, notice, empty-state and screen primitives |
-| `src/components/PlaceCard.tsx`   | Place preview and photo/fallback rendering                                           |
-| `src/components/FilterSheet.tsx` | Editable filter draft; commit only when Apply is pressed                             |
-| `src/features/places`            | Place types, seed content, photo metadata, repository and discovery filter           |
-| `src/features/planning`          | Distance/time calculations, day summary and individual stop UI                       |
-| `src/features/state`             | App context, reducer, versioned persistence and storage-error UI                     |
-| `src/theme`                      | Colors, typefaces, spacing and corner radii                                          |
-| `tests`                          | Logic tests independent of a phone or UI renderer                                    |
-| `scripts`                        | Optional content-maintenance tooling; not application runtime                        |
+| Location                         | Responsibility                                                                                      |
+| -------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `src/app`                        | Expo Router routes, stack and bottom-tab navigation                                                 |
+| `src/components/ui`              | Small reusable text, button, field, panel, notice, empty-state and screen primitives                |
+| `src/components/PlaceCard.tsx`   | Place preview and photo/fallback rendering                                                          |
+| `src/components/FilterSheet.tsx` | Editable filter draft; commit only when Apply is pressed                                            |
+| `src/features/places`            | Place types, seed content, photo metadata, repository and discovery filter                          |
+| `src/features/planning`          | Distance/time calculations, day summary and individual stop UI                                      |
+| `src/features/state`             | App context, reducer, versioned persistence and storage-error UI                                    |
+| `src/features/journey`           | Destination/start flow, journey state, trip settings, route suggestions and online-result lifecycle |
+| `src/features/map`               | Shared map contracts and separate web/native MapLibre adapters                                      |
+| `src/features/assistant`         | Labelled local examples and optional live AI question UI                                            |
+| `src/features/contributions`     | Private draft editing, photo storage, submission and review-status handling                         |
+| `src/services`                   | Supabase client, location request boundary and authenticated travel client                          |
+| `src/theme`                      | Colors, typefaces, spacing and corner radii                                                         |
+| `supabase`                       | Database migrations, private/public policies and provider gateway function                          |
+| `design-exploration`             | Separate browser design comparison gallery; not the installed app                                   |
+| `tests`                          | Logic tests independent of a phone or UI renderer                                                   |
+| `scripts`                        | Optional content-maintenance tooling; not application runtime                                       |
 
 Keep business rules in feature functions. A screen should select data and compose components. UI primitives must not calculate routes or read storage directly. The shared Screen composes the feature-owned StorageBanner; the smaller UI controls remain independent of app state.
 
@@ -30,7 +37,7 @@ Keep business rules in feature functions. A screen should select data and compos
 3. The provider reads `northern-trails:v1` from AsyncStorage.
 4. The decoder checks the stored version, record shape, filters and known place IDs.
 5. Valid data hydrates the reducer. Missing data means a new local session. Invalid or unreadable data shows a recovery banner and blocks automatic writes.
-6. After loading, the three tabs and place-detail route become available.
+6. After restoration, navigation makes the welcome, destination journey, three tabs and place-detail routes available.
 
 Bundled fonts and photos require no runtime photo service. The optional photo-fetch script runs only during content maintenance, not when someone opens the app.
 
@@ -82,11 +89,13 @@ If loading fails, Retry attempts to load the stored version again. Reset require
 | Shared text/button appearance                                  | `components/ui`                                                                     |
 | Store identity or deep-link scheme                             | `app.json`                                                                          |
 
-## Future service boundaries
+## Service boundaries
 
-Replace the place repository when a remote catalog is added. Replace sample travel calculations through a routing adapter when real routes are added. Keep route-provider responses out of screens. Add an offline-download feature next to planning rather than making the reducer store map files.
+The place catalog already combines bundled records with optional reviewed Supabase records. The destination journey can explicitly request a Geoapify road route and Open-Meteo forecast through `src/services/travel/client.ts` and the authenticated Supabase gateway. `useOnlineTrip` owns temporary results; `routeModel.ts` contains pure corridor/arrival calculations. The separate My plan tab keeps its illustrative town-centre round-trip calculation.
 
-AI should be a backend-backed question feature grounded in approved place records and source dates. Provider secrets must remain on the backend. See the separate offline and deployment documents before introducing those services.
+The assistant has labelled local examples and an optional Mistral backend path using server-selected public place information. Private drafts and captured coordinates are not sent automatically. Route/weather results are not yet forwarded into AI, and Surprise me uses ordinary filters rather than AI ranking. Source code for these paths does not activate them: hosted tables, secrets, function deployment and account configuration are still required. Provider secrets remain on the backend.
+
+Downloaded maps, routing graphs and offline rerouting remain future work. Keep those resources out of the app reducer and follow [the offline roadmap](offline-routing.md). For a complete source-reading order and named functions, use [the study guide](study-guide.md).
 
 ## Current additions
 
